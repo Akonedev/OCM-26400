@@ -1,0 +1,39 @@
+{
+  "task": "crown-jewel survival: one-hot \u2192 dense (english derivational morphology)",
+  "n_primitives": 60,
+  "reference_onehot": {
+    "decomp_test": 1.0,
+    "oneshot_test": 0.0,
+    "gap_points": 1.0
+  },
+  "dense_variants": [
+    {
+      "init": "ortho",
+      "mean_inter_pair_cos": -0.0,
+      "oneshot_test_gated": 0.0,
+      "oneshot_test_raw": 0.0,
+      "oneshot_valid_rate": 0.0,
+      "decomp_test_gated": 1.0,
+      "decomp_test_raw": 1.0,
+      "decomp_valid_rate": 1.0,
+      "gap_points_gated": 1.0,
+      "gap_points_raw": 1.0,
+      "verdict": "VALID\u00c9",
+      "duration_s": 27.4
+    },
+    {
+      "init": "random",
+      "mean_inter_pair_cos": 0.0009,
+      "oneshot_test_gated": 0.0,
+      "oneshot_test_raw": 0.0,
+      "oneshot_valid_rate": 0.0,
+      "decomp_test_gated": 1.0,
+      "decomp_test_raw": 1.0,
+      "decomp_valid_rate": 1.0,
+      "gap_points_gated": 1.0,
+      "gap_points_raw": 1.0,
+      "verdict": "VALID\u00c9",
+      "duration_s": 36.3
+    }
+  ]
+}

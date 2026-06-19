@@ -1,0 +1,31 @@
+{
+  "task": "english derivational morphology (prefix+stem+suffix)",
+  "stems": [
+    "happy",
+    "kind",
+    "fair",
+    "clear",
+    "wise",
+    "safe",
+    "real",
+    "true"
+  ],
+  "prefixes": [
+    "un",
+    "re"
+  ],
+  "suffixes": [
+    "ness",
+    "ful"
+  ],
+  "n_primitives": 60,
+  "train_triples": 20,
+  "test_triples": 12,
+  "oneshot_train": 1.0,
+  "oneshot_test": 0.0,
+  "decomp_train": 1.0,
+  "decomp_test": 1.0,
+  "gap_points": 1.0,
+  "verdict": "VALID\u00c9",
+  "duration_s": 27.2
+}

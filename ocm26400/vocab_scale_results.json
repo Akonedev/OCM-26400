@@ -1,0 +1,22 @@
+{
+  "task": "scaling V>64 (Z_120 arithmetic crown-jewel, dense LearnedVocab)",
+  "P": 120,
+  "n_primitives": 120,
+  "impossible_with_onehot": "assert n<=dim=64 in SymbolicDict",
+  "mean_inter_pair_cos": 0.0024,
+  "roundtrip_identity": "120/120",
+  "train_triples": 300,
+  "test_triples": 600,
+  "binary_grok_gated": 0.39666666666666667,
+  "binary_grok_raw": 0.9966666666666667,
+  "binary_grok_valid_rate": 0.39666666666666667,
+  "oneshot_test_gated": 0.0,
+  "oneshot_test_raw": 0.02666666666666667,
+  "oneshot_valid_rate": 0.0,
+  "decomp_test_gated": 0.13,
+  "decomp_test_raw": 0.9766666666666667,
+  "decomp_valid_rate": 0.13,
+  "gap_points_gated": 0.13,
+  "verdict": "NON VALID\u00c9",
+  "duration_s": 88.5
+}

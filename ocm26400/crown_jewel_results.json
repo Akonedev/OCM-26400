@@ -1,0 +1,14 @@
+{
+  "device": "cuda",
+  "P_MOD": 11,
+  "op": "3a+5b mod P",
+  "train_triples": 200,
+  "test_triples": 1131,
+  "binary_grok_acc": 1.0,
+  "oneshot_train_acc": 1.0,
+  "oneshot_test_acc": 0.005305039787798408,
+  "decomposition_test_acc": 1.0,
+  "gap_points": 0.9946949602122016,
+  "verdict": "VALID\u00c9",
+  "duration_s": 32.9
+}
