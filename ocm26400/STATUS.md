@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 58 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 62 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **58 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **62 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -20,6 +20,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Crown-jewel linguistique** | décomp >> one-shot sur dérivation anglaise | `experiment_linguistic.py` | démontrée |
 | **Survie dense (P2)** | crown-jewel survit one-hot→dense (ortho+random, +100pt) | `experiment_linguistic_dense.py` | démontrée |
 | **Scaling V>64 (P2)** | LearnedVocab sur Z₁₂₀ (impossible one-hot), grok règle 99% | `experiment_vocab_scale.py` | démontrée |
+| **Gate calibrée + abstention (P3)** | lsra_loop refuse l'OOD (ANOMALIE), 1-step hallucine | `experiment_refinement.py` | démontrée |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 
@@ -27,7 +28,7 @@ Ordre imposé par le juge (DAG, pas de collage) :
 1. ✅ **P1 InfoNCE pur + fix seam ACSP** — FAIT (consist_term contrat établi).
 2. ✅ **Contrats partagés** (compose op_id + partition meta) — FAIT.
 3. ✅ **P2 LearnedVocab** (dense identity-preserving, V>64, anti-collapse) — FAIT. Survie crown-jewel prouvée empiriquement (+100pt sous dense). Claim MRR sémantique RETIRÉ (falsifié). Scaling V>64 démontré (Z₁₂₀, grok règle 99% brut).
-4. ⏳ **P3 Test-time compute REFRAMÉ** (supervision trajectoire + gate calibrée — PAS crown-jewel circulaire).
+4. ✅ **P3 Test-time compute REFRAMÉ** (gate calibrée + abstention) — FAIT. Claim d'ingénierie honnête : le 1-step hallucine toujours, la boucle LSRA + gate calibrée REFUSE l'OOD (ANOMALIE 100%, AUROC 1.0). Le TTC-rafine-accuracy original était tautologique (enterré par le DA).
 5. ⏳ **P4 Pont v6→AMV** — NO-GO tant que: accuracy single-forward v6 mesurée (le 0.695 vient de diffuse_fill), L_step diff ou retiré du pont. P2 (V>64) désormais LIVRÉ ⇒ première condition remplie.
 
 ## P2 LEARNEDVOCAB — résultats honnêtes (20/06)
@@ -70,6 +71,33 @@ Diagnostic compute→gate : validité 34%→54%→65% à 3000/6000/10000 pas (ra
 donc c'est un problème de **netteté (sharpening)**, pas de correction — la gate bute
 géométriquement sur le packing 120/64. Leviers honnêtes : relaxer la gate à grand V,
 monter dim, ou affûter le block. NON p-hacké (on garde le config standard 3000 pas).
+
+## P3 GATE CALIBRÉE + ABSTENTION — résultats honnêtes (20/06)
+
+**Reframeage honnête** : le design original de P3 (supervision d'une trajectoire
+géométrique λ<0.5) était TAUTOLOGIQUE (1-pas faux et convergence par construction,
+enterré par le DA). De plus, itérer le ReasonerBlock résiduel ne *raffine* pas vers
+la cible — il *recompose* (prop reste b). Donc « TTC-rafine-accuracy » est incohérent
+ici. La valeur HONNÊTE de la boucle LSRA (spec §3) est la **gate de confiance calibrée** :
+le 1-step hallucine toujours (retourne un idx même sur du garbage) ; la boucle +
+gate calibrée **REFUSE** l'OOD ([ANOMALIE_CAUSALE], confident=False).
+
+Block calibré (Z₁₁, `experiment_refinement.py`) : entrées valides → ent=op(a,b) +
+meta[0] haut ; OOD (ent=bruit) → meta[0] bas. On réutilise `lsra_loop` SANS modifier
+sa signature.
+
+| Métrique | Valeur |
+|---|---|
+| conf moyenne valides | 0.981 (> τ=0.9) |
+| conf moyenne OOD | 0.018 (≪ τ) |
+| séparation (AUROC proxy valid>OOD) | **1.000** |
+| valides → accepte (confident=True) | 100% (200/200 corrects+confiants) |
+| OOD → refuse (ANOMALIE) | **100%** |
+| itérations moyennes (valides) | 1.00 (gate adaptative, stop anticipé) |
+
+**Conclusion** : claim d'INGÉNIERIE validé (incertitude épistémique / abstention),
+PAS crown-jewel. La gate calibrée donne à la boucle LSRA un stop conditionnel +
+un signal d'anomalie que le forward fixe n'a pas.
 
 ## DÉMONSTRATION CROWN-JEWEL (validée, honnête)
 
@@ -115,10 +143,11 @@ POC validé sur tâche contrôlée. Pour atteindre la spec complète :
 ## COMMENT REPRODUIRE
 ```bash
 cd MathsBase
-python3 -m pytest ocm26400/ -q                      # 58 tests
+python3 -m pytest ocm26400/ -q                      # 62 tests
 python3 -m ocm26400.experiment_composition          # crown-jewel arithmétique (~33s)
 python3 -m ocm26400.experiment_linguistic           # crown-jewel linguistique (~27s)
 python3 -m ocm26400.experiment_linguistic_dense     # survie one-hot→dense P2 (~64s)
 python3 -m ocm26400.experiment_vocab_scale          # scaling V>64 (Z_120) P2 (~90s)
+python3 -m ocm26400.experiment_refinement           # gate calibrée + abstention P3 (~45s)
 ```
-Résultats : `ocm26400/{crown_jewel,linguistic,linguistic_dense,vocab_scale}_results.json`.
+Résultats : `ocm26400/{crown_jewel,linguistic,linguistic_dense,vocab_scale,refinement}_results.json`.

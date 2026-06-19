@@ -1,0 +1,20 @@
+{
+  "task": "P3 calibrated confidence gate + abstention (honest engineering claim)",
+  "frame": "epistemic uncertainty / abstention, NOT crown-jewel TTC-buys-accuracy",
+  "n_primitives": 11,
+  "train_steps": 1000,
+  "train_s": 68.2,
+  "calibration": {
+    "mean_conf_valid": 0.981,
+    "mean_conf_ood": 0.0183,
+    "separation_auroc_proxy": 1.0
+  },
+  "abstention": {
+    "valid_accept_rate": 1.0,
+    "valid_correct_and_confident": 200,
+    "ood_reject_rate": 1.0,
+    "mean_steps_valid": 1.0
+  },
+  "verdict": "VALID\u00c9",
+  "duration_s": 70.0
+}
