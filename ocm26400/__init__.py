@@ -28,6 +28,7 @@ from .spectral_core import SpectralCoreBlock
 from .product_key_vocab import ProductKeyVocab
 from .tool_policy import ToolPolicy, TaskEncoder, ToolUsingAgent
 from .generators import AMVConditionedDecoder
+from .skills_system import ExpertSkill, SkillCreator, ExpertSkillRegistry, production_skills
 
 __all__ = [
     "info_nce",
@@ -73,5 +74,7 @@ __all__ = [
     "ProductKeyVocab",
     "ToolPolicy",
     "AMVConditionedDecoder",
+    "ExpertSkill",
+    "ExpertSkillRegistry",
 ]
 
