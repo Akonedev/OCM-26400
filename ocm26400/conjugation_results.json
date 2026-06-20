@@ -1,0 +1,27 @@
+{
+  "task": "conjugaison multi-temps par dispatch op_id",
+  "n_verbs": 16,
+  "train_verbs": 12,
+  "test_verbs_unseen": 4,
+  "tenses": [
+    "PAST",
+    "GERUND",
+    "THIRD"
+  ],
+  "dispatch_op_id": "VALID\u00c9 \u2014 1 ReasonerBlock g\u00e8re 3 temps (PAST/GERUND/THIRD) s\u00e9lectionn\u00e9s par slot op",
+  "train_avg_memorization": 1.0,
+  "test_avg_flat_map_generalization": 0.0,
+  "honest_note": "flat verb->form map memorizes (0% unseen), consistent with crown-jewel: morphological generalization needs compositional decomposition (stem+affix, +100pt in experiment_linguistic), not a flat map. op_id dispatch is orthogonal and works (multi-op in 1 block).",
+  "per_tense_train": {
+    "PAST": 1.0,
+    "GERUND": 1.0,
+    "THIRD": 1.0
+  },
+  "per_tense_test": {
+    "PAST": 0.0,
+    "GERUND": 0.0,
+    "THIRD": 0.0
+  },
+  "verdict": "DISPATCH VALID\u00c9",
+  "duration_s": 14.0
+}
