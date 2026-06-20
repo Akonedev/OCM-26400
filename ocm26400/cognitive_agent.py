@@ -66,6 +66,25 @@ class CognitiveAgent:
     def knowledge_size(self) -> int:
         return len(self.memory)
 
+    def solve_chain(self, chain):
+        """Requête COMPOSITIONNELLE : r = op(...op(op(chain[0],chain[1]),chain[2]),...).
+
+        Compose le cycle binaire (solve) sur chaque étape de la chaîne : chaque
+        intermédiaire est raisonné+vérifié+appris (récurrence fenêtrée intégrée au
+        cycle cognitif). Retourne (réponse, modes_par_étape). Si une étape abstient,
+        la chaîne échoue (réponse None) — l'incertitude se propage honnêtement.
+        """
+        if len(chain) < 2:
+            return (chain[0] if chain else None), []
+        cur = chain[0]
+        modes = []
+        for nxt in chain[1:]:
+            cur, mode = self.solve(cur, nxt)
+            modes.append(mode)
+            if cur is None:               # abstention -> chaîne échoue
+                return None, modes
+        return cur, modes
+
     def accuracy(self) -> float:
         """Précision des faits raisonnés stockés (vs vérité)."""
         if not self.memory:

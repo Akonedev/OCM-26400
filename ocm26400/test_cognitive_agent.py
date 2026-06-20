@@ -83,3 +83,23 @@ def test_accuracy_one_with_oracle():
     for _ in range(50):
         ag.solve(torch.randint(0, P_MOD, (1,)).item(), torch.randint(0, P_MOD, (1,)).item())
     assert ag.accuracy() == 1.0
+
+
+def test_solve_chain_composes_and_learns():
+    """Requête compositionnelle [a,b,c] -> op(op(a,b),c). Intermédiaires appris."""
+    ag = _agent()
+    chain = [2, 5, 7]
+    r, modes = ag.solve_chain(chain)
+    truth = ag.ver.compose(ag.ver.compose(2, 5), 7)
+    assert r == truth
+    assert all(m == "reasoned+learned" for m in modes)   # 2 étapes raisonnées+apprises
+    # les intermédiaires (2,5) et (op(2,5),7) sont en mémoire
+    assert (2, 5) in ag.memory
+
+
+def test_solve_chain_abstention_propagates():
+    """Block défaillant -> la chaîne abstient à la 1re étape, réponse None."""
+    ag = _agent("garbage")
+    r, modes = ag.solve_chain([3, 4, 2])
+    assert r is None
+    assert modes[0] == "abstained"
