@@ -19,6 +19,7 @@ from .web_tools import WebFetchTool, URLMemory, fetch_url
 from .computer_use import ShellTool, safe_default_allowlist, GUITool
 from .orchestrator import Orchestrator, ExpertAgent, DevAdvocate, Judge, MoERouter
 from .omni import OmniModel
+from .rules import Rule, RuleLibrary
 
 __all__ = [
     "info_nce",
@@ -53,5 +54,6 @@ __all__ = [
     "Orchestrator",
     "MoERouter",
     "OmniModel",
+    "RuleLibrary",
 ]
 
