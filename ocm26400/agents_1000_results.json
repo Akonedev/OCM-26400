@@ -1,0 +1,29 @@
+{
+  "task": "1000 agents via r\u00e9currence spectrale (depth_max, sans framework)",
+  "n_agents": 1000,
+  "params": 675072,
+  "depths": {
+    "1": {
+      "time_s": 1.083,
+      "total_steps": 1000,
+      "throughput": 923.0
+    },
+    "8": {
+      "time_s": 0.0026,
+      "total_steps": 8000,
+      "throughput": 3045972.0
+    },
+    "32": {
+      "time_s": 0.0094,
+      "total_steps": 32000,
+      "throughput": 3396198.0
+    },
+    "64": {
+      "time_s": 0.0197,
+      "total_steps": 64000,
+      "throughput": 3248369.0
+    }
+  },
+  "max_steps": 64000,
+  "law": "depth_max (r\u00e9currence d\u00e9couple depth des params)"
+}
