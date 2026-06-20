@@ -204,6 +204,51 @@ def _optics_rules(n: int = 11) -> List[Rule]:
         Rule("magnification", "optics", lambda a, b: (a * pow(b, -1, n) if b else 0) % n, 2, "m = -d_i/d_o"),
     ]
 
+
+def _astronomy_rules(n: int = 11) -> List[Rule]:
+    """Astronomie : Kepler, gravité, luminosité."""
+    return [
+        Rule("kepler_orbit", "astronomy", lambda a, b: (a * a * a * pow(b, -1, n) if b else 0) % n, 2, "T² = a³/M (Kepler)"),
+        Rule("gravity", "astronomy", lambda m1, m2: (m1 * m2) % n, 2, "F = G·m1·m2/r²"),
+        Rule("luminosity", "astronomy", lambda a: (a * a) % n, 1, "L = 4πR²σT⁴"),
+    ]
+
+
+def _geology_rules(n: int = 11) -> List[Rule]:
+    """Géologie : érosion, stratigraphie, sismique."""
+    return [
+        Rule("erosion_rate", "geology", lambda a, b: (a * b) % n, 2, "taux d'érosion"),
+        Rule("strata_age", "geology", lambda a: (a + 7) % n, 1, "âge stratigraphique"),
+        Rule("seismic_wave", "geology", lambda a, b: (a + 2 * b) % n, 2, "propagation onde sismique"),
+    ]
+
+
+def _computer_science_rules(n: int = 11) -> List[Rule]:
+    """Informatique : hash, tri, complexité."""
+    return [
+        Rule("hash", "computer_science", lambda a, b: (a * 7 + b * 3) % n, 2, "hash linéaire"),
+        Rule("sort_key", "computer_science", lambda a: (a * 5) % n, 1, "clé de tri"),
+        Rule("complexity", "computer_science", lambda a, b: (a + b) % n, 2, "O(a+b) complexité"),
+    ]
+
+
+def _meteorology_rules(n: int = 11) -> List[Rule]:
+    """Météorologie : pression, humidité, vent."""
+    return [
+        Rule("pressure_system", "meteorology", lambda a, b: (a - b) % n, 2, "gradient pression"),
+        Rule("humidity_index", "meteorology", lambda a: (a * 3) % n, 1, "indice humidité"),
+        Rule("wind_speed", "meteorology", lambda a, b: (a + b * 2) % n, 2, "vitesse vent"),
+    ]
+
+
+def _quantum_rules(n: int = 11) -> List[Rule]:
+    """Physique quantique : superposition, intrication (simplifié)."""
+    return [
+        Rule("superpose", "quantum", lambda a, b: (a + b) % n, 2, "superposition |ψ⟩ = α|0⟩ + β|1⟩"),
+        Rule("entangle", "quantum", lambda a, b: (a * b + a + b) % n, 2, "intrication quantique"),
+        Rule("measure_collapse", "quantum", lambda a: (a * a) % n, 1, "measurement → collapse"),
+    ]
+
 @dataclass
 class RuleLibrary:
     """Bibliothèque de règles vérifiables multi-domaines (math/physique/grammaire)."""
@@ -218,7 +263,10 @@ class RuleLibrary:
                  + _botany_rules(n) + _dentistry_rules(n) + _ecology_rules(n)
                  + _electromagnetism_rules(n) + _electricity_rules(n)
                  + _thermodynamics_rules(n) + _mechanics_rules(n)
-                 + _waves_rules(n) + _optics_rules(n)):
+                 + _waves_rules(n) + _optics_rules(n)
+                 + _astronomy_rules(n) + _geology_rules(n)
+                 + _computer_science_rules(n) + _meteorology_rules(n)
+                 + _quantum_rules(n)):
             lib.add(r)
         return lib
 

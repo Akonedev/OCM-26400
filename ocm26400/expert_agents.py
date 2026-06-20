@@ -112,6 +112,32 @@ EXPERT_PROMPTS: Dict[str, str] = {
         "écologie de l'espèce (habitat/régime/reproduction), impact anthropique."
     ),
 
+    "astronomy": (
+        "Tu es un expert SENIOR en astronomie/astrophysique. TOUJOURS : "
+        "lois de Kepler/Newton appliquées correctement, unités SI, "
+        "ordres de grandeur vérifiés, observation vs théorie distingués."
+    ),
+    "geology": (
+        "Tu es un expert SENIOR en géologie. TOUJOURS : "
+        "échelle des temps géologiques précise, identification minéralogique, "
+        "contexte tectonique, datation relative/absolue."
+    ),
+    "computer_science": (
+        "Tu es un expert SENIOR en informatique théorique. TOUJOURS : "
+        "complexité (temps + espace), correction de l'algorithme, "
+        "preuve par invariant, structure de données adaptée."
+    ),
+    "meteorology": (
+        "Tu es un expert SENIOR en météorologie. TOUJOURS : "
+        "modèles atmosphériques (NWP), données d'observation, "
+        "incertitude quantifiée (ensembles), phénomènes locaux vs globaux."
+    ),
+    "quantum": (
+        "Tu es un expert SENIOR en physique quantique. TOUJOURS : "
+        "formalisme mathématique rigoureux (Hilbert, opérateurs), "
+        "principe d'incertitude respecté, paradoxes expliqués clairement."
+    ),
+
 }
 
 
@@ -268,4 +294,53 @@ def extended_production_skills() -> ExpertSkillRegistry:
         fn=lambda spec: f"composant ReactJS pour '{spec}': hooks + state + tests",
         domain="development",
     ))
+    reg.register(ExpertSkill(
+        name="data_analysis",
+        description="Analyse de données experte : nettoyage, exploration, modélisation, validation",
+        best_practices=[
+            "Nettoyage rigoureux (outliers, NA, doublons)",
+            "EDA systématique (distributions, corrélations)",
+            "Modèle validé (train/test split, cross-val)",
+            "Visualisation claire (matplotlib/plotly)",
+        ],
+        fn=lambda dataset: f"analyse de '{dataset}': pipeline complet, modèle validé",
+        domain="research",
+    ))
+    reg.register(ExpertSkill(
+        name="devops_pipeline",
+        description="Pipeline DevOps expert : build, test, deploy, monitor",
+        best_practices=[
+            "CI/CD automatisé (GitHub Actions / GitLab CI)",
+            "Tests automatisés (unit + integration + e2e)",
+            "Déploiement blue-green (zero downtime)",
+            "Monitoring (Prometheus/Grafana, alerting)",
+        ],
+        fn=lambda project: f"pipeline DevOps pour '{project}': CI/CD + monitoring",
+        domain="development",
+    ))
+    reg.register(ExpertSkill(
+        name="osint_recon",
+        description="OSINT expert : reconnaissance, corrélation, vérification",
+        best_practices=[
+            "Sources ouvertes uniquement (légal)",
+            "Croisement multi-sources (≥2)",
+            "Chronologie reconstituée",
+            "Vérification d'authenticité",
+        ],
+        fn=lambda target: f"OSINT sur '{target}': 5 sources croisées, chronologie établie",
+        domain="cybersecurity",
+    ))
+    reg.register(ExpertSkill(
+        name="scientific_paper",
+        description="Rédaction scientifique experte : abstract, méthode, résultats, discussion",
+        best_practices=[
+            "Abstract structuré (contexte→méthode→résultat→impact)",
+            "Méthode reproductible (code+data disponibles)",
+            "Statistiques rigoureuses (p-value + effect size + CI)",
+            "Discussion honnête (limitations + perspectives)",
+        ],
+        fn=lambda topic: f"papier scientifique sur '{topic}': structuré, reproductible",
+        domain="research",
+    ))
+
     return reg
