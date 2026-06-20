@@ -33,6 +33,7 @@ from .expert_agents import ExpertAgentWithSkills, EXPERT_PROMPTS, extended_produ
 from .agent_swarm import SwarmAgent, SwarmOrchestrator, SwarmConfig, AgentMemory
 from .meta_controller import MetaController
 from .curriculum import Curriculum
+from .phrase import PhraseComposer, phrase_similarity
 
 __all__ = [
     "info_nce",
@@ -86,5 +87,6 @@ __all__ = [
     "SwarmOrchestrator",
     "MetaController",
     "Curriculum",
+    "PhraseComposer",
 ]
 
