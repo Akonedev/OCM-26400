@@ -91,13 +91,26 @@ class Orchestrator:
     judge: Judge = field(default_factory=Judge)
     router: Optional[MoERouter] = None
     max_workers: int = 8
+    fail_open: bool = False          # False = fail-closed (aucun expert routé -> [])
+    MAX_AGENTS: int = 1000           # borne anti-saturation
+    MAX_WORKERS: int = 16
+
+    def __post_init__(self):
+        # RESOURCE-BOUND : cap le nombre d'agents et de workers (anti-saturation)
+        if len(self.experts) > self.MAX_AGENTS:
+            raise ValueError(f"trop d'experts ({len(self.experts)} > {self.MAX_AGENTS})")
+        if len(self.advocates) > self.MAX_AGENTS:
+            raise ValueError(f"trop de DA ({len(self.advocates)} > {self.MAX_AGENTS})")
+        self.max_workers = max(1, min(self.max_workers, self.MAX_WORKERS))
 
     def _select_experts(self, query: str) -> List[ExpertAgent]:
         if self.router is None:
             return self.experts
         domains = self.router.route(query)
         sel = [e for e in self.experts if e.domain in domains]
-        return sel or self.experts
+        if sel or not self.fail_open:
+            return sel                                # fail-closed : [] si rien routé
+        return self.experts                           # fail_open=True : repli sur tous
 
     def run(self, query: str) -> Dict:
         """Dispatch parallèle : experts (parallèle) -> DA (parallèle) -> juge -> verdict."""
