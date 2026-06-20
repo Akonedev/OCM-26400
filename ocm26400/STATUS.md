@@ -35,6 +35,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Auto-correction / auto-amélioration** | re-raisonnement rattrape erreurs mémoire, justesse 79%->100%, self-consistency | `self_correction.py` | 4 |
 | **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |
 | **Apprentissage depuis URLs RÉEL** | WebFetchTool (HTTP urllib), fetch+apprend+retient pages web réelles (Wikipedia) | `web_tools.py` | 5 |
+| **Vocabulaire bilingue RÉEL 591K** | 315K EN + 276K FR vrais mots (corpus réels), addressables par composition, retrieval 100% | `experiment_bilingual_vocab.py` | démontrée |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 

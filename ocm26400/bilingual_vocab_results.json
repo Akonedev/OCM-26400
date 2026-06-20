@@ -1,0 +1,15 @@
+{
+  "task": "vocabulaire bilingue R\u00c9EL EN+FR (spec \u00a71 '1M EN + 60K FR')",
+  "sources": {
+    "EN": "/media/akone/Dev/Dev_D/01_Dev_1/IA_Dev_D/12_Hermes/Recherches/MathsBase/ocm26400/../data/words_en.txt",
+    "FR": "/media/akone/Dev/Dev_D/01_Dev_1/IA_Dev_D/12_Hermes/Recherches/MathsBase/ocm26400/../data/words_fr.txt"
+  },
+  "en_addressable": 315126,
+  "fr_addressable": 276115,
+  "total_bilingual_addressable": 591241,
+  "indexed_bilingual": 10000,
+  "retrieval_at_1": 1.0,
+  "mechanism": "composition de caract\u00e8res (accents FR neutralis\u00e9s), bilingue",
+  "verdict": "VALID\u00c9",
+  "duration_s": 6.1
+}
