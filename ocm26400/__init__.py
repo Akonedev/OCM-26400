@@ -54,6 +54,9 @@ from .artefact_generator import generate_chart, generate_slides, available_gener
 from .procedural_memory import ProceduralMemory, Procedure, default_procedures
 from .youtube_learner import fetch_transcript, learn_from_youtube, get_metadata
 from .owasp_scanner import scan_code, scan_report
+from .cognition import TheoryOfMind, evaluate_morality, SpatialReasoner, structure_mapping
+from .commonsense import CommonSense, default_commonsense
+from .stream import stream_chars, stream_cot, TokenStream
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
