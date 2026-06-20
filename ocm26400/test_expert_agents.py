@@ -10,7 +10,8 @@ from ocm26400.expert_agents import (
 
 def test_expert_prompts_cover_domains():
     """Les prompts système couvrent les domaines clés (dev, security, UX, recherche, game)."""
-    for d in ["development", "cybersecurity", "ux_design", "research", "game_dev", "writing"]:
+    for d in ["development", "cybersecurity", "ux_design", "research", "game_dev",
+              "writing", "marketing", "video_production", "chemistry", "biology", "economics"]:
         assert d in EXPERT_PROMPTS and len(EXPERT_PROMPTS[d]) > 50
 
 
@@ -40,7 +41,7 @@ def test_extended_skills_cover_user_repos():
     assert "ux_design" in domains
     assert "game_dev" in domains
     assert "research" in domains
-    assert len(reg.names()) >= 8          # 4 de base + 4+ étendus
+    assert len(reg.names()) >= 11          # 4 base + 7 étendus (incluant pentest/marketing/level)
 
 
 def test_expert_agent_creates_skill_when_missing():

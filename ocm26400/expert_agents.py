@@ -56,6 +56,31 @@ EXPERT_PROMPTS: Dict[str, str] = {
         "structure claire, langage adapté au public, concision sans perte de sens, "
         "call-to-action explicite. Le message doit être compris du premier coup."
     ),
+    "marketing": (
+        "Tu es un expert SENIOR en marketing digital. TOUJOURS : "
+        "persona défini, funnel clair (awareness→conversion), A/B testé, ROI mesuré. "
+        "Le message doit résonner émotionnellement tout en étant data-driven."
+    ),
+    "video_production": (
+        "Tu es un expert SENIOR en production vidéo. TOUJOURS : "
+        "scénario structuré (hook<3s), qualité technique (4K, audio propre), "
+        "montage rythmé, distribution multi-plateforme. L'attention du viewer est la métrique #1."
+    ),
+    "chemistry": (
+        "Tu es un expert SENIOR en chimie. TOUJOURS : "
+        "équations équilibrées, sécurité (fiche toxicologique), conditions de réaction, "
+        "rendement calculé. La sécurité prime sur la performance."
+    ),
+    "biology": (
+        "Tu es un expert SENIOR en biologie. TOUJOURS : "
+        "méthode scientifique (hypothèse→test→conclusion), reproductibilité, "
+        "contrôles négatifs/positifs, statistiques rigoureuses."
+    ),
+    "economics": (
+        "Tu es un expert SENIOR en économie. TOUJOURS : "
+        "modèles fondés sur des données réelles, hypothèses explicites, "
+        "sensibilité analysée, biais cognitifs identifiés."
+    ),
 }
 
 
@@ -162,5 +187,41 @@ def extended_production_skills() -> ExpertSkillRegistry:
         ],
         fn=lambda brief: f"vidéo pour '{brief}': scénario + tournage + montage planifiés",
         domain="development",   # réutilise le domain development (pas de nouveau)
+    ))
+    reg.register(ExpertSkill(
+        name="pentest",
+        description="Test d'intrusion expert : recon, exploit, post-exploitation, rapport",
+        best_practices=[
+            "Reconnaissance complète (OSINT, scan)",
+            "Exploitation documentée (CVE, chaîne)",
+            "Post-exploitation limitée (preuve, pas de dégât)",
+            "Rapport détaillé (criticité, remediation)",
+        ],
+        fn=lambda target: f"pentest de '{target}': 3 vulnérabilités trouvées, remediation proposée",
+        domain="cybersecurity",
+    ))
+    reg.register(ExpertSkill(
+        name="marketing_campaign",
+        description="Campagne marketing experte : persona, funnel, creative, A/B, ROI",
+        best_practices=[
+            "Persona défini (démographie, psychographie)",
+            "Funnel mesuré (awareness→conversion)",
+            "A/B testé (≥2 variantes)",
+            "ROI calculé (CAC, LTV)",
+        ],
+        fn=lambda product: f"campagne pour '{product}': persona + funnel + 3 créas A/B",
+        domain="marketing",
+    ))
+    reg.register(ExpertSkill(
+        name="level_design",
+        description="Game level design expert : flow, difficulté progressive, secrets, feedback",
+        best_practices=[
+            "Flow testé (courbe de difficulté)",
+            "Tutoriel intégré (show-don't-tell)",
+            "Secrets/replayability (≥1 par niveau)",
+            "Feedback joueur immédiat (<100ms)",
+        ],
+        fn=lambda concept: f"niveau pour '{concept}': flow + tutoriel + secrets planifiés",
+        domain="game_dev",
     ))
     return reg
