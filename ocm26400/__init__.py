@@ -40,6 +40,8 @@ from .domain_trainer import evaluate_all_domains, cross_domain_chains, reasoning
 from .symbolic_math import symbolic_math_rules, poly_deriv, gcd, modexp, factorize
 from .document_learner import DocumentLearner, text_embedding
 from .neural_multihop import neural_holdout_eval, neural_multihop_eval
+from .morphology_fr import conjugate, fr_conjugation_rules
+from .equation_solver import solve_equation, derivative, integrate, simplify
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
