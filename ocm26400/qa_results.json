@@ -1,0 +1,14 @@
+{
+  "task": "QA de bout en bout (agent + KnowledgeBase + abstention)",
+  "n_named_facts": 11,
+  "scenarios_run": 5,
+  "agent_stats": {
+    "retrieved": 1,
+    "reasoned": 6,
+    "abstained": 1,
+    "errors": 0
+  },
+  "accuracy": 1.0,
+  "verdict": "VALID\u00c9",
+  "duration_s": 15.1
+}
