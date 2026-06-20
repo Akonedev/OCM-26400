@@ -60,7 +60,13 @@ class EWCCallback:
 
 def demo_ewc(n_steps: int = 300, seed: int = 0) -> dict:
     """Démo : 2 tâches successives. Mesure l'oubli avec vs sans EWC.
-    Tâche A : y = x. Tâche B : y = −x. Sans EWC, apprendre B oublie A."""
+    Tâche A : y = x. Tâche B : y = −x. Sans EWC, apprendre B oublie A.
+
+    ⚠️ CONDITIONS : EWC est ORTHOGONAL au grokking canonique (PROCEDURES.md §2). C'est une
+    RÉGULARISATION appliquée par-dessus un entraînement standard ; elle ne remplace PAS
+    train_binary_block. Ici on démontre le MÉCANISME EWC (rétention Fisher) sur une régression
+    simple, avec l'optimizer canonique ocm26400 (Adam lr=3e-3). Le grokking compositionnel
+    (crown-jewel 100%) reste produit par train_binary_block (neural_multihop.py)."""
     torch.manual_seed(seed)
     model = nn.Sequential(nn.Linear(1, 16), nn.ReLU(), nn.Linear(16, 1))
 
@@ -73,7 +79,7 @@ def demo_ewc(n_steps: int = 300, seed: int = 0) -> dict:
     xb, yb = make_task(-1.0)
 
     def train(x, y, ewc=None, steps=200):
-        opt = torch.optim.Adam(model.parameters(), lr=1e-2)
+        opt = torch.optim.Adam(model.parameters(), lr=3e-3)   # lr canonique ocm26400
         for _ in range(steps):
             opt.zero_grad()
             loss = nn.functional.mse_loss(model(x), y)
@@ -94,7 +100,7 @@ def demo_ewc(n_steps: int = 300, seed: int = 0) -> dict:
     # comparaison SANS EWC (modèle frais)
     torch.manual_seed(seed)
     model2 = nn.Sequential(nn.Linear(1, 16), nn.ReLU(), nn.Linear(16, 1))
-    opt = torch.optim.Adam(model2.parameters(), lr=1e-2)
+    opt = torch.optim.Adam(model2.parameters(), lr=3e-3)     # lr canonique
     for _ in range(200):
         opt.zero_grad()
         nn.functional.mse_loss(model2(xa), ya).backward()
@@ -110,6 +116,8 @@ def demo_ewc(n_steps: int = 300, seed: int = 0) -> dict:
         "mse_A_after_B_WITH_ewc": acc_a_after_B_ewc,
         "mse_A_after_B_WITHOUT_ewc": acc_a_after_B_noewc,
         "forgetting_reduced": acc_a_after_B_noewc > acc_a_after_B_ewc,
+        "optimizer": "Adam lr=3e-3 (canonique ocm26400)",
+        "note": "EWC = régularisation orthogonale au grokking (train_binary_block)",
         "verdict": ("EWC_REDUCE_FORGETTING" if acc_a_after_B_noewc > acc_a_after_B_ewc
                     else "NO_EFFECT"),
     }
