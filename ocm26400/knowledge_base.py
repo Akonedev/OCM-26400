@@ -71,3 +71,14 @@ class KnowledgeBase:
         """Le système connaît-il une réponse confiant pour cette requête ?"""
         idx, _ = self.retrieve(query_vec, threshold=threshold)
         return idx is not UNKNOWN
+
+
+def chunk_document(text: str, chunk_size: int = 200, overlap: int = 50) -> list:
+    """Découpe un document en chunks avec chevauchement (pour RAG)."""
+    chunks = []
+    i = 0
+    while i < len(text):
+        chunk = text[i:i + chunk_size]
+        chunks.append(chunk.strip())
+        i += chunk_size - overlap
+    return [c for c in chunks if c]

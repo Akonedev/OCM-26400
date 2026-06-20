@@ -130,3 +130,35 @@ class ConversationalLoop:
             return None, None
         reply = self.sts(waveform)
         return eos, reply
+
+
+class FormantTTS:
+    """TTS par synthèse de formants : texte → waveform via voyelles → formants.
+
+    Chaque voyelle a des fréquences de formant (F1, F2) réelles issues de la phonétique.
+    Honnête : synthèse par formants (source-filtre), pas un vocoder entraîné.
+    """
+
+    VOWEL_FORMANTS = {
+        'a': (730, 1090), 'e': (530, 1840), 'i': (270, 2290),
+        'o': (570, 840), 'u': (300, 870), 'y': (270, 1820),
+        'é': (400, 2200), 'è': (550, 1700),
+    }
+    SAMPLE_RATE = 16000
+
+    def synthesize(self, text: str) -> torch.Tensor:
+        """Synthétise un waveform à partir du texte (voyelles → formants)."""
+        text = text.lower()
+        vowels = [c for c in text if c in self.VOWEL_FORMANTS]
+        if not vowels:
+            vowels = ['a']
+        dur_per_vowel = max(0.08, min(0.2, 1.0 / len(vowels)))
+        waveforms = []
+        for v in vowels:
+            f1, f2 = self.VOWEL_FORMANTS[v]
+            t = torch.arange(int(self.SAMPLE_RATE * dur_per_vowel)).float() / self.SAMPLE_RATE
+            env = torch.hann_window(len(t))
+            wav = env * (0.5 * torch.sin(2 * 3.14159 * f1 * t) +
+                         0.3 * torch.sin(2 * 3.14159 * f2 * t))
+            waveforms.append(wav)
+        return torch.cat(waveforms) if waveforms else torch.zeros(self.SAMPLE_RATE)

@@ -85,3 +85,23 @@ class URLMemory:
 
     def retrieve(self, url: str) -> Optional[str]:
         return self.learned.get(url)
+
+
+def parse_pdf(path: str, max_pages: int = 10, max_chars: int = 8000) -> str:
+    """Parse un PDF → texte (PyMuPDF/fitz si dispo, sinon message)."""
+    try:
+        import fitz  # PyMuPDF
+        doc = fitz.open(path)
+        text = ""
+        for i, page in enumerate(doc):
+            if i >= max_pages:
+                break
+            text += page.get_text()
+            if len(text) >= max_chars:
+                break
+        doc.close()
+        return text[:max_chars]
+    except ImportError:
+        return f"[PDF parser: PyMuPDF (fitz) non installé — pip install pymupdf]"
+    except Exception as e:
+        return f"[erreur PDF: {type(e).__name__}]"

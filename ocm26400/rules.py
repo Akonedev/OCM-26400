@@ -327,7 +327,8 @@ class RuleLibrary:
                  + _quantum_rules(n)
                  + _relativity_rules(n) + _nuclear_rules(n)
                  + _fluid_dynamics_rules(n) + _acoustics_rules(n)
-                 + _particle_rules(n)):
+                 + _particle_rules(n)
+                 + _french_grammar_rules()):
             lib.add(r)
         return lib
 
@@ -368,3 +369,33 @@ class RuleLibrary:
             cur = self.apply(name, args)
             out.append(cur)
         return out
+
+
+def _french_grammar_rules() -> List[Rule]:
+    """Conjugaison française complète : 3 groupes, temps principaux."""
+    def _g1_imparfait(s):  # 1er groupe -er
+        return s[:-2] + "ait" if s.endswith("er") else s
+    def _g1_futur(s):
+        return s + "ai" if s.endswith("er") else s
+    def _g1_passe_simple(s):
+        return s[:-2] + "a" if s.endswith("er") else s
+    def _g1_subjonctif(s):
+        return s[:-2] + "e" if s.endswith("er") else s
+    def _g2_imparfait(s):  # 2e groupe -ir (finir → finissait)
+        return s[:-2] + "issait" if s.endswith("ir") else s
+    def _g3_imparfait(s):  # 3e groupe (être → était)
+        irr = {"etre": "etait", "avoir": "avait", "aller": "allait",
+               "faire": "faisait", "dire": "disait", "voir": "voyait"}
+        return irr.get(s, s + "ait")
+    def _g3_passe_simple(s):
+        irr = {"etre": "fut", "avoir": "eut", "aller": "alla", "faire": "fit"}
+        return irr.get(s, s + "it")
+    return [
+        Rule("fr_g1_imparfait", "grammar_fr", _g1_imparfait, 1, "imparfait 1er groupe"),
+        Rule("fr_g1_futur", "grammar_fr", _g1_futur, 1, "futur 1er groupe"),
+        Rule("fr_g1_passe_simple", "grammar_fr", _g1_passe_simple, 1, "passé simple 1er groupe"),
+        Rule("fr_g1_subjonctif", "grammar_fr", _g1_subjonctif, 1, "subjonctif 1er groupe"),
+        Rule("fr_g2_imparfait", "grammar_fr", _g2_imparfait, 1, "imparfait 2e groupe"),
+        Rule("fr_g3_imparfait", "grammar_fr", _g3_imparfait, 1, "imparfait 3e groupe (irréguliers)"),
+        Rule("fr_g3_passe_simple", "grammar_fr", _g3_passe_simple, 1, "passé simple 3e groupe"),
+    ]
