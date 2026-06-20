@@ -31,11 +31,16 @@ _REVERSE_DICT = {v.lower(): k for k, v in TRANSLATION_DICT.items()}
 
 
 def translate_word(word: str, to_en: bool = True) -> str:
-    """Traduit un mot (FR→EN si to_en, EN→FR sinon). Abstention (retourne le mot) si inconnu."""
+    """Traduit un mot (FR→EN si to_en, EN→FR sinon). LEMMATISE d'abord (feedback : un
+    verbe conjugué comme 'dort' doit passer par le lemme 'dormir' avant traduction).
+    Abstention (retourne le mot) si inconnu."""
+    from .language_primitives import lemmatize_fr, lemmatize_en
     w = word.lower().strip(".,!?;:")
+    # lemmatise d'abord : "mange"→"manger", "running"→"run", "dort"→table
+    lemma = lemmatize_fr(w) if to_en else lemmatize_en(w)
     if to_en:
-        return TRANSLATION_DICT.get(w, word)
-    return _REVERSE_DICT.get(w, word)
+        return TRANSLATION_DICT.get(lemma, TRANSLATION_DICT.get(w, word))
+    return _REVERSE_DICT.get(lemma, _REVERSE_DICT.get(w, word))
 
 
 def translate(text: str, to_en: bool = True) -> str:
