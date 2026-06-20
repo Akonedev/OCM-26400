@@ -3306,6 +3306,8 @@ def test_skill_pentest():
 
 # ---- 286. Détection SQL injection ----
 def test_securite_sql_injection():
+    # NOTE SÉCURITÉ: cette fonction TESTE la détection de patterns SQLi.
+    # La blacklist est l assertion de test, PAS du code production. En prod = prepared statements.
     """§2 : détection de motifs SQL injection."""
     payloads = ["' OR '1'='1", "'; DROP TABLE users; --", "UNION SELECT * FROM admin"]
     blacklist = {"'", "OR", "DROP", "UNION", "SELECT"}
@@ -3315,6 +3317,8 @@ def test_securite_sql_injection():
 
 # ---- 287. Détection XSS (cross-site scripting) ----
 def test_securite_xss():
+    # NOTE SÉCURITÉ: cette fonction TESTE la détection de patterns XSS.
+    # La blacklist est l assertion de test, PAS du code production. En prod = output encoding + CSP.
     """§2 : détection XSS."""
     payloads = ["<script>alert(1)</script>", "<img onerror=alert(1)>", "javascript:alert(1)"]
     blacklist = {"<script", "onerror", "javascript:"}

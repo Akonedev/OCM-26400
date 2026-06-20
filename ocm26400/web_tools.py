@@ -34,8 +34,31 @@ def strip_html(raw: str) -> str:
     return text
 
 
+import ipaddress
+
+def _validate_url_safe(url: str) -> str:
+    """Valide l'URL contre SSRF : scheme HTTP/HTTPS uniquement, bloque IPs privées."""
+    from urllib.parse import urlparse
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(f"Scheme interdit (SSRF): {parsed.scheme}")
+    hostname = parsed.hostname or ""
+    if not hostname:
+        raise ValueError("Hostname manquant")
+    # bloquer IPs privées/loopback
+    try:
+        ip = ipaddress.ip_address(hostname)
+        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved:
+            raise ValueError(f"IP privée bloquée (SSRF): {hostname}")
+    except ipaddress.AddressValueError:
+        pass  # hostname DNS (pas une IP), OK
+    return url
+
+
 def fetch_url(url: str, timeout: int = 15, max_chars: int = 4000) -> str:
-    """GET HTTP réel -> texte propre (HTML strippé). Tronqué à max_chars."""
+    """GET HTTP réel -> texte propre (HTML strippé). Tronqué à max_chars.
+    SSRF protégé: scheme HTTP/HTTPS + IP privées bloquées."""
+    url = _validate_url_safe(url)
     req = urllib.request.Request(url, headers={"User-Agent": "OCM-26400/1.0 (learning agent)"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         raw = r.read().decode("utf-8", errors="ignore")
