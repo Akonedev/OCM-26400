@@ -49,6 +49,8 @@ from .sleep_phases import light_sleep, deep_sleep, paradoxal_sleep, full_night
 from .semantic_embeddings import SemanticEmbeddings
 from .code_generator import generate, verify_code, generate_and_verify, coverage
 from .browser_tool import InteractiveBrowser
+from .in_context import predict_from_context, learn_rule_from_context, in_context_accuracy
+from .artefact_generator import generate_chart, generate_slides, available_generators
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
