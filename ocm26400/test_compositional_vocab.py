@@ -70,3 +70,23 @@ def test_retrieve_abstains_on_noise():
     torch.manual_seed(1)
     found, _ = cv.retrieve(torch.randn(64), M, lex, threshold=0.9)
     assert found is None     # abstention
+
+
+def test_decode_word_roundtrip():
+    """DÉCODEUR : decode_word(word_vector(w)) retrouve w (génération AMV->surface)."""
+    cv = _cv(P=10, max_len=3)
+    words = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 2, 1], [5, 0, 7]]
+    ok = 0
+    for w in words:
+        decoded = cv.decode_word(cv.word_vector(w))
+        ok += (decoded == w)
+    # peeling successif : la plupart des mots doivent se décoder exactement
+    assert ok >= 4, f"roundtrip décodeur trop bas: {ok}/{len(words)}"
+
+
+def test_decode_word_outputs_valid_morphemes():
+    """Le décodeur produit des indices de morphèmes valides (dans le primitive set)."""
+    cv = _cv(P=8, max_len=3)
+    decoded = cv.decode_word(cv.word_vector([2, 5, 1]))
+    assert all(0 <= m < 8 for m in decoded)
+    assert len(decoded) == 3

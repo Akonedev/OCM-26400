@@ -77,3 +77,24 @@ class CompositionalVocabulary(nn.Module):
         if conf < threshold:
             return None, conf
         return lexicon[int(idx.item())], conf
+
+    @torch.no_grad()
+    def decode_word(self, query: torch.Tensor) -> List[int]:
+        """DÉCODEUR (génération, spec §4) : AMV -> séquence de morphèmes.
+
+        Inverse de word_vector. Pour chaque position, le morphème dont la projection
+        positionnelle matche le mieux le résidu (peeling successif). Permet de
+        GÉNÉRER la forme de surface (séquence de morphèmes) depuis un vecteur concept.
+        """
+        q = query[: self.dim].to(torch.float32).clone()
+        q = q / (q.norm() + 1e-8)
+        seq = []
+        prim_mat = self.prim._matrix().to(q.device)             # (P, dim)
+        for t in range(self.max_len):
+            proj = self.pos_proj[t].to(q.device) @ prim_mat.T   # (dim, P) projeté par position
+            scores = q @ proj                                   # (P,) match par morphème
+            m = int(torch.argmax(scores).item())
+            seq.append(m)
+            q = q - proj[:, m]
+            q = q / (q.norm() + 1e-8)
+        return seq
