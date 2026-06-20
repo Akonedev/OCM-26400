@@ -31,6 +31,7 @@ from .generators import AMVConditionedDecoder
 from .skills_system import ExpertSkill, SkillCreator, ExpertSkillRegistry, production_skills
 from .expert_agents import ExpertAgentWithSkills, EXPERT_PROMPTS, extended_production_skills
 from .agent_swarm import SwarmAgent, SwarmOrchestrator, SwarmConfig, AgentMemory
+from .meta_controller import MetaController
 
 __all__ = [
     "info_nce",
@@ -82,5 +83,6 @@ __all__ = [
     "EXPERT_PROMPTS",
     "SwarmAgent",
     "SwarmOrchestrator",
+    "MetaController",
 ]
 
