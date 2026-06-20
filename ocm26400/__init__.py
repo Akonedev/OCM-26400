@@ -53,6 +53,7 @@ from .in_context import predict_from_context, learn_rule_from_context, in_contex
 from .artefact_generator import generate_chart, generate_slides, available_generators
 from .procedural_memory import ProceduralMemory, Procedure, default_procedures
 from .youtube_learner import fetch_transcript, learn_from_youtube, get_metadata
+from .owasp_scanner import scan_code, scan_report
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
