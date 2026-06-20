@@ -343,4 +343,41 @@ def extended_production_skills() -> ExpertSkillRegistry:
         domain="research",
     ))
 
+    reg.register(ExpertSkill(
+        name="legal_analysis",
+        description="Analyse juridique experte : lois, jurisprudence, contrats",
+        best_practices=[
+            "Référence aux textes (articles précis)",
+            "Jurisprudence récente citée",
+            "Distinction fait/right/obligation",
+            "Conseil pratique applicable",
+        ],
+        fn=lambda case: f"analyse juridique de '{case}': textes + jurisprudence + conseil",
+        domain="research",
+    ))
+    reg.register(ExpertSkill(
+        name="historical_analysis",
+        description="Analyse historique experte : sources, chronologie, causalité",
+        best_practices=[
+            "Sources primaires > secondaires",
+            "Chronologie reconstituée rigoureuse",
+            "Causalité multifactorielle (pas monocausale)",
+            "Contexte (politique/économique/social/culturel)",
+        ],
+        fn=lambda event: f"analyse historique de '{event}': sources + chronologie + causalité",
+        domain="research",
+    ))
+    reg.register(ExpertSkill(
+        name="music_composition",
+        description="Composition musicale experte : harmonie, contrepoint, arrangement",
+        best_practices=[
+            "Harmonie respectée (règles fonctionnelles)",
+            "Contrepoint correct (mouvement contraire)",
+            "Arrangement adapté à l'instrumentation",
+            "Structure formelle claire (ABA, sonate, etc.)",
+        ],
+        fn=lambda brief: f"composition pour '{brief}': harmonie + arrangement + structure",
+        domain="writing",
+    ))
+
     return reg

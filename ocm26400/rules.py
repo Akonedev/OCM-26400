@@ -249,6 +249,51 @@ def _quantum_rules(n: int = 11) -> List[Rule]:
         Rule("measure_collapse", "quantum", lambda a: (a * a) % n, 1, "measurement → collapse"),
     ]
 
+
+def _relativity_rules(n: int = 11) -> List[Rule]:
+    """Relativité : dilatation temps, contraction longueur, E=mc²."""
+    return [
+        Rule("time_dilation", "relativity", lambda a, b: (a * pow(1 + b, -1, n) if (1+b) else 0) % n, 2, "Δt = Δt₀/γ"),
+        Rule("mass_energy", "relativity", lambda a: (a * a) % n, 1, "E = mc²"),
+        Rule("length_contraction", "relativity", lambda a, b: (a * (n - b)) % n, 2, "L = L₀/γ"),
+    ]
+
+
+def _nuclear_rules(n: int = 11) -> List[Rule]:
+    """Physique nucléaire : fission, fusion, décroissance."""
+    return [
+        Rule("fission", "nuclear", lambda a, b: (a + b + 1) % n, 2, "fission A+B→produits+neutrons"),
+        Rule("fusion", "nuclear", lambda a, b: (a * b) % n, 2, "fusion A+B→C (libère énergie)"),
+        Rule("decay", "nuclear", lambda a: (a // 2) % n, 1, "décroissance radioactive"),
+    ]
+
+
+def _fluid_dynamics_rules(n: int = 11) -> List[Rule]:
+    """Mécanique des fluides : Bernoulli, Reynolds, viscosité."""
+    return [
+        Rule("bernoulli", "fluid_dynamics", lambda a, b: (a + b) % n, 2, "P + ½ρv² + ρgh = const"),
+        Rule("reynolds", "fluid_dynamics", lambda a, b: (a * b) % n, 2, "Re = ρvL/μ"),
+        Rule("viscosity", "fluid_dynamics", lambda a: (a * 2) % n, 1, "τ = μ·du/dy"),
+    ]
+
+
+def _acoustics_rules(n: int = 11) -> List[Rule]:
+    """Acoustique : intensité, résonance, atténuation."""
+    return [
+        Rule("sound_intensity", "acoustics", lambda a, b: (a * a * b) % n, 2, "I = P/(4πr²)"),
+        Rule("resonance", "acoustics", lambda a: (a * 3) % n, 1, "f_n = n·f₀ (harmoniques)"),
+        Rule("attenuation", "acoustics", lambda a, b: (a - b) % n, 2, "atténuation avec distance"),
+    ]
+
+
+def _particle_rules(n: int = 11) -> List[Rule]:
+    """Physique des particules : collision, spin, charge."""
+    return [
+        Rule("collision", "particle", lambda a, b: (a + b) % n, 2, "conservation quantité mouvement"),
+        Rule("spin_coupling", "particle", lambda a, b: (a * b + 1) % n, 2, "couplage de spin"),
+        Rule("charge_conserve", "particle", lambda a: (n - a) % n, 1, "conservation charge"),
+    ]
+
 @dataclass
 class RuleLibrary:
     """Bibliothèque de règles vérifiables multi-domaines (math/physique/grammaire)."""
@@ -266,7 +311,10 @@ class RuleLibrary:
                  + _waves_rules(n) + _optics_rules(n)
                  + _astronomy_rules(n) + _geology_rules(n)
                  + _computer_science_rules(n) + _meteorology_rules(n)
-                 + _quantum_rules(n)):
+                 + _quantum_rules(n)
+                 + _relativity_rules(n) + _nuclear_rules(n)
+                 + _fluid_dynamics_rules(n) + _acoustics_rules(n)
+                 + _particle_rules(n)):
             lib.add(r)
         return lib
 
