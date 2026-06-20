@@ -26,6 +26,7 @@ from .bench import run_bench, level
 from .diff_decode import decode_gumbel, l_step_diff, acsp_loss_diff, train_with_acsp
 from .spectral_core import SpectralCoreBlock
 from .product_key_vocab import ProductKeyVocab
+from .tool_policy import ToolPolicy, TaskEncoder, ToolUsingAgent
 
 __all__ = [
     "info_nce",
@@ -69,5 +70,6 @@ __all__ = [
     "acsp_loss_diff",
     "SpectralCoreBlock",
     "ProductKeyVocab",
+    "ToolPolicy",
 ]
 
