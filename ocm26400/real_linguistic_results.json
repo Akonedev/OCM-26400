@@ -1,0 +1,25 @@
+{
+  "task": "amodal sur vues linguistiques R\u00c9ELLES (1000 mots, 4 modalit\u00e9s)",
+  "n_real_words": 1000,
+  "modalities": [
+    "texte",
+    "morphologie",
+    "phonologie",
+    "semantique"
+  ],
+  "retrieval_at_1_global_before": 0.0007,
+  "retrieval_at_1_global_after": 0.4005,
+  "per_pair_retrieval": {
+    "texte-morphologie": 0.788,
+    "texte-phonologie": 0.089,
+    "texte-semantique": 0.748,
+    "morphologie-phonologie": 0.072,
+    "morphologie-semantique": 0.628,
+    "phonologie-semantique": 0.078
+  },
+  "best_informative_pair": "texte-morphologie",
+  "best_pair_acc": 0.788,
+  "note": "vues r\u00e9elles (texte/morpho/phono/s\u00e9mantique des vrais mots), plus simul\u00e9es. Paires riches (texte/morpho/s\u00e9mantique) s'alignent \u00e0 62-79% ; phonologie limit\u00e9e par collisions de feature-bags (pattern 'ccvc' partag\u00e9).",
+  "verdict": "VALID\u00c9",
+  "duration_s": 5.5
+}

@@ -11,6 +11,7 @@ from .knowledge_base import KnowledgeBase
 from .cognitive_agent import CognitiveAgent
 from .compositional_vocab import CompositionalVocabulary
 from .sleep import extract_rule, consolidate
+from .real_linguistic import RealViewEncoder, load_real_words, MODALITIES as LING_MODALITIES
 
 __all__ = [
     "info_nce",
@@ -28,5 +29,7 @@ __all__ = [
     "CompositionalVocabulary",
     "extract_rule",
     "consolidate",
+    "RealViewEncoder",
+    "load_real_words",
 ]
 
