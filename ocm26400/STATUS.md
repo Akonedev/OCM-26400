@@ -46,6 +46,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Capstone : primitives->générer n'importe quoi** | 1 primitive grokkée -> génère op^k (prof 2-8) sur chaînes neuves 100%, à la demande | `experiment_omni_generate.py` | démontrée |
 | **Bibliothèque de règles (math/physique/grammaire)** | RuleLibrary : règles vérifiables multi-domaines, compréhension (verify), génération (compose) | `rules.py` | 6 |
 | **Tools/Skills agents+PNJ** | Skill+Toolkit+Mission, PNJ/agent équipés pour leurs missions (en plus des compétences) | `agents_tools.py` | 5 |
+| **E1 OmniModel multi-règles + inter-règles** | 1 noyau grok 3 règles (add/mul/linop) conjoint -> génère chaînes inter-règles mixtes neuves >85% | `omni_rules.py` | 3 |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 

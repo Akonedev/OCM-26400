@@ -21,6 +21,7 @@ from .orchestrator import Orchestrator, ExpertAgent, DevAdvocate, Judge, MoERout
 from .omni import OmniModel
 from .rules import Rule, RuleLibrary
 from .agents_tools import Skill, Toolkit, Mission, execute_mission
+from .omni_rules import RULES, train_omni_rules, comprehend, generate_chain, inter_rule_gt
 
 __all__ = [
     "info_nce",
@@ -58,5 +59,6 @@ __all__ = [
     "RuleLibrary",
     "Toolkit",
     "Mission",
+    "train_omni_rules",
 ]
 
