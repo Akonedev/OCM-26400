@@ -53,3 +53,14 @@ def test_gui_tool_interface_present():
             assert isinstance(out, str) and ("indisponible" in out or "display" in out)
     else:                                         # si display présent : pas de crash
         assert gui.available is True
+
+
+def test_gui_safe_text_allowlist():
+    """Anti-injection clavier : seuls alphanumérique + ponctuation basique sont frappables."""
+    rx = GUITool._SAFE_TEXT
+    assert rx.match("hello world")                 # ok
+    assert rx.match("OCM-26400, c'est test!")       # ok (ponctuation basique)
+    assert rx.match("abc;rm") is None              # ';' interdit (anti-injection)
+    assert rx.match("$(whoami)") is None           # substitution shell interdite
+    assert rx.match("a|b") is None                 # pipe interdit
+    assert rx.match("a\nb") is None                # newline interdit

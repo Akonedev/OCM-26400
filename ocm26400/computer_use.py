@@ -17,7 +17,9 @@ le WebFetchTool (web_tools.py) couvre la lecture de pages, le ShellTool l'exécu
 """
 import shlex
 import subprocess
-from typing import Optional, List
+import re
+import time
+from typing import Optional, List, Tuple
 
 
 class ShellTool:
@@ -68,16 +70,30 @@ class GUITool:
     """Computer-use GUI réel : contrôle souris/clavier via pyautogui.
 
     Implémente la capacité 'computer use' au niveau GUI (clic, déplacement, frappe).
-    HONNÊTE : nécessite pyautogui + un serveur d'affichage (display). En environnement
-    headless (sans display), les méthodes retournent un message gracieux au lieu de
-    crasher — le code est réel (API pyautogui), l'exécution demande un display.
+    SÉCURITÉ (durcie, posture équivalente au ShellTool) :
+    * caractères frappés filtrés par une allowlist (alphanumérique + ponctuation basique) ;
+      tout caractère unsafe est rejeté (anti-injection clavier).
+    * coordonnées validées contre les bornes écran ET une allowlist de régions sûres.
+    * rate-limiting (délai minimum entre actions) + timeout.
+    HONNÊTE : nécessite pyautogui + un serveur d'affichage. En headless, les méthodes
+    retournent un message gracieux (pas de crash).
     """
 
-    def __init__(self):
+    # caractères autorisés à la frappe (anti-injection : pas de méta-keys/control/etc.)
+    _SAFE_TEXT = re.compile(r"^[A-Za-z0-9 .,?!:'\-]+$")
+    _MAX_TEXT = 200
+
+    def __init__(self, timeout: float = 15.0, min_delay: float = 0.2,
+                 allowed_regions: Optional[List[Tuple[int, int, int, int]]] = None):
+        self.timeout = timeout
+        self.min_delay = min_delay
+        self.allowed_regions = allowed_regions      # (x0,y0,x1,y1) ; None = tout l'écran
         self._pyautogui = None
-        try:                                    # import paresseux
-            import pyautogui                    # noqa: F401
+        self._last_action = 0.0
+        try:
+            import pyautogui                        # noqa: F401
             self._pyautogui = pyautogui
+            self._pyautogui.FAILSAFE = True         # safety: aller en coin HG stoppe tout
         except Exception:
             self._pyautogui = None
 
@@ -86,7 +102,7 @@ class GUITool:
         if self._pyautogui is None:
             return False
         try:
-            self._pyautogui.size()              # échoue si pas de display
+            self._pyautogui.size()
             return True
         except Exception:
             return False
@@ -96,27 +112,66 @@ class GUITool:
             return f"[GUI indisponible : {action} nécessite pyautogui + un display]"
         return "ok"
 
+    def _rate_limit(self):
+        """Délai minimum entre actions (anti-spam/automatisation trop rapide)."""
+        now = time.monotonic()
+        wait = self.min_delay - (now - self._last_action)
+        if wait > 0:
+            time.sleep(wait)
+        self._last_action = time.monotonic()
+
+    def _validate_point(self, x: int, y: int) -> Optional[str]:
+        """Valide qu'un point est dans l'écran ET dans une région autorisée."""
+        if x is None or y is None:
+            return "coordonnées manquantes"
+        try:
+            sw, sh = self._pyautogui.size()
+        except Exception:
+            return "taille écran inaccessible"
+        if not (0 <= x < sw and 0 <= y < sh):
+            return f"({x},{y}) hors écran ({sw}x{sh})"
+        if self.allowed_regions is not None:
+            if not any(x0 <= x < x1 and y0 <= y < y1 for (x0, y0, x1, y1) in self.allowed_regions):
+                return f"({x},{y}) hors région autorisée"
+        return None
+
     def move_to(self, x: int, y: int):
         if not self.available:
             return self._guarded("move_to")
-        self._pyautogui.moveTo(x, y)
+        err = self._validate_point(x, y)
+        if err:
+            return f"[refusé : {err}]"
+        self._rate_limit()
+        self._pyautogui.moveTo(x, y, _pause=False)
         return f"moved ({x},{y})"
 
     def click(self, x: int = None, y: int = None):
         if not self.available:
             return self._guarded("click")
+        if x is not None:
+            err = self._validate_point(x, y)
+            if err:
+                return f"[refusé : {err}]"
+        self._rate_limit()
         self._pyautogui.click(x, y) if x is not None else self._pyautogui.click()
         return f"clicked ({x},{y})"
 
     def type_text(self, text: str):
         if not self.available:
             return self._guarded("type_text")
-        self._pyautogui.typewrite(text)
+        if len(text) > self._MAX_TEXT:
+            return f"[refusé : texte trop long (>{self._MAX_TEXT} chars)]"
+        if not self._SAFE_TEXT.match(text):         # anti-injection clavier
+            return "[refusé : caractères non autorisés à la frappe]"
+        self._rate_limit()
+        self._pyautogui.typewrite(text, interval=0.02)
         return f"typed {len(text)} chars"
 
     def screenshot(self):
         if not self.available:
             return self._guarded("screenshot")
+        self._rate_limit()
         return self._pyautogui.screenshot()
+
 
 
