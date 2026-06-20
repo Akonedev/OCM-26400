@@ -27,6 +27,7 @@ from .diff_decode import decode_gumbel, l_step_diff, acsp_loss_diff, train_with_
 from .spectral_core import SpectralCoreBlock
 from .product_key_vocab import ProductKeyVocab
 from .tool_policy import ToolPolicy, TaskEncoder, ToolUsingAgent
+from .generators import AMVConditionedDecoder
 
 __all__ = [
     "info_nce",
@@ -71,5 +72,6 @@ __all__ = [
     "SpectralCoreBlock",
     "ProductKeyVocab",
     "ToolPolicy",
+    "AMVConditionedDecoder",
 ]
 
