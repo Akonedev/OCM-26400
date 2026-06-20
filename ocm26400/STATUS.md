@@ -28,6 +28,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Agent cognitif (intégration)** | cycle retrieve->raisonner->vérifier->apprendre, mémoire auto, accuracy 100% | `cognitive_agent.py` | 6 |
 | **Vocabulaire compositionnel scalable** | mots=compositions de morphèmes, P^L adressables (160K@L4), retrieval 100%@5000 | `compositional_vocab.py` (+decode_word génération) | 8 |
 | **Sommeil / consolidation** | épisodique->sémantique (extraction règle), compression x27, généralise aux 121 paires | `sleep.py` | 6 |
+| **Domaine math multi-op (§2)** | 1 block op-aware 3 ops (ADD/OP_A/OP_B), 100% non vus, règle extraite/op | `experiment_math.py` | démontrée |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 
