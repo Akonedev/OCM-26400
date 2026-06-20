@@ -14,6 +14,7 @@ from .sleep import extract_rule, consolidate
 from .real_linguistic import RealViewEncoder, load_real_words, MODALITIES as LING_MODALITIES
 from .multimodal_encoders import AudioEncoder, ImageEncoder
 from .tools import LearningAgent, StaticTool, Tool
+from .self_correction import self_correct, self_improve, self_consistency_confidence
 
 __all__ = [
     "info_nce",
@@ -37,5 +38,7 @@ __all__ = [
     "ImageEncoder",
     "LearningAgent",
     "StaticTool",
+    "self_correct",
+    "self_improve",
 ]
 

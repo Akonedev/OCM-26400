@@ -1,0 +1,24 @@
+{
+  "task": "auto-correction / auto-am\u00e9lioration (self-consistency)",
+  "n_facts": 121,
+  "frac_wrong_injected": 0.3,
+  "acc_before": 0.7934,
+  "first_pass": {
+    "corrected": 25,
+    "acc_after": 1.0
+  },
+  "improvement_curve": [
+    {
+      "corrected": 39,
+      "acc_after": 1.0
+    },
+    {
+      "corrected": 0,
+      "acc_after": 1.0
+    }
+  ],
+  "mean_self_consistency": 0.5455,
+  "final_acc": 1.0,
+  "verdict": "VALID\u00c9",
+  "duration_s": 14.4
+}
