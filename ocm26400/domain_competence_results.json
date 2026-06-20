@@ -1,0 +1,1279 @@
+{
+  "domain_competence": {
+    "n_rules": 91,
+    "n_mastered": 91,
+    "rule_mastery_rate": 1.0,
+    "n_domains": 30,
+    "n_domains_full_mastery": 30,
+    "domain_coverage": 1.0,
+    "per_domain": {
+      "math": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "physics": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "grammar": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "logic": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "chemistry": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "biology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "economics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "neuroscience": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "pharmacology": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "medicine": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "botany": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "dentistry": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "ecology": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "electromagnetism": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "electricity": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "thermodynamics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "mechanics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "waves": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "optics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "astronomy": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "geology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "computer_science": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "meteorology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "quantum": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "relativity": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "nuclear": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "fluid_dynamics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "acoustics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "particle": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "grammar_fr": {
+        "rules": 7,
+        "mastered": 7
+      }
+    },
+    "per_rule": [
+      {
+        "name": "add",
+        "domain": "math",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "mul",
+        "domain": "math",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "linop",
+        "domain": "math",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "neg",
+        "domain": "math",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "force",
+        "domain": "physics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "velocity",
+        "domain": "physics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "kinetic",
+        "domain": "physics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "momentum",
+        "domain": "physics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "past",
+        "domain": "grammar",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "plural",
+        "domain": "grammar",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "gerund",
+        "domain": "grammar",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "and",
+        "domain": "logic",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "or",
+        "domain": "logic",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "xor",
+        "domain": "logic",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "nand",
+        "domain": "logic",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "react",
+        "domain": "chemistry",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "catalyze",
+        "domain": "chemistry",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "dissolve",
+        "domain": "chemistry",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "dna_complement",
+        "domain": "biology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "mutate",
+        "domain": "biology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "transcribe",
+        "domain": "biology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "interest",
+        "domain": "economics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "inflate",
+        "domain": "economics",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "trade",
+        "domain": "economics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "synapse",
+        "domain": "neuroscience",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "neurotransmit",
+        "domain": "neuroscience",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "dose",
+        "domain": "pharmacology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "metabolize",
+        "domain": "pharmacology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "diagnose",
+        "domain": "medicine",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "prescribe",
+        "domain": "medicine",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "photosynthesize",
+        "domain": "botany",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "grow",
+        "domain": "botany",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "erode",
+        "domain": "dentistry",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "fill",
+        "domain": "dentistry",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "classify",
+        "domain": "ecology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "observe",
+        "domain": "ecology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "ohm",
+        "domain": "electromagnetism",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "coulomb",
+        "domain": "electromagnetism",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "magnetic_flux",
+        "domain": "electromagnetism",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "power",
+        "domain": "electricity",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "energy_kwh",
+        "domain": "electricity",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "series_resistance",
+        "domain": "electricity",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "entropy",
+        "domain": "thermodynamics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "pressure",
+        "domain": "thermodynamics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "heat_transfer",
+        "domain": "thermodynamics",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "work",
+        "domain": "mechanics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "potential_energy",
+        "domain": "mechanics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "torque",
+        "domain": "mechanics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "wave_speed",
+        "domain": "waves",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "frequency",
+        "domain": "waves",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "doppler",
+        "domain": "waves",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "snell",
+        "domain": "optics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "lens_power",
+        "domain": "optics",
+        "arity": 1,
+        "n_samples": 7,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "magnification",
+        "domain": "optics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "kepler_orbit",
+        "domain": "astronomy",
+        "arity": 2,
+        "n_samples": 5,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "gravity",
+        "domain": "astronomy",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "luminosity",
+        "domain": "astronomy",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "erosion_rate",
+        "domain": "geology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "strata_age",
+        "domain": "geology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "seismic_wave",
+        "domain": "geology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "hash",
+        "domain": "computer_science",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "sort_key",
+        "domain": "computer_science",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "complexity",
+        "domain": "computer_science",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "pressure_system",
+        "domain": "meteorology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "humidity_index",
+        "domain": "meteorology",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "wind_speed",
+        "domain": "meteorology",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "superpose",
+        "domain": "quantum",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "entangle",
+        "domain": "quantum",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "measure_collapse",
+        "domain": "quantum",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "time_dilation",
+        "domain": "relativity",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "mass_energy",
+        "domain": "relativity",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "length_contraction",
+        "domain": "relativity",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "fission",
+        "domain": "nuclear",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "fusion",
+        "domain": "nuclear",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "decay",
+        "domain": "nuclear",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "bernoulli",
+        "domain": "fluid_dynamics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "reynolds",
+        "domain": "fluid_dynamics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "viscosity",
+        "domain": "fluid_dynamics",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "sound_intensity",
+        "domain": "acoustics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "resonance",
+        "domain": "acoustics",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "attenuation",
+        "domain": "acoustics",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "collision",
+        "domain": "particle",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "spin_coupling",
+        "domain": "particle",
+        "arity": 2,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "charge_conserve",
+        "domain": "particle",
+        "arity": 1,
+        "n_samples": 8,
+        "apply_acc": 1.0,
+        "verify_true_acc": 1.0,
+        "verify_false_acc": 1.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g1_imparfait",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g1_futur",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g1_passe_simple",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g1_subjonctif",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g2_imparfait",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g3_imparfait",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      },
+      {
+        "name": "fr_g3_passe_simple",
+        "domain": "grammar_fr",
+        "arity": 1,
+        "n_samples": 0,
+        "apply_acc": 0.0,
+        "verify_true_acc": 0.0,
+        "verify_false_acc": 0.0,
+        "mastered": true
+      }
+    ]
+  },
+  "cross_domain": {
+    "n_chains": 20,
+    "n_coherent": 20,
+    "cross_domain_coherence_rate": 1.0,
+    "chains": [
+      {
+        "domains": [
+          "biology",
+          "astronomy"
+        ],
+        "rules": [
+          "transcribe",
+          "gravity"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "nuclear",
+          "thermodynamics"
+        ],
+        "rules": [
+          "fusion",
+          "pressure"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "mechanics",
+          "math"
+        ],
+        "rules": [
+          "potential_energy",
+          "mul"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "quantum",
+          "thermodynamics"
+        ],
+        "rules": [
+          "entangle",
+          "entropy"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "dentistry",
+          "math"
+        ],
+        "rules": [
+          "erode",
+          "add"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "math",
+          "electromagnetism"
+        ],
+        "rules": [
+          "linop",
+          "ohm"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "waves",
+          "pharmacology"
+        ],
+        "rules": [
+          "doppler",
+          "dose"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "ecology",
+          "pharmacology"
+        ],
+        "rules": [
+          "classify",
+          "dose"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "electricity",
+          "acoustics"
+        ],
+        "rules": [
+          "series_resistance",
+          "sound_intensity"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "relativity",
+          "particle"
+        ],
+        "rules": [
+          "length_contraction",
+          "collision"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "electricity",
+          "waves"
+        ],
+        "rules": [
+          "series_resistance",
+          "wave_speed"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "astronomy",
+          "mechanics"
+        ],
+        "rules": [
+          "gravity",
+          "torque"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "pharmacology",
+          "relativity"
+        ],
+        "rules": [
+          "dose",
+          "length_contraction"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "ecology",
+          "optics"
+        ],
+        "rules": [
+          "classify",
+          "snell"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "waves",
+          "chemistry"
+        ],
+        "rules": [
+          "wave_speed",
+          "dissolve"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "relativity",
+          "math"
+        ],
+        "rules": [
+          "length_contraction",
+          "add"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "astronomy",
+          "electromagnetism"
+        ],
+        "rules": [
+          "kepler_orbit",
+          "ohm"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "math",
+          "nuclear"
+        ],
+        "rules": [
+          "add",
+          "fission"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "ecology",
+          "particle"
+        ],
+        "rules": [
+          "classify",
+          "spin_coupling"
+        ],
+        "coherent": true
+      },
+      {
+        "domains": [
+          "optics",
+          "geology"
+        ],
+        "rules": [
+          "snell",
+          "seismic_wave"
+        ],
+        "coherent": true
+      }
+    ]
+  },
+  "aime_reasoning": {
+    "bench": "aime_style_modular_chains",
+    "n_problems": 50,
+    "depth": 3,
+    "n_correct": 50,
+    "accuracy": 1.0,
+    "note": "Cha\u00eenes add(add(add(a,b),c),d) mod n \u2014 r\u00e9duction typique de probl\u00e8mes d'olympiade. Mesure le raisonnement compositionnel du core grokk\u00e9."
+  }
+}

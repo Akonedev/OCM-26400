@@ -1,0 +1,695 @@
+{
+  "agentic": {
+    "bench": "agentic_orchestration (Tool-Decathlon/MCP-Atlas style)",
+    "n_tasks": 12,
+    "n_solved": 11,
+    "accuracy": 0.9166666666666666,
+    "n_tools_available": 2,
+    "details": [
+      {
+        "id": "agt_0",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_1",
+        "desc": "shell calcul arithm\u00e9tique",
+        "solved": false,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_2",
+        "desc": "shell listage r\u00e9pertoire",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_3",
+        "desc": "web fetch HTTP r\u00e9el",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_4",
+        "desc": "cha\u00eene 2 outils (echo puis ls)",
+        "solved": true,
+        "n_tools": 2
+      },
+      {
+        "id": "agt_5",
+        "desc": "shell date syst\u00e8me",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_6",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_7",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_8",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_9",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_10",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      },
+      {
+        "id": "agt_11",
+        "desc": "shell echo + check sortie",
+        "solved": true,
+        "n_tools": 1
+      }
+    ]
+  },
+  "reasoning": {
+    "bench": "reasoning (AIME/HMMT-style modular chains)",
+    "n_problems": 60,
+    "n_correct": 60,
+    "accuracy": 1.0,
+    "avg_depth": 3.033333333333333,
+    "details": [
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 3,
+        "n_terms": 4,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 2,
+        "n_terms": 3,
+        "correct": true
+      },
+      {
+        "depth": 4,
+        "n_terms": 5,
+        "correct": true
+      }
+    ]
+  },
+  "qcm": {
+    "bench": "qcm (GPQA-Diamond/HLE-style, multi-domain + abstention)",
+    "n_questions": 40,
+    "n_correct": 34,
+    "n_abstained": 5,
+    "accuracy": 0.9714285714285714,
+    "coverage": 0.875,
+    "details": [
+      {
+        "domain": "thermodynamics",
+        "rule": "pressure",
+        "abstained": true,
+        "correct": false
+      },
+      {
+        "domain": "botany",
+        "rule": "photosynthesize",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "acoustics",
+        "rule": "attenuation",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "chemistry",
+        "rule": "dissolve",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "optics",
+        "rule": "magnification",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "particle",
+        "rule": "collision",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "quantum",
+        "rule": "entangle",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "math",
+        "rule": "add",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "chemistry",
+        "rule": "dissolve",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "biology",
+        "rule": "transcribe",
+        "abstained": true,
+        "correct": false
+      },
+      {
+        "domain": "logic",
+        "rule": "xor",
+        "abstained": true,
+        "correct": false
+      },
+      {
+        "domain": "astronomy",
+        "rule": "gravity",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "logic",
+        "rule": "or",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "electricity",
+        "rule": "power",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "acoustics",
+        "rule": "sound_intensity",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "biology",
+        "rule": "transcribe",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "logic",
+        "rule": "or",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "mechanics",
+        "rule": "potential_energy",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "physics",
+        "rule": "velocity",
+        "abstained": true,
+        "correct": false
+      },
+      {
+        "domain": "mechanics",
+        "rule": "potential_energy",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "physics",
+        "rule": "kinetic",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "physics",
+        "rule": "kinetic",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "geology",
+        "rule": "seismic_wave",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "ecology",
+        "rule": "classify",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "nuclear",
+        "rule": "fission",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "particle",
+        "rule": "collision",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "waves",
+        "rule": "doppler",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "geology",
+        "rule": "erosion_rate",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "chemistry",
+        "rule": "dissolve",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "computer_science",
+        "rule": "complexity",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "optics",
+        "rule": "snell",
+        "abstained": true,
+        "correct": false
+      },
+      {
+        "domain": "relativity",
+        "rule": "time_dilation",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "biology",
+        "rule": "transcribe",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "quantum",
+        "rule": "entangle",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "biology",
+        "rule": "transcribe",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "quantum",
+        "rule": "superpose",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "acoustics",
+        "rule": "attenuation",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "chemistry",
+        "rule": "dissolve",
+        "abstained": false,
+        "correct": true
+      },
+      {
+        "domain": "astronomy",
+        "rule": "kepler_orbit",
+        "abstained": false,
+        "correct": true
+      }
+    ]
+  },
+  "terminal": {
+    "bench": "terminal (Terminal-Bench-style, ShellTool R\u00c9EL)",
+    "n_tasks": 10,
+    "n_solved": 10,
+    "accuracy": 1.0,
+    "details": [
+      {
+        "id": "term_0",
+        "cmd": "echo hello",
+        "solved": true
+      },
+      {
+        "id": "term_1",
+        "cmd": "expr 3 + 4",
+        "solved": true
+      },
+      {
+        "id": "term_2",
+        "cmd": "expr 6 \\* 7",
+        "solved": true
+      },
+      {
+        "id": "term_3",
+        "cmd": "echo abc | head -1",
+        "solved": true
+      },
+      {
+        "id": "term_4",
+        "cmd": "printf line",
+        "solved": true
+      },
+      {
+        "id": "term_5",
+        "cmd": "echo test123",
+        "solved": true
+      },
+      {
+        "id": "term_6",
+        "cmd": "expr 10 - 3",
+        "solved": true
+      },
+      {
+        "id": "term_7",
+        "cmd": "echo done",
+        "solved": true
+      },
+      {
+        "id": "term_8",
+        "cmd": "expr 2 \\* 2 \\* 2",
+        "solved": true
+      },
+      {
+        "id": "term_9",
+        "cmd": "echo ocm26400",
+        "solved": true
+      }
+    ]
+  },
+  "BENCH_LEVEL": 94.9
+}

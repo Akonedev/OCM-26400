@@ -34,6 +34,17 @@ from .agent_swarm import SwarmAgent, SwarmOrchestrator, SwarmConfig, AgentMemory
 from .meta_controller import MetaController
 from .curriculum import Curriculum
 from .phrase import PhraseComposer, phrase_similarity
+from .mcp_adapter import McpAdapter, McpTool, default_adapter, adapter_security_audit
+from .train import run_pipeline, stage0_build
+from .domain_trainer import evaluate_all_domains, cross_domain_chains, reasoning_bench_aime
+from .bench_runner import (
+    bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
+)
+from .eval_harness import (
+    BenchmarkItem, ItemResult, EvalReport, BenchmarkRunner,
+    compare_to_baselines, random_baseline, total_abstention,
+    load_jsonl, synthetic_aime_demo,
+)
 
 __all__ = [
     "info_nce",
@@ -88,5 +99,13 @@ __all__ = [
     "MetaController",
     "Curriculum",
     "PhraseComposer",
+    "McpAdapter",
+    "McpTool",
+    "default_adapter",
+    "adapter_security_audit",
+    "BenchmarkItem",
+    "EvalReport",
+    "BenchmarkRunner",
+    "compare_to_baselines",
 ]
 
