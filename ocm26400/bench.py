@@ -67,6 +67,10 @@ def level(results: Dict[str, dict], packing: List[Tuple[int, float, float]]) -> 
     composition = (cj.get("gap_points", 0) + ling.get("gap_points", 0)) / 2.0 * 100
     generalization = cap.get("compositional_generation_unseen", {}).get("depth_8", 0) * 100
     scale_addr = comp_v.get("addressable_space", 0)
+    # si le vocabulaire 1M+ (flexions) existe, utiliser sa vraie taille
+    vocab_1m = results.get("vocab_1m_results.json", {})
+    if vocab_1m.get("inflected_forms", 0) > scale_addr:
+        scale_addr = vocab_1m["inflected_forms"]
     packing_worst = min(nn for _, _, nn in packing) if packing else 1.0
 
     # nouvelles métriques : couverture des règles + skills + prompts
