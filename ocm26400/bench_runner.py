@@ -245,11 +245,48 @@ def run_all_benchmarks() -> Dict[str, Any]:
     level = (rea["accuracy"] * 0.35 + agt["accuracy"] * 0.25 +
              term["accuracy"] * 0.20 + qcm["accuracy"] * qcm["coverage"] * 0.20) * 100
     report["BENCH_LEVEL"] = round(level, 1)
+
+    # HONNÊTE (audit) : le BENCH_LEVEL ci-dessus mesure l'INTÉGRITÉ du pipeline
+    # (apply+verify sur tâches isomorphes), PAS la compétence NEURALE. On ajoute le
+    # score NEURAL-VÉRIFIÉ (crown-jewel, non-tautologique : le core entraîné prédit
+    # sur hold-out) depuis neural_multihop_results.json — c'est la vraie compétence.
+    report["neural_verified"] = _neural_verified_report()
+    report["honesty_note"] = (
+        "BENCH_LEVEL = intégrité pipeline (tâches isomorphes). "
+        "neural_verified = compétence NEURALE réelle (core entraîné, hold-out, "
+        "non-tautologique). Voir neural_multihop_results.json.")
     out = os.path.join(HERE, "bench_runner_results.json")
     with open(out, "w") as f:
         json.dump(report, f, indent=2, default=str)
-    print(f"[bench_runner] BENCH_LEVEL = {report['BENCH_LEVEL']}/100 → {out}")
+    print(f"[bench_runner] BENCH_LEVEL = {report['BENCH_LEVEL']}/100 (pipeline) | "
+          f"neural_verified hold-out = {report['neural_verified'].get('holdout_acc', 0)*100:.1f}% "
+          f"(compétence réelle) → {out}")
     return report
+
+
+def _neural_verified_report() -> Dict[str, Any]:
+    """Lit neural_multihop_results.json → compétence NEURALE non-tautologique.
+    C'est le score HONNÊTE : le core entraîné prédit compose(a,b) sur hold-out
+    (poids vs ground-truth, jamais apply==apply)."""
+    path = os.path.join(HERE, "neural_multihop_results.json")
+    if not os.path.exists(path):
+        return {"available": False, "note": "lancer python3 -m ocm26400.neural_multihop"}
+    with open(path) as f:
+        d = json.load(f)
+    holdout = d.get("holdout", [])
+    multihop = d.get("multihop", [])
+    ho_acc = sum(h["neural_holdout_acc"] for h in holdout) / max(len(holdout), 1)
+    mh_acc = sum(m["neural_multihop_acc"] for m in multihop) / max(len(multihop), 1)
+    return {
+        "available": True,
+        "verdict": d.get("verdict"),
+        "procedure": (holdout[0].get("procedure", "") if holdout else ""),
+        "holdout_acc": ho_acc,          # comp réelle (core sur données non vues)
+        "multihop_acc": mh_acc,         # composition profonde
+        "tautological": False,          # explicite
+        "note": ("core NEURAL entraîné (train_binary_block, procédure §2) prédit "
+                 "compose(a,b) sur hold-out + chaînes depth 3. NON-tautologique."),
+    }
 
 
 if __name__ == "__main__":
