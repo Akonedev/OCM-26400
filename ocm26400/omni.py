@@ -27,6 +27,7 @@ from .amv import D_MODEL
 from .reasoner import ReasonerBlock
 from .spectral_core import SpectralCoreBlock
 from .multimodal_encoders import AudioEncoder, ImageEncoder
+from .generators import AMVConditionedDecoder
 
 
 class OmniModel(nn.Module):
@@ -50,9 +51,9 @@ class OmniModel(nn.Module):
         # ---- têtes de sortie : classification ----
         self.audio_cls = nn.Linear(d_model, n_audio_classes)
         self.image_cls = nn.Linear(d_model, n_image_classes)
-        # ---- têtes de sortie : GÉNÉRATION (décoder un signal depuis l'AMV) ----
-        self.audio_dec = nn.Linear(d_model, audio_feat)        # AMV -> features audio
-        self.image_dec = nn.Linear(d_model, img_side * img_side)  # AMV -> pixels
+        # ---- têtes de sortie : GÉNÉRATION FLOW-MATCHING (vraie génération de signal) ----
+        self.audio_dec = AMVConditionedDecoder(x_dim=audio_feat, cond_dim=d_model)
+        self.image_dec = AMVConditionedDecoder(x_dim=img_side * img_side, cond_dim=d_model)
         # ---- conditionnement par label (génération class-conditionnée) ----
         self.audio_label_emb = nn.Embedding(n_audio_classes, d_model)
         self.image_label_emb = nn.Embedding(n_image_classes, d_model)
@@ -67,26 +68,32 @@ class OmniModel(nn.Module):
         amv = self.encode(modality, x)
         return (self.audio_cls if modality == "audio" else self.image_cls)(amv)
 
-    # --- GÉNÉRATION conditionnée (label -> AMV -> signal reconstruit) ---
-    def generate(self, modality: str, label: torch.Tensor) -> torch.Tensor:
-        amv = self.core(self.audio_label_emb(label) if modality == "audio"
-                        else self.image_label_emb(label))
-        return self.audio_dec(amv) if modality == "audio" else self.image_dec(amv)
+    # --- AMV de conditionnement pour la génération (label -> core -> AMV) ---
+    def gen_amv(self, modality: str, label: torch.Tensor) -> torch.Tensor:
+        return self.core(self.audio_label_emb(label) if modality == "audio"
+                         else self.image_label_emb(label))
+
+    # --- GÉNÉRATION flow-matching (label -> AMV -> signal généré) ---
+    def generate(self, modality: str, label: torch.Tensor, steps: int = 8) -> torch.Tensor:
+        amv = self.gen_amv(modality, label)
+        dec = self.audio_dec if modality == "audio" else self.image_dec
+        return dec.sample(amv, steps=steps)
 
 
 def joint_loss(model: OmniModel, batch: Dict) -> Dict:
-    """Loss multi-tâche (paradigme complet) : classifier + reconstruire (générer).
+    """Loss multi-tâche : classifier + GÉNÉRER (flow matching).
 
-    batch = {modality: {"x":..., "y":..., "feat":...}}. Pour chaque modalité on ajoute :
-      L_cls(classify(x), y) + L_gen(generate(y), feat_de_x)   # apprend à reconnaître ET générer.
+    batch = {modality: {"x":..., "y":..., "feat":...}}. Pour chaque modalité :
+      L_cls(classify(x), y) + L_gen = flow_match_loss(gen_amv(y), feat).
     """
     import torch.nn.functional as F
     total, parts = 0.0, {}
     for mod, d in batch.items():
         cls_logits = model.classify(mod, d["x"])
         l_cls = F.cross_entropy(cls_logits, d["y"])
-        gen = model.generate(mod, d["y"])                      # génère l'échantillon de sa classe
-        l_gen = F.mse_loss(gen, d["feat"])                     # vs features réelles
+        amv = model.gen_amv(mod, d["y"])
+        dec = model.audio_dec if mod == "audio" else model.image_dec
+        l_gen = dec.flow_match_loss(amv, d["feat"])           # vraie génération (flow matching)
         total = total + l_cls + l_gen
         parts[f"{mod}_cls"] = float(l_cls.detach())
         parts[f"{mod}_gen"] = float(l_gen.detach())

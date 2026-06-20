@@ -61,7 +61,7 @@ def test_joint_loss_differentiable_across_modalities():
     # noyau partagé + têtes classif + têtes génération ont toutes reçu du gradient
     assert any(p.grad is not None and p.grad.abs().sum() > 0 for p in m.core.parameters())
     assert m.audio_cls.weight.grad is not None and m.image_cls.weight.grad is not None
-    assert m.audio_dec.weight.grad is not None and m.image_dec.weight.grad is not None
+    assert m.audio_dec.net[0].weight.grad is not None and m.image_dec.net[0].weight.grad is not None
     assert "audio_gen" in parts and "image_cls" in parts
 
 
