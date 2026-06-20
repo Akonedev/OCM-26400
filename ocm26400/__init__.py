@@ -30,6 +30,7 @@ from .tool_policy import ToolPolicy, TaskEncoder, ToolUsingAgent
 from .generators import AMVConditionedDecoder
 from .skills_system import ExpertSkill, SkillCreator, ExpertSkillRegistry, production_skills
 from .expert_agents import ExpertAgentWithSkills, EXPERT_PROMPTS, extended_production_skills
+from .agent_swarm import SwarmAgent, SwarmOrchestrator, SwarmConfig, AgentMemory
 
 __all__ = [
     "info_nce",
@@ -79,5 +80,7 @@ __all__ = [
     "ExpertSkillRegistry",
     "ExpertAgentWithSkills",
     "EXPERT_PROMPTS",
+    "SwarmAgent",
+    "SwarmOrchestrator",
 ]
 
