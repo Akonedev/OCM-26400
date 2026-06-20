@@ -68,6 +68,7 @@ from .calibration import brier_score, expected_calibration_error, confidence_sum
 from .continual_learning import EWCCallback, demo_ewc
 from .language_primitives import lemmatize_fr, lemmatize_en, inflect_adjective
 from .linguistics import capture_all, phonemes, morphemes_of
+from .unified_capture import UnifiedCapture, ConceptCapture
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
