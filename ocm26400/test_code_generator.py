@@ -58,3 +58,17 @@ def test_code_is_runnable_python():
     for spec in ALGO_TEMPLATES:
         code = generate(spec)
         compile(code, f"<{spec}>", "exec")   # lève SyntaxError si invalide
+
+
+def test_arbitrary_code_rejected_without_execution():
+    """SÉCURITÉ : verify_code refuse le code non-template SANS l'exécuter."""
+    malicious = "def f():\n    return __import__('os').system('echo pwned')\n"
+    # retourne False (rejeté) sans exécuter l'import malveillant
+    assert verify_code(malicious, [((), None)]) is False
+
+
+def test_generate_and_verify_only_trusted():
+    """generate_and_verify n'exécute que du code template de confiance."""
+    code, passed, results = generate_and_verify("gcd")
+    assert code in __import__("ocm26400").code_generator.ALGO_TEMPLATES.values()
+    assert passed is True

@@ -121,8 +121,16 @@ def generate(spec: str) -> str:
 def verify_code(code: str, test_cases: List[Tuple[tuple, Any]],
                 fn_name: str = None) -> bool:
     """Exécute le code et vérifie qu'il passe tous les cas de test.
-    Namespace isolé, sans builtins dangereux. True ssi tous les tests passent."""
+
+    ⚠️ SÉCURITÉ : n'exécute QUE du code template de confiance (assertion d'appartenance
+    à ALGO_TEMPLATES). Aucun code arbitraire n'est accepté — refuse (False) tout code
+    inconnu sans l'exécuter. Namespace restreint (pas d'open/import/exec/eval).
+    True ssi le code est un template de confiance ET passe tous les tests."""
     if not test_cases:
+        return False
+    # GARDE-FOU SÉCURITÉ : seul le code template de confiance (hardcodé) est exécuté.
+    # Rejette tout code inconnu (anti-exécution arbitraire) sans l'exec.
+    if code not in ALGO_TEMPLATES.values():
         return False
     # déduire le nom de fonction (1er def)
     if fn_name is None:
@@ -138,7 +146,7 @@ def verify_code(code: str, test_cases: List[Tuple[tuple, Any]],
         "True": True, "False": False, "None": None,
     }}
     try:
-        exec(code, safe_ns)            # exécute la def (définit la fn)
+        exec(code, safe_ns)            # code DE CONFIANCE uniquement (garde-fou ci-dessus)
         fn = safe_ns.get(fn_name)
         if not callable(fn):
             return False

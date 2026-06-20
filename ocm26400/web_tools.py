@@ -50,8 +50,10 @@ def _validate_url_safe(url: str) -> str:
         ip = ipaddress.ip_address(hostname)
         if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved:
             raise ValueError(f"IP privée bloquée (SSRF): {hostname}")
-    except ipaddress.AddressValueError:
-        pass  # hostname DNS (pas une IP), OK
+    except ValueError:
+        # hostname DNS (pas une IP littérale) → OK. ip_address lève ValueError
+        # (pas AddressValueError) sur un nom comme 'example.com', il faut l'attraper.
+        pass
     return url
 
 
