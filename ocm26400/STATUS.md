@@ -258,6 +258,40 @@ Le modèle entraîné + outils RÉELS exécutés sur tâches isomorphes aux benc
 - **647 tests verts** (+11 ce sprint : 6 domain_trainer + 5 bench_runner). 0 régression.
 - Nouveaux : `domain_trainer.py`, `bench_runner.py`, `train.py` (orchestrateur) + 3 fichiers de tests.
 
+---
+
+## SPRINT DENSIFICATION AUDIT-DRIVEN + PROCÉDURE CANONIQUE (20/06)
+
+Réponse à l'audit (`AUDIT_GAPS_DENSIFICATION.md`) + directive utilisateur
+« suivre les procédures de pretraining/training sinon ça ne marchera pas ».
+
+### Procédure canonique CONFORME (PROCEDURES.md §2)
+- `train.py` stage1 + `neural_multihop.py` : **`train_binary_block`** (loss 1−cos, Adam 3e-3,
+  seed 0) au lieu de `train_with_acsp` → **grok_acc=1.00 dès 200 steps** (vs 0.9545).
+  La procédure de l'utilisateur marche.
+
+### Crown-jewel NEURAL non-tautologique (audit C1/C2/C10) — `neural_multihop.py`
+L'audit avait flaggé que les benchmarks AIME/domaine étaient TAUTOLOGIQUES (apply==apply).
+Le core NEURAL (poids entraînés via procédure §2) prédit maintenant sur HOLD-OUT :
+| Opérateur | hold-out (POIDS vs GT) | multi-hop depth 3 |
+|---|---|---|
+| add | 97.3% (36/37) | 84.0% (42/50) |
+| mul | **100%** (37/37) | **100%** (50/50) |
+| linop | 97.3% (36/37) | 88.0% (44/50) |
+**verdict = NEURAL_COMPETENCE_PROVEN** (non-tautologique). → `neural_multihop_results.json`.
+
+### Capacités ajoutées (audit top-15)
+| Fichier | Gap audit | Contenu |
+|---|---|---|
+| `symbolic_math.py` | C3 (math réelles) | 10 règles algebra/calculus/number_theory (poly, deriv, gcd, factorize, modexp, quad_roots). Domaines 30→33. |
+| `document_learner.py` | C7/C8/H10 | cycle PDF/URL→chunk→KB→retrieval+citations, abstention double-critère (seuil+marge). |
+| `morphology_fr.py` | C4 | conjugaison FR complète : 3 groupes × 6 temps × 6 personnes + 12 irréguliers. 24 règles, généralise à tout -er. |
+| `equation_solver.py` | M17 | solveur SymPy : solve_linear/equation/system, derivative, integrate, simplify, factor. Math RÉELLE pour olympiades. |
+
+### Comptes
+- **693 tests verts** (+46 ce sous-sprint : symbolic 12 + document 6 + neural_multihop 6 + FR 12 + SymPy 9 + 1_extend). 0 régression.
+- Domaines : **33** (30 base + algebra/calculus/number_theory). Domaine étendu : **101 règles**.
+
 ### Cadre honnête vs frontières
 OCM (675K params) ne prétend PAS battre Claude/GPT-4 (100B+) en absolu sur datasets To.
 Mais le paradigme compositionnel donne une **compétence vérifiable mesurée à 94.9/100**
