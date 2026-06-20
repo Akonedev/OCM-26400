@@ -10,6 +10,7 @@ from .morphology import MorphologyVerifier, CONJUGATE_PAST, CONJUGATE_GERUND, CO
 from .knowledge_base import KnowledgeBase
 from .cognitive_agent import CognitiveAgent
 from .compositional_vocab import CompositionalVocabulary
+from .sleep import extract_rule, consolidate
 
 __all__ = [
     "info_nce",
@@ -25,5 +26,7 @@ __all__ = [
     "KnowledgeBase",
     "CognitiveAgent",
     "CompositionalVocabulary",
+    "extract_rule",
+    "consolidate",
 ]
 

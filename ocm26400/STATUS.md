@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 95 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 101 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **95 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **101 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -27,6 +27,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Base de connaissance (retrieval+abstention)** | KnowledgeBase sur LearnedVocab, retrieval cosinus, 'je ne sais pas'->apprentissage | `knowledge_base.py` | 6 |
 | **Agent cognitif (intégration)** | cycle retrieve->raisonner->vérifier->apprendre, mémoire auto, accuracy 100% | `cognitive_agent.py` | 6 |
 | **Vocabulaire compositionnel scalable** | mots=compositions de morphèmes, P^L adressables (160K@L4), retrieval 100%@5000 | `compositional_vocab.py` (+decode_word génération) | 8 |
+| **Sommeil / consolidation** | épisodique->sémantique (extraction règle), compression x27, généralise aux 121 paires | `sleep.py` | 6 |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 

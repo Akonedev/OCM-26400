@@ -1,0 +1,13 @@
+{
+  "task": "sommeil / consolidation (spec 'phases de sommeil')",
+  "episodic_facts_learned": 27,
+  "rule_extracted": [
+    3,
+    5
+  ],
+  "compression_ratio": 27,
+  "generalizes_to_all_pairs": true,
+  "consistent_with_learned": true,
+  "verdict": "VALID\u00c9",
+  "duration_s": 14.4
+}
