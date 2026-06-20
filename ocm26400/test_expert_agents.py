@@ -43,8 +43,9 @@ def test_extended_skills_cover_user_repos():
     assert len(reg.names()) >= 8          # 4 de base + 4+ étendus
 
 
-def test_expert_agent_handles_missing_skill():
-    """Skill manquant -> erreur gérée (pas crash)."""
+def test_expert_agent_creates_skill_when_missing():
+    """Skill manquant -> le modèle en CRÉE un nouveau (adaptatif, pas erreur)."""
     agent = ExpertAgentWithSkills(domain="development")
-    result = agent.solve("task", skill_name="inexistant")
-    assert "error" in result
+    result = agent.solve("besoin_spécial", skill_name="inexistant")
+    assert "skill" in result and "result" in result    # skill créé (pas erreur)
+    assert "auto-créé" in result["result"]

@@ -66,6 +66,15 @@ def _grammar_rules() -> List[Rule]:
     ]
 
 
+def _logic_rules() -> List[Rule]:
+    return [
+        Rule("and", "logic", lambda a, b: a & b, 2, "AND logique"),
+        Rule("or", "logic", lambda a, b: a | b, 2, "OR logique"),
+        Rule("xor", "logic", lambda a, b: a ^ b, 2, "XOR logique"),
+        Rule("nand", "logic", lambda a, b: 1 - (a & b), 2, "NAND logique (universel)"),
+    ]
+
+
 @dataclass
 class RuleLibrary:
     """Bibliothèque de règles vérifiables multi-domaines (math/physique/grammaire)."""
@@ -74,7 +83,7 @@ class RuleLibrary:
     @classmethod
     def default(cls, n: int = 11) -> "RuleLibrary":
         lib = cls()
-        for r in _math_rules(n) + _physics_rules() + _grammar_rules():
+        for r in _math_rules(n) + _physics_rules() + _grammar_rules() + _logic_rules():
             lib.add(r)
         return lib
 

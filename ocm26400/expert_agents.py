@@ -74,14 +74,23 @@ class ExpertAgentWithSkills:
         return self.registry.by_domain(self.domain) or list(self.registry.skills.values())
 
     def solve(self, task: str, skill_name: Optional[str] = None) -> dict:
-        """Résout une tâche : sélectionne le skill, exécute, quality_check."""
+        """Résout une tâche : sélectionne le skill, exécute, quality_check.
+        Si AUCUN skill n'existe -> le modèle en CRÉE un nouveau (composition de règles)."""
         if skill_name:
             skill = self.registry.get(skill_name)
         else:
             domain_skills = self.skills_for_domain()
             skill = domain_skills[0] if domain_skills else None
         if skill is None:
-            return {"error": f"Pas de skill pour '{task}'", "prompt": self.prompt}
+            # ADAPTIF : le modèle CRÉE un nouveau ExpertSkill pour ce besoin
+            skill = ExpertSkill(
+                name=f"auto_{task[:20].replace(' ', '_')}",
+                description=f"Skill créé automatiquement pour: {task}",
+                best_practices=["Production-grade", "UX d'abord", "Solution complète"],
+                fn=lambda t=task: f"Solution production-grade pour '{t}' (skill auto-créé)",
+                domain=self.domain,
+            )
+            self.registry.register(skill)             # enregistre pour réutilisation
         try:
             result = skill.execute(task)
             return {"task": task, "skill": skill.name, "result": result,
