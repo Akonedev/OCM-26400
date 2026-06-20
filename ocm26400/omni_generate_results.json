@@ -1,0 +1,57 @@
+{
+  "task": "capstone : primitives+composition -> g\u00e9n\u00e9rer n'importe quoi",
+  "paradigm": "entra\u00eener sur la primitive + principe de composition (pas m\u00e9moriser)",
+  "primitive": "op(a,b)=(3a+5b) mod 11",
+  "compositional_generation_unseen": {
+    "depth_2": 1.0,
+    "depth_3": 1.0,
+    "depth_5": 1.0,
+    "depth_8": 1.0
+  },
+  "on_demand_generation": [
+    {
+      "chain": [
+        1,
+        2,
+        3
+      ],
+      "generated": 10,
+      "truth": 10,
+      "ok": true
+    },
+    {
+      "chain": [
+        7,
+        7,
+        7,
+        7
+      ],
+      "generated": 6,
+      "truth": 6,
+      "ok": true
+    },
+    {
+      "chain": [
+        10,
+        0,
+        5,
+        2,
+        8
+      ],
+      "generated": 5,
+      "truth": 5,
+      "ok": true
+    },
+    {
+      "chain": [
+        3,
+        3
+      ],
+      "generated": 2,
+      "truth": 2,
+      "ok": true
+    }
+  ],
+  "verdict": "VALID\u00c9",
+  "duration_s": 16.7
+}

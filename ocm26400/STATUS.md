@@ -43,6 +43,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Monde interactif + PNJ** | World+NPC (buts, routines, habitudes évolutives, interactions), continuation cohérente, contrôle user | `world.py` | 7 |
 | **Geospatial (cartes/globe/street/3D)** | Web Mercator réel, infos 12 domaines/lieu, globe 3D, street-view 3D procédural, navigation/recherche | `geo.py` | 7 |
 | **OmniModel UNIFIÉ (pas de wrapper)** | 1 modèle, noyau AMV partagé, têtes classif+génération, entraînement joint multi-modal | `omni.py` | 5 |
+| **Capstone : primitives->générer n'importe quoi** | 1 primitive grokkée -> génère op^k (prof 2-8) sur chaînes neuves 100%, à la demande | `experiment_omni_generate.py` | démontrée |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 
