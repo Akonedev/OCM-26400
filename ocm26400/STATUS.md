@@ -41,6 +41,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Orchestrateur multi-agents + MoE** | ExpertAgent+DevAdvocate+Judge+MoERouter, dispatch parallèle, quorum, 200 agents | `orchestrator.py` | 6 |
 | **Voix conversationnelle (VAD+STT/TTS/STS)** | VAD réel (énergie RMS, fin de tour), interfaces STT/TTS/STS, turn-taking | `voice.py` | 7 |
 | **Monde interactif + PNJ** | World+NPC (buts, routines, habitudes évolutives, interactions), continuation cohérente, contrôle user | `world.py` | 7 |
+| **Geospatial (cartes/globe/street/3D)** | Web Mercator réel, infos 12 domaines/lieu, globe 3D, street-view 3D procédural, navigation/recherche | `geo.py` | 7 |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 
