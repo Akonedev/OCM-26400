@@ -39,6 +39,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Vocabulaire anglais 1M+ (flexions)** | 370K base + flexions réelles s/ed/ing = 1 000 196 formes (>1M spec), retrieval 100% | `experiment_vocab_1m.py` | démontrée |
 | **Audio/vidéo/3D entraînés RÉEL** | notes audio 100%, mouvements vidéo 100%, formes 3D voxel 100% (signaux réels/modalité) | `experiment_real_multimodal.py` | démontrée |
 | **Orchestrateur multi-agents + MoE** | ExpertAgent+DevAdvocate+Judge+MoERouter, dispatch parallèle, quorum, 200 agents | `orchestrator.py` | 6 |
+| **Voix conversationnelle (VAD+STT/TTS/STS)** | VAD réel (énergie RMS, fin de tour), interfaces STT/TTS/STS, turn-taking | `voice.py` | 7 |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 
