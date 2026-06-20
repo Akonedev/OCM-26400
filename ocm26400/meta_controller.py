@@ -53,15 +53,27 @@ class MetaController:
                  rule_library: RuleLibrary = None):
         self.registry = registry or extended_production_skills()
         self.router = router or MoERouter(domain_keywords={
-            "math": ["calcul", "nombre", "addition", " multiplier", "modulo"],
-            "physics": ["force", "énergie", "vitesse", "masse", "physique"],
+            "math": ["calcul", "nombre", "addition", " multiplier", "modulo", "optimal"],
+            "physics": ["force", "énergie", "vitesse", "masse", "physique", "quantique"],
             "grammar": ["mot", "conjugaison", "pluriel", "phrase", "grammaire"],
-            "logic": ["booléen", "et", "ou", "xor", "logique"],
-            "development": ["code", "bug", "fonction", "api", "python", "sécurité"],
-            "cybersecurity": ["hack", "owasp", "injection", "audit", "vulnérabilité"],
+            "logic": ["booléen", "xor", "nand", "logique formelle"],
+            "development": ["code", "bug", "fonction", "api", "python", "sécurité",
+                            "react", "reactjs", "composant", "javascript", "dashboard"],
+            "cybersecurity": ["hack", "owasp", "injection", "audit", "vulnérabilité",
+                              "pentest", "sécurité"],
             "ux_design": ["interface", "ux", "ui", "design", "accessibilité"],
             "research": ["recherche", "source", "étude", "scientifique", "données"],
-            "game_dev": ["jeu", "gameplay", "pnj", "niveau", "physique jeu"],
+            "game_dev": ["jeu", "gameplay", "pnj", "niveau"],
+            "medicine": ["médical", "diagnostic", "symptôme", "patient", "clinique",
+                         "traitement", "prescription"],
+            "botany": ["plante", "botanique", "fleur", "arbre", "herbe", "végétal"],
+            "neuroscience": ["cerveau", "neurone", "synapse", "cognition"],
+            "pharmacology": ["médicament", "dose", "pharmacologie", "posologie"],
+            "dentistry": ["dent", "carie", "plaque"],
+            "ecology": ["écologie", "faune", "flore", "espèce", "écosystème"],
+            "chemistry": ["chimie", "réaction", "molécule", "composé"],
+            "biology": ["biologie", "adn", "cellule", "gène", "évolution"],
+            "economics": ["économie", "marché", "prix", "inflation"],
         })
         self.rules = rule_library or RuleLibrary.default()
         self.creator = SkillCreator(self.rules)
