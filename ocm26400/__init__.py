@@ -22,6 +22,7 @@ from .omni import OmniModel
 from .rules import Rule, RuleLibrary
 from .agents_tools import Skill, Toolkit, Mission, execute_mission
 from .omni_rules import RULES, train_omni_rules, comprehend, generate_chain, inter_rule_gt
+from .bench import run_bench, level
 
 __all__ = [
     "info_nce",
@@ -60,5 +61,6 @@ __all__ = [
     "Toolkit",
     "Mission",
     "train_omni_rules",
+    "run_bench",
 ]
 
