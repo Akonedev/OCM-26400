@@ -1,0 +1,93 @@
+{
+  "task": "curriculum progressif spectral",
+  "progression": [
+    {
+      "n_steps": 500,
+      "phases": [
+        {
+          "phase": "primitives",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "paires",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "cha\u00eenes",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "inter-r\u00e8gles",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "n_steps": 1000,
+      "phases": [
+        {
+          "phase": "primitives",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "paires",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "cha\u00eenes",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "inter-r\u00e8gles",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "n_steps": 1500,
+      "phases": [
+        {
+          "phase": "primitives",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "paires",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "cha\u00eenes",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        },
+        {
+          "phase": "inter-r\u00e8gles",
+          "accuracy": 1.0,
+          "gap": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "duration_s": 44.4
+}

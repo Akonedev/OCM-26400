@@ -75,6 +75,33 @@ def _logic_rules() -> List[Rule]:
     ]
 
 
+def _chemistry_rules(n: int = 11) -> List[Rule]:
+    """Règles chimiques simplifiées sur Z_n (composables avec les autres domaines)."""
+    return [
+        Rule("react", "chemistry", lambda a, b: (a + b) % n, 2, "réaction A+B→produit"),
+        Rule("catalyze", "chemistry", lambda a: (a * 2) % n, 1, "catalyse (double)"),
+        Rule("dissolve", "chemistry", lambda a, b: (a - b) % n, 2, "dissolution A−B"),
+    ]
+
+
+def _biology_rules(n: int = 11) -> List[Rule]:
+    """Règles biologiques simplifiées (ADN, mutation) sur Z_n."""
+    return [
+        Rule("dna_complement", "biology", lambda a: (n - 1 - a) % n, 1, "complément ADN (A↔T, C↔G)"),
+        Rule("mutate", "biology", lambda a: (a + 1) % n, 1, "mutation +1"),
+        Rule("transcribe", "biology", lambda a, b: (a + 2 * b) % n, 2, "transcription ADN→ARN"),
+    ]
+
+
+def _economics_rules(n: int = 11) -> List[Rule]:
+    """Règles économiques simplifiées (intérêt, inflation) sur Z_n."""
+    return [
+        Rule("interest", "economics", lambda a, b: (a * b) % n, 2, "intérêt simple P×r"),
+        Rule("inflate", "economics", lambda a: (a + a // 2) % n, 1, "inflation 50%"),
+        Rule("trade", "economics", lambda a, b: (3 * a - 2 * b) % n, 2, "échange commercial"),
+    ]
+
+
 @dataclass
 class RuleLibrary:
     """Bibliothèque de règles vérifiables multi-domaines (math/physique/grammaire)."""
@@ -83,7 +110,8 @@ class RuleLibrary:
     @classmethod
     def default(cls, n: int = 11) -> "RuleLibrary":
         lib = cls()
-        for r in _math_rules(n) + _physics_rules() + _grammar_rules() + _logic_rules():
+        for r in (_math_rules(n) + _physics_rules() + _grammar_rules() + _logic_rules()
+                 + _chemistry_rules(n) + _biology_rules(n) + _economics_rules(n)):
             lib.add(r)
         return lib
 
