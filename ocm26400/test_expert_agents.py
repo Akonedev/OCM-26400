@@ -11,7 +11,7 @@ from ocm26400.expert_agents import (
 def test_expert_prompts_cover_domains():
     """Les prompts système couvrent les domaines clés (dev, security, UX, recherche, game)."""
     for d in ["development", "cybersecurity", "ux_design", "research", "game_dev",
-              "writing", "marketing", "video_production", "chemistry", "biology", "economics"]:
+              "writing", "marketing", "video_production", "chemistry", "biology", "economics", "neuroscience", "pharmacology", "medicine", "botany", "dentistry", "ecology"]:
         assert d in EXPERT_PROMPTS and len(EXPERT_PROMPTS[d]) > 50
 
 
