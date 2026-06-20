@@ -37,6 +37,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Apprentissage depuis URLs RÉEL** | WebFetchTool (HTTP urllib), fetch+apprend+retient pages web réelles (Wikipedia) | `web_tools.py` | 5 |
 | **Vocabulaire bilingue RÉEL 591K** | 315K EN + 276K FR vrais mots (corpus réels), addressables par composition, retrieval 100% | `experiment_bilingual_vocab.py` | démontrée |
 | **Vocabulaire anglais 1M+ (flexions)** | 370K base + flexions réelles s/ed/ing = 1 000 196 formes (>1M spec), retrieval 100% | `experiment_vocab_1m.py` | démontrée |
+| **Audio/vidéo/3D entraînés RÉEL** | notes audio 100%, mouvements vidéo 100%, formes 3D voxel 100% (signaux réels/modalité) | `experiment_real_multimodal.py` | démontrée |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 

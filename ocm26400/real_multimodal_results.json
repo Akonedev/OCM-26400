@@ -1,0 +1,12 @@
+{
+  "task": "audio/vid\u00e9o/3D entra\u00een\u00e9s sur signaux R\u00c9ELS de chaque modalit\u00e9",
+  "audio": "5 notes de musique r\u00e9elles (262-392 Hz)",
+  "audio_acc": 1.0,
+  "video": "5 mouvements r\u00e9els (translation/zoom)",
+  "video_acc": 1.0,
+  "3d": "5 formes g\u00e9om\u00e9triques en voxels",
+  "3d_acc": 1.0,
+  "chance": 0.2,
+  "verdict": "VALID\u00c9",
+  "duration_s": 4.6
+}
