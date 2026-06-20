@@ -55,23 +55,36 @@ def packing_probe(Vs: List[int] = (100, 1000, 10000)) -> List[Tuple[int, float, 
 
 def level(results: Dict[str, dict], packing: List[Tuple[int, float, float]]) -> Dict:
     """Calcule un LEVEL agrégé (0..100) + sous-scores, qualifié honnêtement."""
+    from .rules import RuleLibrary
+    from .expert_agents import extended_production_skills
+    from .expert_agents import EXPERT_PROMPTS
+
     cj = results.get("crown_jewel_results.json", {})
     ling = results.get("linguistic_results.json", {})
-    dense = results.get("linguistic_dense_results.json", {})
     cap = results.get("omni_generate_results.json", {})
     comp_v = results.get("compositional_results.json", {})
 
-    composition = (cj.get("gap_points", 0) + ling.get("gap_points", 0)) / 2.0 * 100  # pt
+    composition = (cj.get("gap_points", 0) + ling.get("gap_points", 0)) / 2.0 * 100
     generalization = cap.get("compositional_generation_unseen", {}).get("depth_8", 0) * 100
     scale_addr = comp_v.get("addressable_space", 0)
     packing_worst = min(nn for _, _, nn in packing) if packing else 1.0
 
+    # nouvelles métriques : couverture des règles + skills + prompts
+    n_rules = len(RuleLibrary.default().rules)
+    n_skills = len(extended_production_skills().names())
+    n_prompts = len(EXPERT_PROMPTS)
+    rule_coverage = min(100, n_rules / 24 * 100)       # 24 règles = couverture complète
+    skill_coverage = min(100, n_skills / 12 * 100)     # 12 skills = couverture étendue
+
     score = (
-        min(100, composition) * 0.30 +            # crown-jewel (généralisation compositionnelle)
-        min(100, generalization) * 0.25 +         # génération profonde
-        (100 if scale_addr >= 1_000_000 else scale_addr / 1_000_000 * 100) * 0.15 +
-        (1.0 - packing_worst) * 100 * 0.15 +      # séparabilité (1 - cos proche voisin)
-        100 * 0.15                                 # présence cycle cognitif complet (forfait)
+        min(100, composition) * 0.20 +            # crown-jewel
+        min(100, generalization) * 0.20 +         # génération profonde
+        (100 if scale_addr >= 1_000_000 else scale_addr / 1_000_000 * 100) * 0.10 +
+        (1.0 - packing_worst) * 100 * 0.10 +      # séparabilité
+        rule_coverage * 0.10 +                     # couverture des règles (7 domaines)
+        skill_coverage * 0.10 +                    # couverture des skills experts
+        min(100, n_prompts / 11 * 100) * 0.10 +    # couverture des prompts
+        100 * 0.10                                 # cycle cognitif complet (forfait)
     )
     return {
         "LEVEL": round(score, 1),
@@ -82,6 +95,10 @@ def level(results: Dict[str, dict], packing: List[Tuple[int, float, float]]) -> 
             "deep_generation_depth8_pct": round(generalization, 1),
             "vocab_addressable": scale_addr,
             "packing_worst_nn_cos": round(packing_worst, 4),
+            "rules_count": n_rules,
+            "rule_domains": len(RuleLibrary.default().domains()),
+            "skills_count": n_skills,
+            "prompts_count": n_prompts,
         },
         "packing_probe_V_r1_nn": packing,
     }
