@@ -380,4 +380,53 @@ def extended_production_skills() -> ExpertSkillRegistry:
         domain="writing",
     ))
 
+    reg.register(ExpertSkill(
+        name="iot_arduino",
+        description="Développement IoT expert : Arduino, Raspberry Pi, capteurs, MQTT",
+        best_practices=[
+            "Pin mapping vérifié (datasheet)",
+            "Timeout sur lecture capteur (Watchdog)",
+            "MQTT QoS ≥ 1 pour données critiques",
+            "Sleep mode pour autonomie batterie",
+        ],
+        fn=lambda project: f"firmware IoT pour '{project}': Arduino + MQTT + capteurs",
+        domain="development",
+    ))
+    reg.register(ExpertSkill(
+        name="mobile_dev",
+        description="Développement mobile expert : Android (Kotlin), iOS (Swift), React Native",
+        best_practices=[
+            "Architecture MVVM/MVI (pas de logique dans la vue)",
+            "Tests instrumentés (Espresso/XCUITest)",
+            "Accessibilité (TalkBack/VoiceOver)",
+            "Performance : <200ms cold start, <50MB RAM",
+        ],
+        fn=lambda app: f"app mobile pour '{app}': Kotlin/Swift + tests + a11y",
+        domain="development",
+    ))
+    reg.register(ExpertSkill(
+        name="robotics_control",
+        description="Contrôle robotique expert : cinématique, dynamique, planification",
+        best_practices=[
+            "Modèle cinématique vérifié (Denavit-Hartenberg)",
+            "Contrôleurs PID tunés (stabilité Lyapunov)",
+            "Safety limits (joint limits, collision avoidance)",
+            "ROS2 / simulation Gazebo avant déploiement",
+        ],
+        fn=lambda robot: f"contrôle robotique pour '{robot}': cinématique + PID + safety",
+        domain="development",
+    ))
+    reg.register(ExpertSkill(
+        name="data_science",
+        description="Data science expert : ML pipeline, feature engineering, model selection",
+        best_practices=[
+            "Pipeline reproductible (seed + versioning)",
+            "Feature engineering documenté",
+            "Model selection par cross-validation",
+            "Interprétabilité (SHAP/LIME) si requis",
+        ],
+        fn=lambda problem: f"solution data science pour '{problem}': ML pipeline + features + model",
+        domain="research",
+    ))
+
     return reg
