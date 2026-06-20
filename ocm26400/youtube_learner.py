@@ -28,7 +28,23 @@ except ImportError:
 
 
 def _is_youtube_url(url: str) -> bool:
-    return bool(re.match(r"https?://(www\.)?(youtube\.com|youtu\.be)/", url))
+    """Valide qu'une URL est bien YouTube (anti-SSRF : pas de contournement type
+    'youtube.com.evil.com'). Vérifie scheme + netloc exact (ou sous-domaine legit)."""
+    from urllib.parse import urlparse
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    if parsed.scheme not in ("http", "https"):
+        return False
+    netloc = parsed.netloc.lower()
+    # accepte youtube.com / youtu.be (+ sous-domaines legit comme m.youtube.com)
+    # MAIS pas 'youtube.com.evil.com' (netloc.endswith('.evil.com') ≠ youtube)
+    if netloc in ("youtube.com", "youtu.be"):
+        return True
+    if netloc.endswith(".youtube.com") or netloc.endswith(".youtu.be"):
+        return True
+    return False
 
 
 def available() -> bool:

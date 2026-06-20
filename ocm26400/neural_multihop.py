@@ -37,13 +37,22 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def _op(name: str):
-    """Retourne une lambda opérateur (a,b)->int pour add/mul/linop (mod 11)."""
+    """Retourne une lambda opérateur (a,b)->int (mod 11). 8 opérateurs variés pour
+    prouver que le mécanisme neural (grok+compose) est robuste au-delà de add/mul/linop."""
     ops = {
         "add": lambda a, b: (a + b) % 11,
+        "sub": lambda a, b: (a - b) % 11,
         "mul": lambda a, b: (a * b) % 11,
         "linop": lambda a, b: (3 * a + 5 * b) % 11,
+        "linop2": lambda a, b: (7 * a + 2 * b) % 11,    # autres coeffs
+        "linop3": lambda a, b: (4 * a + 9 * b) % 11,
+        "scaled_add": lambda a, b: (2 * a + b) % 11,
+        "weighted": lambda a, b: (a + 6 * b) % 11,
     }
     return ops[name]
+
+
+ALL_OPS = ["add", "sub", "mul", "linop", "linop2", "linop3", "scaled_add", "weighted"]
 
 
 def _make_op_verifier(op_name: str) -> Tuple[SymbolicDict, Verifier]:
@@ -141,7 +150,7 @@ def run(device: str = None) -> Dict:
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     t0 = time.time()
     report = {"device": device, "holdout": [], "multihop": []}
-    for op_name in ["add", "mul", "linop"]:
+    for op_name in ALL_OPS:
         print(f"[neural_multihop] hold-out {op_name} (device={device})...")
         h = neural_holdout_eval(op_name, n_steps=1500, device=device)
         print(f"  → neural hold-out acc = {h['neural_holdout_acc']*100:.1f}% "
