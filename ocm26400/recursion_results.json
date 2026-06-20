@@ -1,0 +1,30 @@
+{
+  "task": "r\u00e9currence fen\u00eatr\u00e9e profonde (spec 'raisonner longuement')",
+  "op": "(3a+5b) mod 11 (non-associative => interm\u00e9diaires n\u00e9cessaires)",
+  "binary_grok_acc": 1.0,
+  "per_depth": {
+    "2": {
+      "acc": 1.0,
+      "predicted": 1.0,
+      "n_test": 300
+    },
+    "3": {
+      "acc": 1.0,
+      "predicted": 1.0,
+      "n_test": 300
+    },
+    "4": {
+      "acc": 1.0,
+      "predicted": 1.0,
+      "n_test": 300
+    },
+    "5": {
+      "acc": 1.0,
+      "predicted": 1.0,
+      "n_test": 300
+    }
+  },
+  "note": "accuracy ~ binary^(k-1): si le block binaire est (presque) exact, la r\u00e9currence se maintient avec la profondeur. La r\u00e9currence est structurellement n\u00e9cessaire (op^k non-associative, pas de forme ferm\u00e9e courte).",
+  "verdict": "VALID\u00c9",
+  "duration_s": 15.5
+}
