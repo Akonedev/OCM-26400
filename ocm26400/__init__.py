@@ -57,6 +57,9 @@ from .owasp_scanner import scan_code, scan_report
 from .cognition import TheoryOfMind, evaluate_morality, SpatialReasoner, structure_mapping
 from .commonsense import CommonSense, default_commonsense
 from .stream import stream_chars, stream_cot, TokenStream
+from .chemistry import molar_mass, balance_simple, is_balanced, parse_formula
+from .genetics import punnett_square, phenotype_ratios, mendelian_cross
+from .finance import compound_interest, loan_payment, total_paid
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
