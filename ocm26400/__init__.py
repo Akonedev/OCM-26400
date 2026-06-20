@@ -20,6 +20,7 @@ from .computer_use import ShellTool, safe_default_allowlist, GUITool
 from .orchestrator import Orchestrator, ExpertAgent, DevAdvocate, Judge, MoERouter
 from .omni import OmniModel
 from .rules import Rule, RuleLibrary
+from .agents_tools import Skill, Toolkit, Mission, execute_mission
 
 __all__ = [
     "info_nce",
@@ -55,5 +56,7 @@ __all__ = [
     "MoERouter",
     "OmniModel",
     "RuleLibrary",
+    "Toolkit",
+    "Mission",
 ]
 
