@@ -7,7 +7,8 @@ n'a pas de corpus audio/image étiqueté).
 import torch
 
 from ocm26400.multimodal_encoders import (
-    AudioEncoder, ImageEncoder, synth_tone, synth_image,
+    AudioEncoder, ImageEncoder, VideoEncoder, ThreeDEncoder,
+    synth_tone, synth_image, synth_video, synth_voxel,
 )
 from ocm26400.infonce import multimodal_l_consist
 
@@ -56,3 +57,33 @@ def test_amodal_accepts_signal_views():
     loss = multimodal_l_consist([a, v])                                    # aligne audio<->image
     assert loss.requires_grad
     loss.backward()
+
+
+def test_video_encoder_shape_and_grad():
+    """Vidéo (séquence de frames) -> embedding 64, differentiable."""
+    enc = VideoEncoder(out_dim=64, patch=4)
+    vid = torch.stack([synth_video(frames=4, size=16, seed=i) for i in range(2)])  # (2,4,3,16,16)
+    emb = enc(vid)
+    assert emb.shape == (2, 64)
+    emb.sum().backward()
+    assert enc.frame_enc.proj.weight.grad is not None
+
+
+def test_3d_encoder_shape_and_grad():
+    """Volume 3D (voxels) -> embedding 64, differentiable."""
+    enc = ThreeDEncoder(out_dim=64)
+    vol = torch.stack([synth_voxel(grid=16, seed=i) for i in range(2)])   # (2,1,16,16,16)
+    emb = enc(vol)
+    assert emb.shape == (2, 64)
+    emb.sum().backward()
+    assert enc.conv.weight.grad is not None
+
+
+def test_video_and_3d_distinguish_content():
+    """Vidéos / volumes différents -> embeddings différents."""
+    venc = VideoEncoder(out_dim=64, patch=4)
+    denc = ThreeDEncoder(out_dim=64)
+    vids = torch.stack([synth_video(4, 16, 0), synth_video(4, 16, 1)])
+    vols = torch.stack([synth_voxel(16, 0), synth_voxel(16, 1)])
+    assert not torch.allclose(venc(vids)[0], venc(vids)[1])
+    assert not torch.allclose(denc(vols)[0], denc(vols)[1])

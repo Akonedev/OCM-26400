@@ -93,3 +93,47 @@ def synth_image(size=32, seed=0):
     """Image procédurale synthétique pour validation."""
     g = torch.Generator().manual_seed(seed)
     return torch.randn(3, size, size, generator=g)
+
+
+def synth_video(frames=4, size=16, seed=0):
+    """Vidéo synthétique (séquence de frames) pour validation : (T, C, H, W)."""
+    g = torch.Generator().manual_seed(seed)
+    return torch.randn(frames, 3, size, size, generator=g)
+
+
+def synth_voxel(grid=16, seed=0):
+    """Volume 3D synthétique (voxel grid) pour validation : (1, D, H, W)."""
+    g = torch.Generator().manual_seed(seed)
+    return torch.randn(1, grid, grid, grid, generator=g)
+
+
+class VideoEncoder(nn.Module):
+    """Vidéo (B, T, C, H, W) -> embedding (B, 64). Encode chaque frame (ImageEncoder)
+    puis pool sur le temps. Vrai pipeline vidéo (image + dimension temporelle)."""
+
+    def __init__(self, out_dim: int = PART, patch: int = 8, hidden: int = 64):
+        super().__init__()
+        self.frame_enc = ImageEncoder(out_dim=hidden, patch=patch)
+        self.out = nn.Linear(hidden, out_dim)
+
+    def forward(self, video: torch.Tensor) -> torch.Tensor:
+        B, T, C, H, W = video.shape
+        frames = video.view(B * T, C, H, W)
+        h = self.frame_enc(frames)              # (B*T, hidden)
+        h = h.view(B, T, -1).mean(dim=1)        # pool temporel -> (B, hidden)
+        return self.out(h)                      # (B, out_dim)
+
+
+class ThreeDEncoder(nn.Module):
+    """Volume 3D / voxels (B, 1, D, H, W) -> embedding (B, 64) via Conv3d + pool.
+    Vrai pipeline 3D (analyse d'un volume, type IRM/objet 3D)."""
+
+    def __init__(self, out_dim: int = PART, hidden: int = 32):
+        super().__init__()
+        self.conv = nn.Conv3d(1, hidden, kernel_size=3, padding=1)
+        self.out = nn.Linear(hidden, out_dim)
+
+    def forward(self, voxel: torch.Tensor) -> torch.Tensor:
+        h = torch.relu(self.conv(voxel))         # (B, hidden, D, H, W)
+        pooled = h.mean(dim=(2, 3, 4))           # (B, hidden)
+        return self.out(pooled)                  # (B, out_dim)

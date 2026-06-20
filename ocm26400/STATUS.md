@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 125 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 128 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **125 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **128 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -30,7 +30,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Sommeil / consolidation** | épisodique->sémantique (extraction règle), compression x27, généralise aux 121 paires | `sleep.py` | 6 |
 | **Domaine math multi-op (§2)** | 1 block op-aware 3 ops (ADD/OP_A/OP_B), 100% non vus, règle extraite/op | `experiment_math.py` | démontrée |
 | **Amodal sur vues RÉELLES** | 1000 vrais mots, 4 modalités (texte/morpho/phono/sém), retrieval 62-79% paires riches | `real_linguistic.py` | 5 |
-| **Encodeurs audio/image RÉELS** | AudioEncoder (Mel STFT) + ImageEncoder (patches), ingèrent vrais signaux -> amodal | `multimodal_encoders.py` | 5 |
+| **Encodeurs audio/image/video/3D RÉELS (Mel STFT, patches, frames, Conv3d voxel) | `multimodal_encoders.py` | 8 |
 | **Tool-use / apprentissage externe** | LearningAgent (KB+Tool), 'je sais pas->rechercher->apprendre->rétention' | `tools.py` | 5 |
 | **Auto-correction / auto-amélioration** | re-raisonnement rattrape erreurs mémoire, justesse 79%->100%, self-consistency | `self_correction.py` | 4 |
 | **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |

@@ -12,7 +12,7 @@ from .cognitive_agent import CognitiveAgent
 from .compositional_vocab import CompositionalVocabulary
 from .sleep import extract_rule, consolidate
 from .real_linguistic import RealViewEncoder, load_real_words, MODALITIES as LING_MODALITIES
-from .multimodal_encoders import AudioEncoder, ImageEncoder
+from .multimodal_encoders import AudioEncoder, ImageEncoder, VideoEncoder, ThreeDEncoder
 from .tools import LearningAgent, StaticTool, Tool
 from .self_correction import self_correct, self_improve, self_consistency_confidence
 from .web_tools import WebFetchTool, URLMemory, fetch_url
@@ -37,6 +37,8 @@ __all__ = [
     "load_real_words",
     "AudioEncoder",
     "ImageEncoder",
+    "VideoEncoder",
+    "ThreeDEncoder",
     "LearningAgent",
     "StaticTool",
     "self_correct",
