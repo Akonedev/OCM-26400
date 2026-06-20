@@ -59,10 +59,23 @@ def _physics_rules() -> List[Rule]:
 
 
 def _grammar_rules() -> List[Rule]:
+    """Règles grammaticales avec exceptions (consonant doubling, irréguliers)."""
+    _irr_past = {"go": "went", "see": "saw", "run": "ran", "eat": "ate",
+                 "be": "was", "have": "had", "do": "did", "say": "said"}
+
+    def _past(s):
+        return _irr_past.get(s, s + "ed")
+
+    def _gerund(s):
+        # consonant doubling : CVC → CVC+Cing (run→running, sit→sitting)
+        if len(s) >= 3 and s[-1] not in "aeiouwxy" and s[-2] in "aeiou" and s[-3] not in "aeiou":
+            return s + s[-1] + "ing"
+        return s + "ing"
+
     return [
-        Rule("past", "grammar", lambda s: s + "ed", 1, "préétérit +ed"),
+        Rule("past", "grammar", _past, 1, "préétérit (+ed, irréguliers)"),
         Rule("plural", "grammar", lambda s: s + "s", 1, "pluriel +s"),
-        Rule("gerund", "grammar", lambda s: s + "ing", 1, "gérondif +ing"),
+        Rule("gerund", "grammar", _gerund, 1, "gérondif (+ing, consonant doubling)"),
     ]
 
 
