@@ -1,0 +1,12 @@
+{
+  "task": "amodal concept alignment (spec \u00a7A1.3, capture-in-one-pass)",
+  "n_concepts": 128,
+  "n_modalities": 3,
+  "modalities": "simulated (placeholder)",
+  "anchor_term": "||f_view - E_C|| (verdict deferred term, now added via P2)",
+  "retrieval_at_1_before": 0.0156,
+  "retrieval_at_1_after": 1.0,
+  "anchor_decode_before": 0.3464,
+  "anchor_decode_after": 1.0,
+  "verdict": "VALID\u00c9"
+}

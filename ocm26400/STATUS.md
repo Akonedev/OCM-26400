@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 62 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 67 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **62 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **67 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -21,6 +21,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Survie dense (P2)** | crown-jewel survit one-hot→dense (ortho+random, +100pt) | `experiment_linguistic_dense.py` | démontrée |
 | **Scaling V>64 (P2)** | LearnedVocab sur Z₁₂₀ (impossible one-hot), grok règle 99% | `experiment_vocab_scale.py` | démontrée |
 | **Gate calibrée + abstention (P3)** | lsra_loop refuse l'OOD (ANOMALIE), 1-step hallucine | `experiment_refinement.py` | démontrée |
+| **Alignement amodal** | f_T~f_A~f_V~v_C (§A1.3), InfoNCE + ancrage LearnedVocab, retrieval 100% | `concept_amodal.py` | 5 |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 

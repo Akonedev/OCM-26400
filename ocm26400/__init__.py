@@ -5,11 +5,14 @@ ACSP loss + LSRA (gate de vérification symbolique). Construit en TDD.
 """
 from .infonce import info_nce, info_nce_symmetric, multimodal_l_consist
 from .learned_vocab import LearnedVocab
+from .concept_amodal import ModalityEncoder, amodal_align_loss
 
 __all__ = [
     "info_nce",
     "info_nce_symmetric",
     "multimodal_l_consist",
     "LearnedVocab",
+    "ModalityEncoder",
+    "amodal_align_loss",
 ]
 
