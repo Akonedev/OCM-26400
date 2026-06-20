@@ -23,6 +23,7 @@ from .rules import Rule, RuleLibrary
 from .agents_tools import Skill, Toolkit, Mission, execute_mission
 from .omni_rules import RULES, train_omni_rules, comprehend, generate_chain, inter_rule_gt
 from .bench import run_bench, level
+from .diff_decode import decode_gumbel, l_step_diff, acsp_loss_diff, train_with_acsp
 
 __all__ = [
     "info_nce",
@@ -62,5 +63,7 @@ __all__ = [
     "Mission",
     "train_omni_rules",
     "run_bench",
+    "decode_gumbel",
+    "acsp_loss_diff",
 ]
 

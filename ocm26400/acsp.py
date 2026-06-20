@@ -24,7 +24,7 @@ def l_align(v: AMVVector, dictionary: SymbolicDict) -> torch.Tensor:
     Pénalise un vecteur entité qui ne correspond à aucun primitif du dictionnaire.
     """
     ent = v.ent  # (64,)
-    D = dictionary._matrix()  # (n, 64) — toutes les canoniques
+    D = dictionary._matrix().to(ent.device)  # (n, 64) — toutes les canoniques (device-robuste)
     # cos par primitive
     ent_n = ent / (ent.norm() + 1e-8)
     d_n = D / (D.norm(dim=1, keepdim=True) + 1e-8)
