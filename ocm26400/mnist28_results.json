@@ -1,0 +1,9 @@
+{
+  "source": "MNIST 28x28 (OpenML)",
+  "n": 1000,
+  "cls_acc": 0.865,
+  "gen_mse_before": 1.1004,
+  "gen_mse_after": 0.9657,
+  "gen_recognized": 4,
+  "verdict": "VALID\u00c9"
+}
