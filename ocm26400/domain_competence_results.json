@@ -673,7 +673,7 @@
         "name": "kepler_orbit",
         "domain": "astronomy",
         "arity": 2,
-        "n_samples": 5,
+        "n_samples": 7,
         "apply_acc": 1.0,
         "verify_true_acc": 1.0,
         "verify_false_acc": 1.0,
@@ -1275,5 +1275,151 @@
     "n_correct": 50,
     "accuracy": 1.0,
     "note": "Cha\u00eenes add(add(add(a,b),c),d) mod n \u2014 r\u00e9duction typique de probl\u00e8mes d'olympiade. Mesure le raisonnement compositionnel du core grokk\u00e9."
+  },
+  "extended_math": {
+    "n_rules": 101,
+    "n_mastered": 101,
+    "rule_mastery_rate": 1.0,
+    "n_domains": 33,
+    "n_domains_full_mastery": 33,
+    "new_domains_added": [
+      "algebra",
+      "calculus",
+      "number_theory"
+    ],
+    "per_domain": {
+      "math": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "physics": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "grammar": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "logic": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "chemistry": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "biology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "economics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "neuroscience": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "pharmacology": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "medicine": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "botany": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "dentistry": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "ecology": {
+        "rules": 2,
+        "mastered": 2
+      },
+      "electromagnetism": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "electricity": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "thermodynamics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "mechanics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "waves": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "optics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "astronomy": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "geology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "computer_science": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "meteorology": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "quantum": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "relativity": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "nuclear": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "fluid_dynamics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "acoustics": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "particle": {
+        "rules": 3,
+        "mastered": 3
+      },
+      "grammar_fr": {
+        "rules": 7,
+        "mastered": 7
+      },
+      "algebra": {
+        "rules": 4,
+        "mastered": 4
+      },
+      "calculus": {
+        "rules": 1,
+        "mastered": 1
+      },
+      "number_theory": {
+        "rules": 5,
+        "mastered": 5
+      }
+    }
   }
 }

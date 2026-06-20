@@ -1,0 +1,60 @@
+{
+  "device": "cuda",
+  "holdout": [
+    {
+      "op": "add",
+      "n_train_pairs": 84,
+      "n_holdout": 37,
+      "n_correct": 37,
+      "neural_holdout_acc": 1.0,
+      "procedure": "train_binary_block (1-cos, Adam 3e-3, seed 0) \u2014 PROCEDURES.md \u00a72",
+      "tautological": false
+    },
+    {
+      "op": "mul",
+      "n_train_pairs": 84,
+      "n_holdout": 37,
+      "n_correct": 37,
+      "neural_holdout_acc": 1.0,
+      "procedure": "train_binary_block (1-cos, Adam 3e-3, seed 0) \u2014 PROCEDURES.md \u00a72",
+      "tautological": false
+    },
+    {
+      "op": "linop",
+      "n_train_pairs": 84,
+      "n_holdout": 37,
+      "n_correct": 37,
+      "neural_holdout_acc": 1.0,
+      "procedure": "train_binary_block (1-cos, Adam 3e-3, seed 0) \u2014 PROCEDURES.md \u00a72",
+      "tautological": false
+    }
+  ],
+  "multihop": [
+    {
+      "op": "add",
+      "depth": 3,
+      "n_chains": 50,
+      "n_correct": 50,
+      "neural_multihop_acc": 1.0,
+      "tautological": false
+    },
+    {
+      "op": "mul",
+      "depth": 3,
+      "n_chains": 50,
+      "n_correct": 50,
+      "neural_multihop_acc": 1.0,
+      "tautological": false
+    },
+    {
+      "op": "linop",
+      "depth": 3,
+      "n_chains": 50,
+      "n_correct": 50,
+      "neural_multihop_acc": 1.0,
+      "tautological": false
+    }
+  ],
+  "duration_s": 79.0,
+  "verdict": "NEURAL_COMPETENCE_PROVEN"
+}

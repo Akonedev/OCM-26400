@@ -37,6 +37,9 @@ from .phrase import PhraseComposer, phrase_similarity
 from .mcp_adapter import McpAdapter, McpTool, default_adapter, adapter_security_audit
 from .train import run_pipeline, stage0_build
 from .domain_trainer import evaluate_all_domains, cross_domain_chains, reasoning_bench_aime
+from .symbolic_math import symbolic_math_rules, poly_deriv, gcd, modexp, factorize
+from .document_learner import DocumentLearner, text_embedding
+from .neural_multihop import neural_holdout_eval, neural_multihop_eval
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )

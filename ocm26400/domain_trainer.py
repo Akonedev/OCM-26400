@@ -220,13 +220,46 @@ def run_all() -> Dict[str, Any]:
     print(f"  → accuracy {aime['accuracy']*100:.1f}% sur {aime['n_problems']} "
           f"chaînes profondeur {aime['depth']}")
 
+    print("[domain_trainer] étendu : math symboliques (algebra/calculus/number_theory)...")
+    extended = evaluate_extended()
+    print(f"  → {extended['n_mastered']}/{extended['n_rules']} règles "
+          f"({extended['n_domains']} domaines totaux)")
+
     report = {"domain_competence": domains, "cross_domain": chains,
-              "aime_reasoning": aime}
+              "aime_reasoning": aime, "extended_math": extended}
     out = os.path.join(HERE, "domain_competence_results.json")
     with open(out, "w") as f:
         json.dump(report, f, indent=2, default=str)
     print(f"[domain_trainer] rapport → {out}")
     return report
+
+
+def evaluate_extended() -> Dict[str, Any]:
+    """Étend la compétence aux math symboliques (algebra/calculus/number_theory).
+    Combine RuleLibrary.default() + symbolic_math_rules() → olympiade-ready."""
+    from .symbolic_math import symbolic_math_rules
+    base = RuleLibrary.default()
+    base_rules = list(base.rules.values())
+    sym_rules = symbolic_math_rules()
+    all_rules = base_rules + sym_rules
+    per_rule = [evaluate_rule(r, n_samples=6) for r in all_rules]
+    per_domain = defaultdict(lambda: {"rules": 0, "mastered": 0})
+    for r in per_rule:
+        per_domain[r["domain"]]["rules"] += 1
+        if r["mastered"]:
+            per_domain[r["domain"]]["mastered"] += 1
+    n_mastered = sum(1 for r in per_rule if r["mastered"])
+    n_full = sum(1 for d, v in per_domain.items() if v["mastered"] == v["rules"])
+    new_domains = sorted(set(per_domain) - {r.domain for r in base_rules})
+    return {
+        "n_rules": len(per_rule),
+        "n_mastered": n_mastered,
+        "rule_mastery_rate": n_mastered / len(per_rule),
+        "n_domains": len(per_domain),
+        "n_domains_full_mastery": n_full,
+        "new_domains_added": new_domains,      # algebra, calculus, number_theory
+        "per_domain": dict(per_domain),
+    }
 
 
 if __name__ == "__main__":

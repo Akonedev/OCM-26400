@@ -51,12 +51,18 @@ def stage0_build(p_mod: int = 11) -> tuple:
 
 
 def stage1_pretrain(d, ver, n_steps: int, device: str):
-    """STAGE 1 — grok binaire via ACSP DIFFÉRENTIABLE (diff_decode, Gumbel ST).
+    """STAGE 1 — PRE-TRAINING CANONIQUE (PROCEDURES.md §2) : train_binary_block.
+
+    ⚠️ PROCÉDURE OBLIGATOIRE : train_binary_block — loss (1−cos), Adam lr=3e-3, batch 64,
+    seed 0, n_steps 1500. C'EST la procédure qui produit le grok binaire 100% (crown-jewel,
+    experiment_composition). NE PAS substituer une autre loss sinon le grok n'a pas lieu
+    (directive utilisateur : « suivre les procédures sinon ça ne marchera pas »).
 
     Vérification du grokking (PROCEDURES.md §2) : binary_acc >= 0.99 sur données non vues."""
-    print(f"[STAGE 1] train_with_acsp (n_steps={n_steps}, device={device})...")
+    from .experiment_composition import train_binary_block
+    print(f"[STAGE 1] train_binary_block (PROCÉDURE §2, n_steps={n_steps})...")
     t0 = time.time()
-    blk = train_with_acsp(d, ver, n_steps=n_steps, lr=3e-3, batch=64, device=device)
+    blk = train_binary_block(d, ver, n_steps=n_steps)   # loss 1-cos, Adam 3e-3, seed 0
     # quick grok check : le block prédit-il compose(a,b) sur quelques paires ?
     acc = _quick_grok_acc(blk, d, ver, device)
     print(f"[STAGE 1] done {time.time()-t0:.1f}s | grok_acc≈{acc:.2f} (cible ≥0.99)")
