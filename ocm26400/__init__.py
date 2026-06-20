@@ -9,6 +9,7 @@ from .concept_amodal import ModalityEncoder, amodal_align_loss
 from .morphology import MorphologyVerifier, CONJUGATE_PAST, CONJUGATE_GERUND, CONJUGATE_THIRD
 from .knowledge_base import KnowledgeBase
 from .cognitive_agent import CognitiveAgent
+from .compositional_vocab import CompositionalVocabulary
 
 __all__ = [
     "info_nce",
@@ -23,5 +24,6 @@ __all__ = [
     "CONJUGATE_THIRD",
     "KnowledgeBase",
     "CognitiveAgent",
+    "CompositionalVocabulary",
 ]
 
