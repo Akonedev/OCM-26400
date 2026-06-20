@@ -1,0 +1,13 @@
+{
+  "task": "profondeur (scale by depth)",
+  "depths": {
+    "depth_2": 1.0,
+    "depth_8": 1.0,
+    "depth_16": 1.0,
+    "depth_32": 1.0,
+    "depth_64": 1.0
+  },
+  "params": 263776,
+  "verdict": "VALID\u00c9",
+  "duration_s": 19.7
+}
