@@ -7,6 +7,7 @@ import torch
 
 from ocm26400.omni import OmniModel, joint_loss
 from ocm26400.reasoner import ReasonerBlock
+from ocm26400.spectral_core import SpectralCoreBlock
 
 
 def _model():
@@ -27,8 +28,8 @@ def test_omni_encode_to_shared_amv():
     amv_a = m.encode("audio", _audio_batch())
     amv_i = m.encode("image", _image_batch())
     assert amv_a.shape == (4, 256) and amv_i.shape == (4, 256)
-    # un seul noyau ReasonerBlock partagé (pas un par modalité = unifié, pas wrapper)
-    cores = [mod for mod in m.modules() if isinstance(mod, ReasonerBlock)]
+    # un seul noyau partagé (spectral par défaut = archi utilisateur, ou MLP) = unifié, pas wrapper
+    cores = [mod for mod in m.modules() if isinstance(mod, (ReasonerBlock, SpectralCoreBlock))]
     assert len(cores) == 1
 
 
@@ -58,7 +59,7 @@ def test_joint_loss_differentiable_across_modalities():
     assert loss.requires_grad
     loss.backward()
     # noyau partagé + têtes classif + têtes génération ont toutes reçu du gradient
-    assert m.core.fc1.weight.grad is not None
+    assert any(p.grad is not None and p.grad.abs().sum() > 0 for p in m.core.parameters())
     assert m.audio_cls.weight.grad is not None and m.image_cls.weight.grad is not None
     assert m.audio_dec.weight.grad is not None and m.image_dec.weight.grad is not None
     assert "audio_gen" in parts and "image_cls" in parts

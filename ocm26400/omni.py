@@ -25,21 +25,28 @@ import torch.nn as nn
 
 from .amv import D_MODEL
 from .reasoner import ReasonerBlock
+from .spectral_core import SpectralCoreBlock
 from .multimodal_encoders import AudioEncoder, ImageEncoder
 
 
 class OmniModel(nn.Module):
-    """Modèle omni unifié : entrées multi-modales -> AMV partagé -> sorties neurales."""
+    """Modèle omni UNIFIÉ sous le NOYAU SPECTRAL de l'utilisateur (architecture du projet).
+
+    core_type='spectral' (défaut) = SpectralCoreBlock (FFT, architecture du projet).
+    core_type='mlp' = ReasonerBlock (variant historique). Le noyau est PARTAGÉ par
+    toutes les têtes (unifié, pas de wrapper)."""
 
     def __init__(self, n_audio_classes=5, n_image_classes=10,
-                 audio_feat=32, img_side=8, d_model=D_MODEL):
+                 audio_feat=32, img_side=8, d_model=D_MODEL, core_type: str = "spectral"):
         super().__init__()
         self.d_model = d_model
+        self.core_type = core_type
         # ---- têtes d'entrée (vers AMV) ----
         self.audio_enc = AudioEncoder(out_dim=d_model)         # waveform -> AMV
         self.image_enc = ImageEncoder(out_dim=d_model, patch=4)  # image -> AMV
-        # ---- noyau partagé ----
-        self.core = ReasonerBlock(d_model=d_model)             # raisonnement latent unifié
+        # ---- noyau UNIFIÉ partagé (architecture spectrale de l'utilisateur par défaut) ----
+        self.core = (SpectralCoreBlock(d_model=d_model) if core_type == "spectral"
+                     else ReasonerBlock(d_model=d_model))
         # ---- têtes de sortie : classification ----
         self.audio_cls = nn.Linear(d_model, n_audio_classes)
         self.image_cls = nn.Linear(d_model, n_image_classes)
