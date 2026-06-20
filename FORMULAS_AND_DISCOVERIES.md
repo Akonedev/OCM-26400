@@ -231,6 +231,10 @@ sample: x_0 ~ N(0,I), intégrer de t=0→1 par pas Euler
 | Claim MRR sémantique | Falsifié (pas de terme distributionnel) | Retrait honnête du claim |
 | Pont v6 non-généralisant | 0% sur symboles non vus | Reframe honnête : encodeur à dico fixe |
 | TTC tautologique | Convergence par construction | Reframe : gate calibrée + abstention |
+| Flow-matching MSE sur one-hot texte | Loss bloquée ~0.96 (prédit la moyenne = variance) | Cross-entropy sur logits char (CharGenerator) : loss 3.87→0.001 |
+| Mauvaise procédure de training | grok 0.95 (train_with_acsp) vs cible 0.99 | Procédure canonique `train_binary_block` (loss 1-cos) → grok **1.00** |
+| Benchmarks tautologiques | `rule.apply == rule.apply` (100% cosmétique) | Tester le core NEURAL sur hold-out (neural_multihop : 97-100%) |
+| Moins unicode dans code | `−` (U+2212) → SyntaxError | ASCII `-` partout |
 
 **Méta-leçon** : « Honnêteté scientifique d'abord ». Chaque claim falsifié est retiré
 et documenté, pas masqué. C'est ce qui rend OCM-26400 crédible vs un demo marketing.
