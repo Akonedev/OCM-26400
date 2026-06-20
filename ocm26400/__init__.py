@@ -16,6 +16,7 @@ from .multimodal_encoders import AudioEncoder, ImageEncoder, VideoEncoder, Three
 from .tools import LearningAgent, StaticTool, Tool
 from .self_correction import self_correct, self_improve, self_consistency_confidence
 from .web_tools import WebFetchTool, URLMemory, fetch_url
+from .computer_use import ShellTool, safe_default_allowlist
 
 __all__ = [
     "info_nce",
@@ -45,5 +46,6 @@ __all__ = [
     "self_improve",
     "WebFetchTool",
     "URLMemory",
+    "ShellTool",
 ]
 

@@ -1,0 +1,11 @@
+{
+  "task": "vision R\u00c9ELLE : ImageEncoder sur chiffres manuscrits (sklearn digits)",
+  "dataset": "load_digits (1797 vraies images 8x8, 10 classes, donn\u00e9es r\u00e9elles)",
+  "train": 1257,
+  "test": 540,
+  "test_accuracy": 0.9093,
+  "chance": 0.1,
+  "note": "encodeur image ENTRA\u00ceN\u00c9+\u00c9VALU\u00c9 sur vraies images (plus synth\u00e9tique)",
+  "verdict": "VALID\u00c9",
+  "duration_s": 0.5
+}

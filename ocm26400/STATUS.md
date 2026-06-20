@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 128 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 133 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **128 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **133 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -36,6 +36,8 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |
 | **Apprentissage depuis URLs RÉEL** | WebFetchTool (HTTP urllib), fetch+apprend+retient pages web réelles (Wikipedia) | `web_tools.py` | 5 |
 | **Vocabulaire bilingue RÉEL 591K** | 315K EN + 276K FR vrais mots (corpus réels), addressables par composition, retrieval 100% | `experiment_bilingual_vocab.py` | démontrée |
+| **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
+| **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 
