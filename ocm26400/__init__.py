@@ -29,6 +29,7 @@ from .product_key_vocab import ProductKeyVocab
 from .tool_policy import ToolPolicy, TaskEncoder, ToolUsingAgent
 from .generators import AMVConditionedDecoder
 from .skills_system import ExpertSkill, SkillCreator, ExpertSkillRegistry, production_skills
+from .expert_agents import ExpertAgentWithSkills, EXPERT_PROMPTS, extended_production_skills
 
 __all__ = [
     "info_nce",
@@ -76,5 +77,7 @@ __all__ = [
     "AMVConditionedDecoder",
     "ExpertSkill",
     "ExpertSkillRegistry",
+    "ExpertAgentWithSkills",
+    "EXPERT_PROMPTS",
 ]
 
