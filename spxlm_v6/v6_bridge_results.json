@@ -1,0 +1,19 @@
+{
+  "task": "P4 pont v6->AMV (frozen v6 single-forward -> LearnedVocab symbol)",
+  "claim": "engineering: interface v6->AMV->OCM sur dictionnaire FIXE (pas crown-jewel)",
+  "vocab_symbols": 80,
+  "vocab_gt_64": true,
+  "mean_inter_pair_cos": -0.0002,
+  "train_words": 56,
+  "test_words": 24,
+  "dict_accuracy_raw": 1.0,
+  "dict_accuracy_gated": 1.0,
+  "unseen_accuracy_raw": 0.0,
+  "unseen_accuracy_gated": 0.0,
+  "source_conf_dictionary": 0.9818,
+  "source_conf_random_ood": 0.6365,
+  "honest_negative": "generalization to unseen symbols fails (arbitrary dense targets; no linear structure word-identity -> random vector). Bridge = fixed-dict encoder.",
+  "L_step_in_loss": false,
+  "meta_slot_source_confidence": 1,
+  "verdict": "VALID\u00c9 (dictionnaire fixe)"
+}
