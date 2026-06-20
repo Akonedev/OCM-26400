@@ -43,6 +43,7 @@ from .neural_multihop import neural_holdout_eval, neural_multihop_eval
 from .morphology_fr import conjugate, fr_conjugation_rules
 from .equation_solver import solve_equation, derivative, integrate, simplify
 from .text_decoder import CharGenerator, train_char_generator, reconstruct
+from .cot_arithmetic import eval_expr, step, ReasoningStep, CotTrace, solve_word_problem
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
