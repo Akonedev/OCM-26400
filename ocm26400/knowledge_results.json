@@ -1,0 +1,11 @@
+{
+  "task": "base de connaissance : retrieval + abstention + cycle apprentissage",
+  "n_concepts": 60,
+  "retrieval_precision_at_1": 1.0,
+  "ood_abstention_rate": 1.0,
+  "learning_cycle": {
+    "before_store": "abstention (None)",
+    "after_store": "r\u00e9ponse confiant"
+  },
+  "verdict": "VALID\u00c9"
+}

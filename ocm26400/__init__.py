@@ -7,6 +7,7 @@ from .infonce import info_nce, info_nce_symmetric, multimodal_l_consist
 from .learned_vocab import LearnedVocab
 from .concept_amodal import ModalityEncoder, amodal_align_loss
 from .morphology import MorphologyVerifier, CONJUGATE_PAST, CONJUGATE_GERUND, CONJUGATE_THIRD
+from .knowledge_base import KnowledgeBase
 
 __all__ = [
     "info_nce",
@@ -19,5 +20,6 @@ __all__ = [
     "CONJUGATE_PAST",
     "CONJUGATE_GERUND",
     "CONJUGATE_THIRD",
+    "KnowledgeBase",
 ]
 
