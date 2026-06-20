@@ -1,0 +1,16 @@
+{
+  "task": "vocabulaire anglais 1M+ par flexions r\u00e9elles (spec \u00a71 '1M mots')",
+  "base_words": 370105,
+  "inflected_forms": 1000196,
+  "inflections": [
+    "base",
+    "+s (pluriel/3e)",
+    "+ed (pr\u00e9t\u00e9rit)",
+    "+ing (g\u00e9rondif)"
+  ],
+  "indexed": 20000,
+  "retrieval_at_1": 1.0,
+  "exceeds_1M": true,
+  "verdict": "VALID\u00c9",
+  "duration_s": 14.3
+}

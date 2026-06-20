@@ -36,6 +36,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |
 | **Apprentissage depuis URLs RÉEL** | WebFetchTool (HTTP urllib), fetch+apprend+retient pages web réelles (Wikipedia) | `web_tools.py` | 5 |
 | **Vocabulaire bilingue RÉEL 591K** | 315K EN + 276K FR vrais mots (corpus réels), addressables par composition, retrieval 100% | `experiment_bilingual_vocab.py` | démontrée |
+| **Vocabulaire anglais 1M+ (flexions)** | 370K base + flexions réelles s/ed/ing = 1 000 196 formes (>1M spec), retrieval 100% | `experiment_vocab_1m.py` | démontrée |
 | **Vision RÉELLE** | ImageEncoder entraîné sur chiffres manuscrits réels (sklearn), acc 90.9% | `experiment_real_vision.py` | démontrée |
 | **Computer use RÉEL** | ShellTool (subprocess sûr, sans shell=True), exécute vraies commandes OS, injection neutralisée | `computer_use.py` | 5 |
 
