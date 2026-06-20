@@ -1,0 +1,11 @@
+{
+  "task": "vocabulaire anglais R\u00c9EL \u00e0 grande \u00e9chelle (spec \u00a71 '1M mots')",
+  "source": "data/words_en.txt (dwyl/english-words, ~370K mots r\u00e9els)",
+  "real_words_addressable": 315126,
+  "indexed": 10000,
+  "retrieval_at_1": 1.0,
+  "oov_collision_rate": 0.0,
+  "mechanism": "composition de caract\u00e8res (primitives a-z), addressage non born\u00e9 par slot",
+  "verdict": "VALID\u00c9",
+  "duration_s": 10.1
+}

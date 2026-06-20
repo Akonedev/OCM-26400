@@ -53,9 +53,10 @@ class CompositionalVocabulary(nn.Module):
 
     def word_vector(self, morpheme_seq: List[int]) -> torch.Tensor:
         """Embedding compositionnel positionnel du mot (séquence de morphèmes)."""
-        v = torch.zeros(self.dim)
+        dev = self.pos_proj[0].device
+        v = torch.zeros(self.dim, device=dev)
         for t, m in enumerate(morpheme_seq[: self.max_len]):
-            v = v + self.pos_proj[t] @ self.prim.canonical(m)
+            v = v + self.pos_proj[t] @ self.prim.canonical(m).to(dev)
         return v / (v.norm() + 1e-8)
 
     @torch.no_grad()
@@ -86,12 +87,13 @@ class CompositionalVocabulary(nn.Module):
         positionnelle matche le mieux le résidu (peeling successif). Permet de
         GÉNÉRER la forme de surface (séquence de morphèmes) depuis un vecteur concept.
         """
-        q = query[: self.dim].to(torch.float32).clone()
+        dev = self.pos_proj[0].device
+        q = query[: self.dim].to(torch.float32).to(dev).clone()
         q = q / (q.norm() + 1e-8)
         seq = []
-        prim_mat = self.prim._matrix().to(q.device)             # (P, dim)
+        prim_mat = self.prim._matrix().to(dev)                  # (P, dim)
         for t in range(self.max_len):
-            proj = self.pos_proj[t].to(q.device) @ prim_mat.T   # (dim, P) projeté par position
+            proj = self.pos_proj[t].to(dev) @ prim_mat.T        # (dim, P) projeté par position
             scores = q @ proj                                   # (P,) match par morphème
             m = int(torch.argmax(scores).item())
             seq.append(m)

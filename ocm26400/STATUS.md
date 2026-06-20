@@ -33,6 +33,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Encodeurs audio/image RÉELS** | AudioEncoder (Mel STFT) + ImageEncoder (patches), ingèrent vrais signaux -> amodal | `multimodal_encoders.py` | 5 |
 | **Tool-use / apprentissage externe** | LearningAgent (KB+Tool), 'je sais pas->rechercher->apprendre->rétention' | `tools.py` | 5 |
 | **Auto-correction / auto-amélioration** | re-raisonnement rattrape erreurs mémoire, justesse 79%->100%, self-consistency | `self_correction.py` | 4 |
+| **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 
