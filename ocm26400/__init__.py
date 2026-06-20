@@ -18,6 +18,7 @@ from .self_correction import self_correct, self_improve, self_consistency_confid
 from .web_tools import WebFetchTool, URLMemory, fetch_url
 from .computer_use import ShellTool, safe_default_allowlist, GUITool
 from .orchestrator import Orchestrator, ExpertAgent, DevAdvocate, Judge, MoERouter
+from .omni import OmniModel
 
 __all__ = [
     "info_nce",
@@ -51,5 +52,6 @@ __all__ = [
     "GUITool",
     "Orchestrator",
     "MoERouter",
+    "OmniModel",
 ]
 
