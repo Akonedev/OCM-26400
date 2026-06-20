@@ -1,0 +1,37 @@
+{
+  "task": "agent cognitif auto-apprenant (cycle retrieve/raisonner/v\u00e9rifier/apprendre)",
+  "n_queries": 800,
+  "pool_repeated": 40,
+  "stats": {
+    "retrieved": 682,
+    "reasoned": 118,
+    "abstained": 0,
+    "errors": 0
+  },
+  "memory_final": 118,
+  "accuracy_stored_facts": 1.0,
+  "learning_curve": [
+    {
+      "queries": 200,
+      "memory": 75,
+      "retrieved_pct": 0.625
+    },
+    {
+      "queries": 400,
+      "memory": 106,
+      "retrieved_pct": 0.735
+    },
+    {
+      "queries": 600,
+      "memory": 112,
+      "retrieved_pct": 0.813
+    },
+    {
+      "queries": 800,
+      "memory": 118,
+      "retrieved_pct": 0.853
+    }
+  ],
+  "verdict": "VALID\u00c9",
+  "duration_s": 14.7
+}

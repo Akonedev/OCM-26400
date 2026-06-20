@@ -8,6 +8,7 @@ from .learned_vocab import LearnedVocab
 from .concept_amodal import ModalityEncoder, amodal_align_loss
 from .morphology import MorphologyVerifier, CONJUGATE_PAST, CONJUGATE_GERUND, CONJUGATE_THIRD
 from .knowledge_base import KnowledgeBase
+from .cognitive_agent import CognitiveAgent
 
 __all__ = [
     "info_nce",
@@ -21,5 +22,6 @@ __all__ = [
     "CONJUGATE_GERUND",
     "CONJUGATE_THIRD",
     "KnowledgeBase",
+    "CognitiveAgent",
 ]
 
