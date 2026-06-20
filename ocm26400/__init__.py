@@ -62,6 +62,10 @@ from .genetics import punnett_square, phenotype_ratios, mendelian_cross
 from .finance import compound_interest, loan_payment, total_paid
 from .logic_engine import evaluate, is_tautology, valid_argument, truth_table
 from .nlp_tools import translate, sentiment, summarize
+from .graph_algorithms import dijkstra, astar, bfs, dfs
+from .hypercomplex import Quaternion, hamilton_identity, rotate_vector
+from .calibration import brier_score, expected_calibration_error, confidence_summary
+from .continual_learning import EWCCallback, demo_ewc
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
