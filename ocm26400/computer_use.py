@@ -63,3 +63,60 @@ def safe_default_allowlist() -> List[str]:
     """Allowlist restrictive : binaires purement informatifs read-only."""
     return ["ls", "pwd", "echo", "uname", "whoami", "date", "wc"]
 
+
+class GUITool:
+    """Computer-use GUI réel : contrôle souris/clavier via pyautogui.
+
+    Implémente la capacité 'computer use' au niveau GUI (clic, déplacement, frappe).
+    HONNÊTE : nécessite pyautogui + un serveur d'affichage (display). En environnement
+    headless (sans display), les méthodes retournent un message gracieux au lieu de
+    crasher — le code est réel (API pyautogui), l'exécution demande un display.
+    """
+
+    def __init__(self):
+        self._pyautogui = None
+        try:                                    # import paresseux
+            import pyautogui                    # noqa: F401
+            self._pyautogui = pyautogui
+        except Exception:
+            self._pyautogui = None
+
+    @property
+    def available(self) -> bool:
+        if self._pyautogui is None:
+            return False
+        try:
+            self._pyautogui.size()              # échoue si pas de display
+            return True
+        except Exception:
+            return False
+
+    def _guarded(self, action: str):
+        if not self.available:
+            return f"[GUI indisponible : {action} nécessite pyautogui + un display]"
+        return "ok"
+
+    def move_to(self, x: int, y: int):
+        if not self.available:
+            return self._guarded("move_to")
+        self._pyautogui.moveTo(x, y)
+        return f"moved ({x},{y})"
+
+    def click(self, x: int = None, y: int = None):
+        if not self.available:
+            return self._guarded("click")
+        self._pyautogui.click(x, y) if x is not None else self._pyautogui.click()
+        return f"clicked ({x},{y})"
+
+    def type_text(self, text: str):
+        if not self.available:
+            return self._guarded("type_text")
+        self._pyautogui.typewrite(text)
+        return f"typed {len(text)} chars"
+
+    def screenshot(self):
+        if not self.available:
+            return self._guarded("screenshot")
+        return self._pyautogui.screenshot()
+
+

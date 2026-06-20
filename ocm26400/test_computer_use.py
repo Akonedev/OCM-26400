@@ -3,7 +3,7 @@
 Valide l'exécution RÉELLE de commandes + la SÉCURITÉ (mode sûr sans shell=True :
 injection neutralisée) + l'allowlist.
 """
-from ocm26400.computer_use import ShellTool, safe_default_allowlist
+from ocm26400.computer_use import ShellTool, safe_default_allowlist, GUITool
 
 
 def test_shell_runs_real_command():
@@ -41,3 +41,15 @@ def test_safe_default_allowlist_is_readonly():
     al = safe_default_allowlist()
     assert "ls" in al and "echo" in al
     assert "rm" not in al and "sudo" not in al
+
+
+def test_gui_tool_interface_present():
+    """GUITool (computer-use GUI souris/clavier) : interface présente.
+    En headless, .available=False et les méthodes retournent un message gracieux (pas
+    de crash) — la capacité existe dans le code, l'exécution demande un display."""
+    gui = GUITool()
+    if not gui.available:                         # headless (cas ici)
+        for out in (gui.move_to(10, 20), gui.click(0, 0), gui.type_text("x"), gui.screenshot()):
+            assert isinstance(out, str) and ("indisponible" in out or "display" in out)
+    else:                                         # si display présent : pas de crash
+        assert gui.available is True
