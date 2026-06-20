@@ -60,6 +60,7 @@ from .stream import stream_chars, stream_cot, TokenStream
 from .chemistry import molar_mass, balance_simple, is_balanced, parse_formula
 from .genetics import punnett_square, phenotype_ratios, mendelian_cross
 from .finance import compound_interest, loan_payment, total_paid
+from .logic_engine import evaluate, is_tautology, valid_argument, truth_table
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
