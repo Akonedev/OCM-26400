@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 120 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 125 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **120 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **125 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -34,6 +34,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Tool-use / apprentissage externe** | LearningAgent (KB+Tool), 'je sais pas->rechercher->apprendre->rétention' | `tools.py` | 5 |
 | **Auto-correction / auto-amélioration** | re-raisonnement rattrape erreurs mémoire, justesse 79%->100%, self-consistency | `self_correction.py` | 4 |
 | **Vocabulaire anglais RÉEL 315K** | 370K mots réels (dwyl), 315K adressables par composition de chars, retrieval@1 100%, OOV 0% | `experiment_real_vocab.py` | démontrée |
+| **Apprentissage depuis URLs RÉEL** | WebFetchTool (HTTP urllib), fetch+apprend+retient pages web réelles (Wikipedia) | `web_tools.py` | 5 |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 

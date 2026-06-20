@@ -1,0 +1,30 @@
+{
+  "task": "apprentissage depuis URLs r\u00e9elles (spec 'donner URL -> lire -> apprendre')",
+  "n_urls": 3,
+  "n_learned": 3,
+  "learned": [
+    {
+      "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Paris",
+      "label": "Paris",
+      "chars": 591,
+      "snippet": "Paris is the capital and largest city of France, with an estimated city population of 2.04 million in an area of 105.4\u00a0km2 (40.7\u00a0sq\u00a0mi), and a metropolitan popu",
+      "retained": true
+    },
+    {
+      "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Albert_Einstein",
+      "label": "Einstein",
+      "chars": 470,
+      "snippet": "Albert Einstein was a German-born theoretical physicist best known for developing the known theory of relativity. Einstein also made important contributions to ",
+      "retained": true
+    },
+    {
+      "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Pythagorean_theorem",
+      "label": "Pythagore",
+      "chars": 295,
+      "snippet": "In mathematics, the Pythagorean theorem or Pythagoras's theorem is a fundamental relation in Euclidean geometry between the three sides of a right triangle. It ",
+      "retained": true
+    }
+  ],
+  "verdict": "VALID\u00c9",
+  "duration_s": 0.3
+}

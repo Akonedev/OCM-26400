@@ -15,6 +15,7 @@ from .real_linguistic import RealViewEncoder, load_real_words, MODALITIES as LIN
 from .multimodal_encoders import AudioEncoder, ImageEncoder
 from .tools import LearningAgent, StaticTool, Tool
 from .self_correction import self_correct, self_improve, self_consistency_confidence
+from .web_tools import WebFetchTool, URLMemory, fetch_url
 
 __all__ = [
     "info_nce",
@@ -40,5 +41,7 @@ __all__ = [
     "StaticTool",
     "self_correct",
     "self_improve",
+    "WebFetchTool",
+    "URLMemory",
 ]
 
