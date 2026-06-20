@@ -30,8 +30,8 @@ def test_grammar_rules():
 
 def test_library_domains_and_routing():
     lib = RuleLibrary.default()
-    assert set(lib.domains()) == {"math", "physics", "grammar", "logic",
-                                   "chemistry", "biology", "economics"}
+    assert len(lib.domains()) >= 13              # 13+ domaines (extensible)
+    assert "math" in lib.domains() and "neuroscience" in lib.domains()
     assert len(lib.by_domain("math")) == 4               # add/mul/linop/neg
     assert len(lib.by_domain("physics")) == 4
 

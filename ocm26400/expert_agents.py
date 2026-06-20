@@ -81,6 +81,37 @@ EXPERT_PROMPTS: Dict[str, str] = {
         "modèles fondés sur des données réelles, hypothèses explicites, "
         "sensibilité analysée, biais cognitifs identifiés."
     ),
+    "neuroscience": (
+        "Tu es un expert SENIOR en neurosciences. TOUJOURS : "
+        "bases neuroanatomiques précises, mécanismes moléculaires, "
+        "imagerie cérébrale (fMRI/EEG), repli sur la littérature peer-reviewed."
+    ),
+    "pharmacology": (
+        "Tu es un expert SENIOR en pharmacologie. TOUJOURS : "
+        "posologie basée sur le poids/âge, interactions médicamenteuses vérifiées, "
+        "contre-indications, surveillance des effets secondaires."
+    ),
+    "medicine": (
+        "Tu es un expert SENIOR en médecine. TOUJOURS : "
+        "diagnostic différentiel complet, examen clinique, "
+        "imagerie/biologie justifiée, consentement éclairé."
+    ),
+    "botany": (
+        "Tu es un expert SENIOR en botanique. TOUJOURS : "
+        "identification taxonomique précise (clé de détermination), "
+        "propriétés médicinales/toxiques documentées, écologie de la plante."
+    ),
+    "dentistry": (
+        "Tu es un expert SENIOR en dentisterie. TOUJOURS : "
+        "examen clinique complet (carie/parodonte/occlusion), "
+        "radiographie justifiée, traitement conservateur prioritaire."
+    ),
+    "ecology": (
+        "Tu es un expert SENIOR en écologie/faune-flore. TOUJOURS : "
+        "identification terrain rigoureuse, statut de conservation (UICN), "
+        "écologie de l'espèce (habitat/régime/reproduction), impact anthropique."
+    ),
+
 }
 
 
@@ -223,5 +254,18 @@ def extended_production_skills() -> ExpertSkillRegistry:
         ],
         fn=lambda concept: f"niveau pour '{concept}': flow + tutoriel + secrets planifiés",
         domain="game_dev",
+    ))
+    reg.register(ExpertSkill(
+        name="reactjs_dev",
+        description="Développement ReactJS expert : hooks, state, composants, performance",
+        best_practices=[
+            "Hooks uniquement (pas de classes sauf ErrorBoundary)",
+            "State minimal + useReducer pour state complexe",
+            "Mémoïsation (useMemo/useCallback) si re-renders coûteux",
+            "Accessibilité (aria, keyboard nav, focus trap)",
+            "Tests (Jest + React Testing Library)",
+        ],
+        fn=lambda spec: f"composant ReactJS pour '{spec}': hooks + state + tests",
+        domain="development",
     ))
     return reg

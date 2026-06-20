@@ -102,6 +102,108 @@ def _economics_rules(n: int = 11) -> List[Rule]:
     ]
 
 
+
+def _neuroscience_rules(n: int = 11) -> List[Rule]:
+    """Règles neuroscience : synapse, neurotransmission."""
+    return [
+        Rule("synapse", "neuroscience", lambda a, b: (a * b) % n, 2, "signal synaptique A×B"),
+        Rule("neurotransmit", "neuroscience", lambda a: (a + 3) % n, 1, "neurotransmission (+3)"),
+    ]
+
+
+def _pharmacology_rules(n: int = 11) -> List[Rule]:
+    """Règles pharmacologie : dose thérapeutique, métabolisme."""
+    return [
+        Rule("dose", "pharmacology", lambda a, b: (a * b) % n, 2, "dose thérapeutique P×W"),
+        Rule("metabolize", "pharmacology", lambda a: (a - 1) % n, 1, "métabolisation (-1)"),
+    ]
+
+
+def _medicine_rules(n: int = 11) -> List[Rule]:
+    """Règles médecine : diagnostic, prescription."""
+    return [
+        Rule("diagnose", "medicine", lambda a, b: (2 * a + b) % n, 2, "diagnostic symptôme"),
+        Rule("prescribe", "medicine", lambda a: (a + 5) % n, 1, "prescription traitement"),
+    ]
+
+
+def _botany_rules(n: int = 11) -> List[Rule]:
+    """Règles botanique : photosynthèse, croissance."""
+    return [
+        Rule("photosynthesize", "botany", lambda a, b: (a + b) % n, 2, "photosynthèse lumière+CO2"),
+        Rule("grow", "botany", lambda a: (a + 1) % n, 1, "croissance végétale"),
+    ]
+
+
+def _dentistry_rules(n: int = 11) -> List[Rule]:
+    """Règles dentisterie : érosion, obturation."""
+    return [
+        Rule("erode", "dentistry", lambda a, b: (a - b) % n, 2, "érosion dentaire"),
+        Rule("fill", "dentistry", lambda a: (a + 2) % n, 1, "obturation"),
+    ]
+
+
+def _ecology_rules(n: int = 11) -> List[Rule]:
+    """Règles écologie/faune-flore : classification, observation."""
+    return [
+        Rule("classify", "ecology", lambda a, b: (a + 2 * b) % n, 2, "classification taxonomique"),
+        Rule("observe", "ecology", lambda a: (2 * a) % n, 1, "observation terrain"),
+    ]
+
+
+def _electromagnetism_rules(n: int = 11) -> List[Rule]:
+    """Électromagnétisme : loi d'Ohm, force de Coulomb, champ magnétique."""
+    return [
+        Rule("ohm", "electromagnetism", lambda u, r: (u * pow(r, -1, n)) % n if r else 0, 2, "I = U/R (loi d'Ohm)"),
+        Rule("coulomb", "electromagnetism", lambda q1, q2: (q1 * q2) % n, 2, "F = k·q1·q2/r² (Coulomb)"),
+        Rule("magnetic_flux", "electromagnetism", lambda a: (a * 3) % n, 1, "Φ = B·A (flux magnétique)"),
+    ]
+
+
+def _electricity_rules(n: int = 11) -> List[Rule]:
+    """Électricité : puissance, énergie, résistance équivalente."""
+    return [
+        Rule("power", "electricity", lambda u, i: (u * i) % n, 2, "P = U·I (puissance)"),
+        Rule("energy_kwh", "electricity", lambda p, t: (p * t) % n, 2, "E = P·t (énergie)"),
+        Rule("series_resistance", "electricity", lambda a, b: (a + b) % n, 2, "R_série = R1+R2"),
+    ]
+
+
+def _thermodynamics_rules(n: int = 11) -> List[Rule]:
+    """Thermodynamique : entropie, pression, température."""
+    return [
+        Rule("entropy", "thermodynamics", lambda a, b: (a + b) % n, 2, "ΔS = Q/T (entropie)"),
+        Rule("pressure", "thermodynamics", lambda f, a: (f * pow(a, -1, n) if a else 0) % n, 2, "P = F/A (pression)"),
+        Rule("heat_transfer", "thermodynamics", lambda a: (a * 2) % n, 1, "Q = mcΔT (chaleur)"),
+    ]
+
+
+def _mechanics_rules(n: int = 11) -> List[Rule]:
+    """Mécanique : travail, énergie potentielle, moment."""
+    return [
+        Rule("work", "mechanics", lambda f, d: (f * d) % n, 2, "W = F·d (travail)"),
+        Rule("potential_energy", "mechanics", lambda m, h: (m * h) % n, 2, "Ep = m·g·h"),
+        Rule("torque", "mechanics", lambda f, r: (f * r) % n, 2, "τ = F·r (moment)"),
+    ]
+
+
+def _waves_rules(n: int = 11) -> List[Rule]:
+    """Ondes : fréquence, longueur d'onde, vitesse."""
+    return [
+        Rule("wave_speed", "waves", lambda f, lam: (f * lam) % n, 2, "v = f·λ (vitesse ondulatoire)"),
+        Rule("frequency", "waves", lambda a: (a * 2) % n, 1, "f = 1/T (fréquence)"),
+        Rule("doppler", "waves", lambda a, b: (a - b) % n, 2, "effet Doppler"),
+    ]
+
+
+def _optics_rules(n: int = 11) -> List[Rule]:
+    """Optique : réfraction, lentille, réflexion."""
+    return [
+        Rule("snell", "optics", lambda a, b: (a + b) % n, 2, "n1·sin(θ1) = n2·sin(θ2) (Snell)"),
+        Rule("lens_power", "optics", lambda a: (pow(a, -1, n) if a else 0) % n, 1, "P = 1/f (lentille)"),
+        Rule("magnification", "optics", lambda a, b: (a * pow(b, -1, n) if b else 0) % n, 2, "m = -d_i/d_o"),
+    ]
+
 @dataclass
 class RuleLibrary:
     """Bibliothèque de règles vérifiables multi-domaines (math/physique/grammaire)."""
@@ -111,7 +213,12 @@ class RuleLibrary:
     def default(cls, n: int = 11) -> "RuleLibrary":
         lib = cls()
         for r in (_math_rules(n) + _physics_rules() + _grammar_rules() + _logic_rules()
-                 + _chemistry_rules(n) + _biology_rules(n) + _economics_rules(n)):
+                 + _chemistry_rules(n) + _biology_rules(n) + _economics_rules(n)
+                 + _neuroscience_rules(n) + _pharmacology_rules(n) + _medicine_rules(n)
+                 + _botany_rules(n) + _dentistry_rules(n) + _ecology_rules(n)
+                 + _electromagnetism_rules(n) + _electricity_rules(n)
+                 + _thermodynamics_rules(n) + _mechanics_rules(n)
+                 + _waves_rules(n) + _optics_rules(n)):
             lib.add(r)
         return lib
 
