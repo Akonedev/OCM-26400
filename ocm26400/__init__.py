@@ -32,6 +32,7 @@ from .skills_system import ExpertSkill, SkillCreator, ExpertSkillRegistry, produ
 from .expert_agents import ExpertAgentWithSkills, EXPERT_PROMPTS, extended_production_skills
 from .agent_swarm import SwarmAgent, SwarmOrchestrator, SwarmConfig, AgentMemory
 from .meta_controller import MetaController
+from .curriculum import Curriculum
 
 __all__ = [
     "info_nce",
@@ -84,5 +85,6 @@ __all__ = [
     "SwarmAgent",
     "SwarmOrchestrator",
     "MetaController",
+    "Curriculum",
 ]
 
