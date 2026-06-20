@@ -1,11 +1,11 @@
 # OCM-26400 — Statut & Validation
 
 **Date:** 19 Juin 2026
-**Package:** `ocm26400/` (construit en TDD, 111 tests verts)
+**Package:** `ocm26400/` (construit en TDD, 116 tests verts)
 
 ## CE QUI EST CODÉ ET VALIDÉ
 
-Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **111 tests verts.**
+Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est maintenant **implémenté + démontré**. **116 tests verts.**
 
 | Composant | Spec | Fichier | Tests |
 |---|---|---|---|
@@ -31,6 +31,7 @@ Le joyau spec (Besoins_Maths.md) — auparavant **markdown seulement** — est m
 | **Domaine math multi-op (§2)** | 1 block op-aware 3 ops (ADD/OP_A/OP_B), 100% non vus, règle extraite/op | `experiment_math.py` | démontrée |
 | **Amodal sur vues RÉELLES** | 1000 vrais mots, 4 modalités (texte/morpho/phono/sém), retrieval 62-79% paires riches | `real_linguistic.py` | 5 |
 | **Encodeurs audio/image RÉELS** | AudioEncoder (Mel STFT) + ImageEncoder (patches), ingèrent vrais signaux -> amodal | `multimodal_encoders.py` | 5 |
+| **Tool-use / apprentissage externe** | LearningAgent (KB+Tool), 'je sais pas->rechercher->apprendre->rétention' | `tools.py` | 5 |
 
 ## ROADMAP (juge experts/DA — voir `EXPERT_PANEL_VERDICT.md`)
 

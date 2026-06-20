@@ -60,11 +60,12 @@ class KnowledgeBase:
         """Renvoie (valeur stockée, confiance) ou (None, conf) si abstention.
 
         Le None est le signal 'je ne sais pas' -> dans le spec, déclenche le mode
-        apprentissage (recherche externe + store du nouveau concept)."""
+        apprentissage (recherche externe + store du nouveau concept). Un concept
+        retrouvé mais SANS valeur stockée est aussi une abstention (non appris)."""
         idx, conf = self.retrieve(query_vec, threshold=threshold)
-        if idx is UNKNOWN:
+        if idx is UNKNOWN or idx not in self.values:
             return None, conf
-        return self.values.get(idx, idx), conf
+        return self.values[idx], conf
 
     def knows(self, query_vec: torch.Tensor, threshold: Optional[float] = None) -> bool:
         """Le système connaît-il une réponse confiant pour cette requête ?"""

@@ -13,6 +13,7 @@ from .compositional_vocab import CompositionalVocabulary
 from .sleep import extract_rule, consolidate
 from .real_linguistic import RealViewEncoder, load_real_words, MODALITIES as LING_MODALITIES
 from .multimodal_encoders import AudioEncoder, ImageEncoder
+from .tools import LearningAgent, StaticTool, Tool
 
 __all__ = [
     "info_nce",
@@ -34,5 +35,7 @@ __all__ = [
     "load_real_words",
     "AudioEncoder",
     "ImageEncoder",
+    "LearningAgent",
+    "StaticTool",
 ]
 
