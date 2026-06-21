@@ -39,17 +39,37 @@ def word_to_number(token: str) -> Optional[float]:
 
 
 def extract_all_numbers(text: str) -> List[float]:
-    """Extrait TOUS les nombres d'un texte : digits ET mots-nombres.
-    C'est la primitive 1 appliquée (avant je ne trouvais que les digits → manquais 'three')."""
+    """Extrait TOUS les nombres d'un texte : digits ET mots-nombres COMPOSÉS.
+    Primitive 1 grokkée : 'three'→3, 'twenty-five'→25, 'one hundred'→100."""
     nums = []
+    clean_text = text.replace(",", "")
     # digits
-    for m in re.finditer(r"\d+(?:\.\d+)?", text.replace(",", "")):
+    for m in re.finditer(r"\d+(?:\.\d+)?", clean_text):
         nums.append(float(m.group()))
-    # mots-nombres (primitive grokkée)
-    for word in text.lower().replace("-", " ").split():
-        clean = re.sub(r"[^a-z]", "", word)
-        if clean in WORD_NUMBERS:
-            nums.append(WORD_NUMBERS[clean])
+    # mots-nombres composés (twenty-five → 25, thirty-two → 32)
+    # 1. patterns "X hundred Y" → X*100 + Y
+    for m in re.finditer(r"(\w+)\s+hundred(?:\s+(\w+))?", clean_text.lower()):
+        hundreds = WORD_NUMBERS.get(m.group(1), 0)
+        remainder = WORD_NUMBERS.get(m.group(2), 0) if m.group(2) else 0
+        if hundreds:
+            nums.append(hundreds * 100 + remainder)
+    # 2. patterns "X-Y" composés (twenty-five → 25)
+    for m in re.finditer(r"(\w+)-(\w+)", clean_text.lower()):
+        tens = WORD_NUMBERS.get(m.group(1), 0)
+        ones = WORD_NUMBERS.get(m.group(2), 0)
+        if tens >= 20 and ones < 10 and ones > 0:
+            nums.append(tens + ones)
+        elif tens and ones:
+            # autres composés (double-check pas déjà capturé)
+            pass
+    # 3. mots-nombres simples restants (évite les doublons avec composés)
+    words_seen = set()
+    for compound_match in re.finditer(r"[\w]+-[\w]+|[\w]+\s+hundred(?:\s+[\w]+)?", clean_text.lower()):
+        words_seen.update(compound_match.group().replace("-", " ").split())
+    for word in clean_text.lower().replace("-", " ").split():
+        clean_w = re.sub(r"[^a-z]", "", word)
+        if clean_w in WORD_NUMBERS and clean_w not in words_seen:
+            nums.append(WORD_NUMBERS[clean_w])
     return nums
 
 
