@@ -89,8 +89,10 @@ def train_ocr(n_train: int = 6000, n_test: int = 1000, n_steps: int = 800,
 
 
 @torch.no_grad()
-def recognize(model: OCRDigitRecognizer, image, device: str = "cpu") -> int:
-    """OCR : une image 28x28 → chiffre prédit."""
+def recognize(model: OCRDigitRecognizer, image, device: str = None) -> int:
+    """OCR : une image 28x28 → chiffre prédit. Auto-détecte le device du modèle."""
+    if device is None:
+        device = next(model.parameters()).device
     t = torch.as_tensor(image, dtype=torch.float32)
     if t.dim() == 2:
         t = t.view(1, 1, 28, 28)
