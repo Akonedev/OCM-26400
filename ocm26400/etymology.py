@@ -62,7 +62,7 @@ def etymological_family(word: str) -> List[str]:
 def morphemes(word: str) -> Dict[str, List[str]]:
     """Décompose un mot en morphèmes : radical + préfixes + suffixes.
     'déshabiller' → dé+s+habill+er (préfixe 'dé', radical 'habill', suffixe 'er')."""
-    from .language_primitives import PREFIXES, SUFFIXES
+    from .linguistics import PREFIXES, SUFFIXES
     w = word.lower()
     prefixes = []
     suffixes = []
