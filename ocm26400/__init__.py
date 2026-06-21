@@ -82,6 +82,11 @@ from .signal_processing import PIDController, spectrum, dominant_frequency, rms
 from .jacobian import jacobian, gradient, divergence, laplacian, curl
 from .rl_posttraining import dpo_loss, grpo_loss, compute_group_advantages
 from .real_bench import run_real_bench, RealProblem
+from .statistics import mean, correlation, bayes_update
+from .game_theory import minimax, nash_equilibria
+from .cryptography import caesar_encrypt, rsa_keygen, rsa_encrypt
+from .information import entropy, mutual_information
+from .optimization import gradient_descent, minimize_1d
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
