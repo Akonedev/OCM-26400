@@ -111,6 +111,7 @@ from .music_generator import generate_melody, generate_scale, to_midi
 from .alt_number_systems import LNS, RNS, lns_multiply, rns_add
 from .episodic_memory import EpisodicMemory, Episode
 from .bench_public import run_all_public_benchmarks
+from .language_grok import grok_word_number, grok_cue_operation
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
