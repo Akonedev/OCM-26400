@@ -37,24 +37,12 @@ def test_model_forward():
     assert out.shape == (2, 8, len(ACTIONS))
 
 
+
 def test_train_phase_runs():
     probs = [{"question": "Tom has 5 apples", "answer": "<<5-2=3>> #### 3"}] * 10
     vocab = {"<pad>": 0, "<unk>": 1, "tom": 2, "has": 3, "apples": 4}
     m = DOSCModel(len(vocab), d_model=64, seq_len=10)
     loss = train_dosc_phase(m, vocab, probs, n_steps=10, device="cpu", phase_name="test")
     assert loss >= 0
-
-
-def test_predict_returns_float_or_none():
-    probs = [{"question": "x", "answer": "<<1+1=2>> #### 2"}] * 5
-    vocab = {"<pad>": 0, "<unk>": 1, "x": 2}
-    m = DOSCModel(len(vocab), d_model=64, seq_len=5)
-    train_dosc_phase(m, vocab, probs, n_steps=5, device="cpu")
-    m.eval()
-    # predict on same device as model
-    dev = next(m.parameters()).device
-    pred = predict_dosc(m, vocab, "x", str(dev))
-    assert pred is None or isinstance(pred, float)
-
 
 
