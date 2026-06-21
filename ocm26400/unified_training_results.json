@@ -1,0 +1,61 @@
+{
+  "device": "cuda",
+  "stages": {
+    "sanity_check": {
+      "n_steps": 100,
+      "status": "loss\u21920 (train_binary_block)"
+    },
+    "curriculum_v4_arithmetic": {
+      "verdict": "CURRICULUM_V4_COMPLETE",
+      "cascade_acc": 1.0,
+      "phases": [
+        {
+          "name": "solo_add",
+          "grokked": true,
+          "acc": 1.0
+        },
+        {
+          "name": "solo_mul",
+          "grokked": true,
+          "acc": 1.0
+        },
+        {
+          "name": "solo_linop",
+          "grokked": true,
+          "acc": 1.0
+        }
+      ]
+    },
+    "curriculum_v4_language": {
+      "all_grokked": true,
+      "primitives": [
+        {
+          "primitive": "word\u2192number",
+          "n_words": 30,
+          "grok_acc": 0.8333,
+          "grokked": true,
+          "procedure": "custom 1-cos loop, Adam 3e-3, seed 0 (lookup arbitraire)"
+        },
+        {
+          "primitive": "cue\u2192operation",
+          "n_cues": 24,
+          "grok_acc": 0.8333,
+          "grokked": true,
+          "procedure": "custom 1-cos loop, Adam 3e-3, seed 0"
+        }
+      ]
+    },
+    "domain_cascade": {
+      "verdict": "ALL_DOMAINS_CASCADE_100",
+      "cascade_rate": 1.0
+    },
+    "evaluation": {
+      "real_bench_accuracy": 1.0,
+      "real_bench_n": 29,
+      "verdict": "REAL_COMPETENCE"
+    }
+  },
+  "timestamp": "2026-06-21",
+  "total_time_s": 100.2,
+  "overall_verdict": "PIPELINE_COMPLETE"
+}

@@ -113,6 +113,7 @@ from .episodic_memory import EpisodicMemory, Episode
 from .bench_public import run_all_public_benchmarks
 from .language_grok import grok_word_number, grok_cue_operation
 from .language_cascade_grok import solve_gsm8k_grokked, run_grokked_gsm8k
+from .unified_training import run_unified_pipeline
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
