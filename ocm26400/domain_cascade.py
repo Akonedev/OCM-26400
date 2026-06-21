@@ -139,7 +139,7 @@ if __name__ == "__main__":
     rep = run_all_domain_cascades()
     print(f"[domain cascade] {rep['n_domains']} domaines | "
           f"primitives {rep['n_primitives_grokked']}/{rep['n_domains']} | "
-          f"cascades {rep['n_cascades']}/{rep['n_domains']} | {rep['verdict']}")
+          f"cascades {rep['n_cascades_ok']}/{rep['n_domains']} | {rep['verdict']}")
     for r in rep["results"]:
         print(f"  {r['domain']:12s} | prim {'✓' if r['prim_ok'] else '✗'} "
               f"| cascade {'✓' if r['casc_ok'] else '✗'} | {r['detail']}")
