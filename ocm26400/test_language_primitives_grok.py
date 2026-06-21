@@ -20,7 +20,7 @@ def test_extract_all_numbers_finds_words():
 
 def test_cue_to_operation():
     assert cue_to_operation("She eats 3") == "S"
-    assert cue_to_operation("each box costs") == "M"
+    assert cue_to_operation("each box has 3 items") == "M"
     assert cue_to_operation("split equally") == "D"
 
 
