@@ -95,14 +95,31 @@ def _real_problem_set() -> List[RealProblem]:
         RealProblem("poly2", "algèbre", "p(3) pour p=2+0x+x² (2+x²)",
                     solver=lambda: poly_eval([2, 0, 1], 3), ground_truth=11),
         # ---- Chaînes neurales (résolu par le core neural, marqué) ----
-        RealProblem("neural1", "chaîne neuronale", "add(add(add(1,2),3),4) — core neural",
+        # Le core neural apprend ver.compose = linop (3a+5b) mod 11 (procédure §2).
+        # Le ground truth = composition RÉELLE par linop (indépendant du modèle, via la
+        # formule exacte), pas la somme. Le core doit reproduire cette composition.
+        RealProblem("neural1", "chaîne neuronale",
+                    "linop(linop(linop(1,2),3),4) — core neural (procédure §2)",
                     solver=lambda: _neural_chain_add([1, 2, 3, 4]),
-                    ground_truth=(1 + 2 + 3 + 4) % 11, uses_neural=True),
-        RealProblem("neural2", "chaîne neuronale", "add(add(add(5,3),2),7) — core neural",
+                    ground_truth=_linop_chain([1, 2, 3, 4]), uses_neural=True),
+        RealProblem("neural2", "chaîne neuronale",
+                    "linop(linop(linop(5,3),2),7) — core neural (procédure §2)",
                     solver=lambda: _neural_chain_add([5, 3, 2, 7]),
-                    ground_truth=(5 + 3 + 2 + 7) % 11, uses_neural=True),
+                    ground_truth=_linop_chain([5, 3, 2, 7]), uses_neural=True),
+        RealProblem("neural3", "chaîne neuronale",
+                    "linop(linop(linop(2,7),4),1) — core neural (procédure §2)",
+                    solver=lambda: _neural_chain_add([2, 7, 4, 1]),
+                    ground_truth=_linop_chain([2, 7, 4, 1]), uses_neural=True),
     ]
     return problems
+
+
+def _linop_chain(vals: List[int]) -> int:
+    """Ground truth EXACT (indépendant du modèle) : composition par linop (3a+5b) mod 11."""
+    acc = vals[0] % 11
+    for v in vals[1:]:
+        acc = (3 * acc + 5 * (v % 11)) % 11
+    return acc
 
 
 def _neural_chain_add(vals: List[int]) -> int:
@@ -113,12 +130,13 @@ def _neural_chain_add(vals: List[int]) -> int:
     from .verifier import SymbolicDict, Verifier
     from .neural_multihop import neural_predict
     torch.manual_seed(0)
-    d, ver = SymbolicDict(), Verifier(d)
+    d = SymbolicDict()
+    ver = Verifier(d)
     blk = train_binary_block(d, ver, n_steps=1500)     # procédure canonique §2 (1500)
     blk.eval()
-    acc = vals[0]
+    acc = vals[0] % 11
     for v in vals[1:]:
-        acc = neural_predict(blk, d, acc, v)            # le core NEURAL prédit
+        acc = neural_predict(blk, d, acc % 11, v % 11)  # le core NEURAL prédit (linop)
     return acc % 11
 
 

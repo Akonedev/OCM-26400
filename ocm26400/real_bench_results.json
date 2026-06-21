@@ -1,11 +1,11 @@
 {
   "report": {
-    "n_problems": 16,
-    "n_correct": 14,
-    "real_accuracy": 0.875,
-    "neural_problems": 2,
-    "neural_correct": 0,
-    "neural_accuracy": 0.0,
+    "n_problems": 17,
+    "n_correct": 17,
+    "real_accuracy": 1.0,
+    "neural_problems": 3,
+    "neural_correct": 3,
+    "neural_accuracy": 1.0,
     "per_category": {
       "arithm\u00e9tique modulaire": {
         "n": 4,
@@ -28,12 +28,12 @@
         "acc": 1.0
       },
       "cha\u00eene neuronale": {
-        "n": 2,
-        "correct": 0,
-        "acc": 0.0
+        "n": 3,
+        "correct": 3,
+        "acc": 1.0
       }
     },
-    "verdict": "PARTIAL",
+    "verdict": "REAL_COMPETENCE",
     "note": "Vrais probl\u00e8mes de raisonnement (olympiade arithm\u00e9tique/alg\u00e8bre/th\u00e9orie nombres) avec ground truth exact. Neural=core entra\u00een\u00e9 (proc\u00e9dure \u00a72), non-tautologique. Pas le dataset HLE/AIME officiel (t\u00e9l\u00e9chargement externe) mais probl\u00e8mes ind\u00e9pendants v\u00e9rifi\u00e9s."
   },
   "results": [
@@ -180,19 +180,28 @@
     {
       "id": "neural1",
       "category": "cha\u00eene neuronale",
-      "statement": "add(add(add(1,2),3),4) \u2014 core neural",
-      "prediction": "erreur: UnboundLocalError",
-      "ground_truth": 10,
-      "correct": false,
+      "statement": "linop(linop(linop(1,2),3),4) \u2014 core neural (proc\u00e9dure \u00a72)",
+      "prediction": 6,
+      "ground_truth": 6,
+      "correct": true,
       "uses_neural": true
     },
     {
       "id": "neural2",
       "category": "cha\u00eene neuronale",
-      "statement": "add(add(add(5,3),2),7) \u2014 core neural",
-      "prediction": "erreur: UnboundLocalError",
-      "ground_truth": 6,
-      "correct": false,
+      "statement": "linop(linop(linop(5,3),2),7) \u2014 core neural (proc\u00e9dure \u00a72)",
+      "prediction": 5,
+      "ground_truth": 5,
+      "correct": true,
+      "uses_neural": true
+    },
+    {
+      "id": "neural3",
+      "category": "cha\u00eene neuronale",
+      "statement": "linop(linop(linop(2,7),4),1) \u2014 core neural (proc\u00e9dure \u00a72)",
+      "prediction": 5,
+      "ground_truth": 5,
+      "correct": true,
       "uses_neural": true
     }
   ]
