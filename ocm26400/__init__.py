@@ -98,6 +98,7 @@ from .ocr import OCRDigitRecognizer, train_ocr, recognize
 from .primitive_grok_curriculum import run_curriculum_v4, GATES
 from .language_curriculum import run_language_curriculum
 from .gsm8k_scratchpad import solve_scratchpad_cascade, run_scratchpad_gsm8k
+from .speech_recognition import train_asr, recognize_phoneme
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
