@@ -1,0 +1,60 @@
+{
+  "model": "OCM-26400",
+  "architecture": "SpectralCoreBlock (FFT bidirectionnel), AMV-256, ACSP loss",
+  "params": "675K FIXES",
+  "no_transformer": true,
+  "procedure": "6 lois L1-L6, curriculum v4 ADR-0030, scratchpad cascade, seed 0",
+  "timestamp": "2026-06-21",
+  "benchmarks": {
+    "real_bench": {
+      "accuracy": 1.0,
+      "n_problems": 29,
+      "categories": [
+        "arithm\u00e9tique modulaire",
+        "dernier chiffre",
+        "th\u00e9orie des nombres",
+        "alg\u00e8bre",
+        "cha\u00eene neuronale",
+        "g\u00e9om\u00e9trie",
+        "combinatoire",
+        "probabilit\u00e9s"
+      ]
+    },
+    "domain_competence": {
+      "rules_mastered": 91,
+      "domains": 30,
+      "rate": 1.0
+    },
+    "language_curriculum": {
+      "grok_rate": 1.0,
+      "generalization_unseen": {
+        "pr\u00e9sent": 1.0,
+        "futur": 1.0,
+        "imparfait": 1.0
+      }
+    },
+    "domain_cascade": {
+      "verdict": "ALL_DOMAINS_CASCADE_100",
+      "cascade_rate": 1.0
+    },
+    "code_generation": {
+      "n_algorithms": 12,
+      "all_correct": true
+    },
+    "cot_arithmetic": {
+      "verdict": "CLAIM_VERIFIED",
+      "exact_arithmetic": true
+    },
+    "abstraction": {
+      "sample_categorizations": {
+        "chien": "mammif\u00e8re",
+        "chat": "mammif\u00e8re",
+        "aigle": "oiseau",
+        "requin": "poisson",
+        "ch\u00eane": "plante"
+      }
+    }
+  },
+  "overall_verdict": "ALL_STRUCTURED_100%",
+  "gsm8k_note": "GSM8K officiel = 4.0% (10 approches). Le NL libre est la fronti\u00e8re (le structur\u00e9 = 100%)."
+}
