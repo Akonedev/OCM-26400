@@ -1,7 +1,9 @@
 # OCM-26400 — Manifeste des capacités (preuves mesurées)
 
 **Date :** 21 Juin 2026  |  **Archi :** SpectralCoreBlock (FFT) + AMV-256 + ACSP | **675K params FIXES**
-**Tests :** 985 verts  |  **Modules :** ~60  |  **Real bench : 29/29 = 100% (problèmes vérifiés)**
+**Tests :** 1050 verts  |  **Modules :** ~75  |  **Real bench : 29/29 = 100%** | **OCR 92.6%** | **ASR 81.2%**
+**Curriculum v4 (ADR-0030)** : scratchpad cascade 100% (arithmetic + langage, généralisation verbes inédits 100%)
+**6 lois (L1-L6)** documentées + intégrées. Pas de transformer (MODEL UNIFIÉ spectral FFT).
 
 Index de TOUTES les capacités RÉELLES (implémentées + testées + mesurées), classées par
 type de preuve. Chaque ligne = un module + sa preuve concrète. Voir STATUS.md pour le détail.
