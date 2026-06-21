@@ -82,10 +82,17 @@ def classify_sounds(word: str) -> Dict[str, List[str]]:
             "consonnes_voisees": sorted(set(voisées))}
 
 
+ELIDABLE = {"le", "la", "je", "me", "te", "se", "de", "ne", "que", "ce", "si",
+            "puisque", "lorsque", "quoique", "jusque"}
+
+
 def elision(word_before: str, word_after: str) -> bool:
-    """Élision : le 'e' muet final tombe devant une voyelle (l'ami, l'arbre)."""
-    return (word_before.lower().endswith("e") and len(word_before) > 1
-            and word_after and word_after[0].lower() in "aeiouyhéàâ")
+    """Élision : le 'e'/'a' muet final tombe devant voyelle (l'ami, l'arbre, d'école).
+    Seuls certains mots élide (le/la/je/de/que...). 'ma', 'ta', 'sa' N'élident pas."""
+    w = word_before.lower()
+    if w not in ELIDABLE:
+        return False
+    return bool(word_after) and word_after[0].lower() in "aeiouyhéàâêîôû"
 
 
 def liaison(word_before: str, word_after: str) -> str:

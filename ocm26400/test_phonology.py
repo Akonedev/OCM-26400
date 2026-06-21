@@ -26,8 +26,10 @@ def test_classify_sounds():
 
 def test_elision():
     assert elision("le", "ami") is True       # l'ami
-    assert elision("la", "ami") is False      # pas d'élision pour la
-    assert elision("ma", "école") is True
+    assert elision("la", "ami") is True       # l'amie (la élide aussi)
+    assert elision("de", "école") is True     # d'école
+    assert elision("ma", "école") is False    # ma N'élide pas (-> mon école)
+    assert elision("le", "chat") is False     # pas d'élision devant consonne
 
 
 def test_liaison_z():
