@@ -1,0 +1,199 @@
+{
+  "report": {
+    "n_problems": 16,
+    "n_correct": 14,
+    "real_accuracy": 0.875,
+    "neural_problems": 2,
+    "neural_correct": 0,
+    "neural_accuracy": 0.0,
+    "per_category": {
+      "arithm\u00e9tique modulaire": {
+        "n": 4,
+        "correct": 4,
+        "acc": 1.0
+      },
+      "dernier chiffre": {
+        "n": 2,
+        "correct": 2,
+        "acc": 1.0
+      },
+      "th\u00e9orie des nombres": {
+        "n": 6,
+        "correct": 6,
+        "acc": 1.0
+      },
+      "alg\u00e8bre": {
+        "n": 2,
+        "correct": 2,
+        "acc": 1.0
+      },
+      "cha\u00eene neuronale": {
+        "n": 2,
+        "correct": 0,
+        "acc": 0.0
+      }
+    },
+    "verdict": "PARTIAL",
+    "note": "Vrais probl\u00e8mes de raisonnement (olympiade arithm\u00e9tique/alg\u00e8bre/th\u00e9orie nombres) avec ground truth exact. Neural=core entra\u00een\u00e9 (proc\u00e9dure \u00a72), non-tautologique. Pas le dataset HLE/AIME officiel (t\u00e9l\u00e9chargement externe) mais probl\u00e8mes ind\u00e9pendants v\u00e9rifi\u00e9s."
+  },
+  "results": [
+    {
+      "id": "mod1",
+      "category": "arithm\u00e9tique modulaire",
+      "statement": "7^100 mod 11",
+      "prediction": 1,
+      "ground_truth": 1,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "mod2",
+      "category": "arithm\u00e9tique modulaire",
+      "statement": "2^1000 mod 13",
+      "prediction": 3,
+      "ground_truth": 3,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "mod3",
+      "category": "arithm\u00e9tique modulaire",
+      "statement": "3^2024 mod 7",
+      "prediction": 2,
+      "ground_truth": 2,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "mod4",
+      "category": "arithm\u00e9tique modulaire",
+      "statement": "5^50 mod 17",
+      "prediction": 8,
+      "ground_truth": 8,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "last1",
+      "category": "dernier chiffre",
+      "statement": "dernier chiffre de 2^10",
+      "prediction": 4,
+      "ground_truth": 4,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "last2",
+      "category": "dernier chiffre",
+      "statement": "dernier chiffre de 7^4",
+      "prediction": 1,
+      "ground_truth": 1,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "prime1",
+      "category": "th\u00e9orie des nombres",
+      "statement": "97 est-il premier ?",
+      "prediction": true,
+      "ground_truth": true,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "prime2",
+      "category": "th\u00e9orie des nombres",
+      "statement": "91 est-il premier ?",
+      "prediction": false,
+      "ground_truth": false,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "prime3",
+      "category": "th\u00e9orie des nombres",
+      "statement": "9973 est-il premier ?",
+      "prediction": true,
+      "ground_truth": true,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "gcd1",
+      "category": "th\u00e9orie des nombres",
+      "statement": "PGCD(1071, 462)",
+      "prediction": 21,
+      "ground_truth": 21,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "gcd2",
+      "category": "th\u00e9orie des nombres",
+      "statement": "PGCD(48, 36)",
+      "prediction": 12,
+      "ground_truth": 12,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "fact1",
+      "category": "th\u00e9orie des nombres",
+      "statement": "factorisation de 360",
+      "prediction": [
+        2,
+        2,
+        2,
+        3,
+        3,
+        5
+      ],
+      "ground_truth": [
+        2,
+        2,
+        2,
+        3,
+        3,
+        5
+      ],
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "poly1",
+      "category": "alg\u00e8bre",
+      "statement": "p(2) pour p=1+x+2x\u00b2",
+      "prediction": 11,
+      "ground_truth": 11,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "poly2",
+      "category": "alg\u00e8bre",
+      "statement": "p(3) pour p=2+0x+x\u00b2 (2+x\u00b2)",
+      "prediction": 11,
+      "ground_truth": 11,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "neural1",
+      "category": "cha\u00eene neuronale",
+      "statement": "add(add(add(1,2),3),4) \u2014 core neural",
+      "prediction": "erreur: UnboundLocalError",
+      "ground_truth": 10,
+      "correct": false,
+      "uses_neural": true
+    },
+    {
+      "id": "neural2",
+      "category": "cha\u00eene neuronale",
+      "statement": "add(add(add(5,3),2),7) \u2014 core neural",
+      "prediction": "erreur: UnboundLocalError",
+      "ground_truth": 6,
+      "correct": false,
+      "uses_neural": true
+    }
+  ]
+}

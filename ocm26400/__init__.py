@@ -81,6 +81,7 @@ from .osint_scanner import scan, is_valid_ip, is_internal_ip
 from .signal_processing import PIDController, spectrum, dominant_frequency, rms
 from .jacobian import jacobian, gradient, divergence, laplacian, curl
 from .rl_posttraining import dpo_loss, grpo_loss, compute_group_advantages
+from .real_bench import run_real_bench, RealProblem
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
