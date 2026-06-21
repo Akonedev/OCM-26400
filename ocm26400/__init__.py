@@ -87,6 +87,7 @@ from .game_theory import minimax, nash_equilibria
 from .cryptography import caesar_encrypt, rsa_keygen, rsa_encrypt
 from .information import entropy, mutual_information
 from .optimization import gradient_descent, minimize_1d
+from .dynamic_programming import knapsack, lcs, edit_distance, coin_change
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
