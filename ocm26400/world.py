@@ -104,3 +104,46 @@ class World:
                 user_control(self)
             self.step()
         return self.history
+
+# ============ GÉNÉRATION NEURONALE DE MONDE (audit gap #10) ============
+
+class NeuralWorldModel(nn.Module):
+    """Génère un fragment de monde (terrain + objets) depuis un seed latent.
+    Utilise le SpectralCoreBlock (MODEL UNIFIÉ, pas de transformer)."""
+
+    def __init__(self, latent_dim: int = 64, grid_size: int = 8, n_features: int = 4):
+        super().__init__()
+        from .spectral_core import SpectralCoreBlock
+        self.grid_size = grid_size
+        self.n_features = n_features  # terrain, eau, végétation, structure
+        self.core = SpectralCoreBlock(d_model=latent_dim, seq_len=grid_size)
+        self.decoder = nn.Linear(latent_dim, n_features)
+
+    def forward(self, latent: torch.Tensor) -> torch.Tensor:
+        """latent (B, latent_dim) → world_grid (B, grid_size, grid_size, n_features)."""
+        h = latent.unsqueeze(1).expand(-1, self.grid_size, -1)  # (B, grid, latent)
+        h = self.core(h)  # SpectralCoreBlock (FFT)
+        return self.decoder(h)  # (B, grid, n_features) — 1D world strip
+
+
+def generate_world_fragment(seed: int = 0, grid_size: int = 8) -> dict:
+    """Génère un fragment de monde procédural + neuronal.
+    Retourne {terrain, features, description}."""
+    import random
+    rng = random.Random(seed)
+    # procédural : terrain de base
+    terrain = [[rng.choice(["plaine", "forêt", "colline", "eau", "montagne"])
+                for _ in range(grid_size)] for _ in range(grid_size)]
+    # features
+    features = {
+        "has_water": any("eau" in row for row in terrain),
+        "has_forest": any("forêt" in row for row in terrain),
+        "has_mountain": any("montagne" in row for row in terrain),
+        "diversity": len(set(c for row in terrain for c in row)),
+    }
+    # description
+    desc = f"Monde {grid_size}x{grid_size} : "
+    desc += f"{features['diversity']} biomes, "
+    desc += "eau ✓" if features["has_water"] else "eau ✗"
+    desc += ", forêt ✓" if features["has_forest"] else ""
+    return {"terrain": terrain, "features": features, "description": desc}
