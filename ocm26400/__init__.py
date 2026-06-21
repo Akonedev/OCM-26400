@@ -94,6 +94,7 @@ from .gsm8k_neural import train_nlcot, run_neural_gsm8k, NLCoTModel
 from .gsm8k_seq2seq import train_seq2seq, run_seq2seq_gsm8k, Seq2SeqCoT
 from .gsm8k_transformer import TransformerCoT, train_transformer, run_transformer_gsm8k
 from .gsm8k_spectral import SpectralNLCoT, train_spectral_cot, run_spectral_gsm8k
+from .ocr import OCRDigitRecognizer, train_ocr, recognize
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
