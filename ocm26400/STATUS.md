@@ -400,3 +400,38 @@ vidéo (VideoEncoder) | audio (Mel STFT) | radar (Range-Doppler CFAR)
   phonology (IPA), collocations, real_bench, gsm8k_{bench,supervised,neural,seq2seq}.
 Mais le paradigme compositionnel donne une **compétence vérifiable mesurée à 94.9/100**
 sur tâches isomorphes aux bench, **sans milliards d'exemples** — c'est la thèse défendable.
+
+---
+
+## SPRINT MODEL DEVELOPMENT FINAL (21/06) — pré-training + fine-tuning
+
+Découvertes clés du développement modèle :
+
+### 1. Pré-training linguistique (datasets réels Ressources.md)
+- language_pretrain.py : MASKED WORD PREDICTION via SpectralCoreBlock sur A1 sentences
+- Résultat : **70-76% masked word prediction** — le SpectralCoreBlock APPREND la structure du langage
+- Datasets : Salamole/A1-Level (501 phrases) + Teravee/grammar (71052 règles) depuis HuggingFace
+
+### 2. Primitives linguistiques GROKKÉES (neural, pas hardcodé)
+- language_grok.py : SpectralCoreBlock GROK word→number (83%) et cue→operation (87%)
+- Boucle custom 1-cos (pas train_binary_block — la lookup est arbitraire, pas déterministe)
+- Le SpectralCoreBlock peut apprendre des LOOKUPS arbitraires (word→meaning)
+
+### 3. Fine-tuning GSM8K depuis pré-training
+- gsm8k_finetune.py : pré-train (76%) → fine-tune GSM8K = 1.4%
+- Le pré-training linguistique NE SE TRANSFÈRE PAS à GSM8K (12e approche)
+- Le NL→answer multi-étapes = frontière RÉELLE
+
+### 4. Pipeline ML complet
+- PRE-TRAIN (langage 70%) → GROK PRIMITIVES (83-87%) → CASCADE (100% structuré) → FINE-TUNE (GSM8K 1.4%)
+- Le modèle RÉPOND correctement sur STRUCTURÉ (100%) ; NL libre = frontière
+
+### 5. 12 approches GSM8K testées honnêtement
+rule 3% | kNN 1.5% | neural-sig 0% | GRU 3.2% | GRU-scaled 2.1% | transformer 1.6% |
+scratchpad 3.1% | DOSC 0% | **primitives-grokked 4.0% (best, Janet résolu)** |
+AMV-recurrent 2.5% | spectral 0.8% | **fine-tuned 1.4%**
+
+### Comptes finaux
+- **1111 tests verts**, 96 commits, ~92 modules
+- Architecture : SpectralCoreBlock (FFT), **zéro transformer**
+- 6 lois L1-L6 + curriculum v4 ADR-0030 + sommeil obligatoire
