@@ -40,18 +40,24 @@ COMPOUND_WORDS = {
 }
 
 
+VERB_HOSTS = {"prendre", "faire", "avoir", "donner"}
+NOUN_HOSTS = {"erreur", "décision", "problème"}
+DET_WORDS = {"le", "la", "les", "un", "une", "des", "du", "de", "sa", "son", "ma", "ta"}
+
+
 def detect_collocations(tokens: List[str]) -> List[Tuple[str, str, str]]:
-    """Détecte les collocations dans une séquence de tokens. Retourne (mot1, mot2, type)."""
+    """Détecte les collocations (skip déterminants). Retourne (mot1, mot2, type)."""
+    # filtre les déterminants pour comparer les mots pleins adjacents (sémantiquement)
+    content = [t for t in tokens if t.lower() not in DET_WORDS]
     found = []
-    for i in range(len(tokens) - 1):
-        w1, w2 = tokens[i].lower(), tokens[i + 1].lower()
+    for i in range(len(content) - 1):
+        w1, w2 = content[i].lower(), content[i + 1].lower()
         # verbe + nom (prendre décision)
-        if w1 in COLLOCATIONS and w2 in COLLOCATIONS[w1]:
-            found.append((tokens[i], tokens[i + 1], "verbe+nom"))
-        # adj + nom inversé (erreur grave)
-        for adj_host, adjs in COLLOCATIONS.items():
-            if w2 == adj_host and w1 in adjs:
-                found.append((tokens[i], tokens[i + 1], "adj+nom"))
+        if w1 in VERB_HOSTS and w2 in COLLOCATIONS.get(w1, []):
+            found.append((content[i], content[i + 1], "verbe+nom"))
+        # nom-host + adj (erreur grave)
+        elif w1 in NOUN_HOSTS and w2 in COLLOCATIONS.get(w1, []):
+            found.append((content[i], content[i + 1], "adj+nom"))
     return found
 
 
