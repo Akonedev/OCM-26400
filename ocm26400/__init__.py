@@ -108,6 +108,7 @@ from .gsm8k_amv_recurrent import train_amv_recurrent, predict_amv
 from .etymology import etymology, morphemes, lexeme
 from .abstraction import categorize, abstract
 from .music_generator import generate_melody, generate_scale, to_midi
+from .alt_number_systems import LNS, RNS, lns_multiply, rns_add
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
