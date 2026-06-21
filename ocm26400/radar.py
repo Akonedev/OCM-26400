@@ -88,11 +88,13 @@ def simulate_radar_returns(n_targets: int = 3, n_samples: int = 128,
 def evaluate_radar(n_targets: int = 3, snr_db: float = 10, seed: int = 0) -> dict:
     """Évalue le traitement radar : simule des cibles → Range-Doppler → CFAR → compare."""
     echoes, gt = simulate_radar_returns(n_targets, snr_db=snr_db, seed=seed)
-    rd = range_doppler_matrix(echoes)
+    # Range-Doppler en magnitude (linéaire, PAS dB — CFAR a besoin de linéaire)
+    rd_complex = np.fft.fft(np.fft.fft(echoes, axis=1), axis=0)
+    rd_mag = np.abs(rd_complex)
     # CFAR sur chaque ligne Doppler (détection de portée)
     detections = []
-    for d_bin in range(rd.shape[0]):
-        det = cfar_detection(rd[d_bin], guard=1, train=3, pfa=1e-2)
+    for d_bin in range(rd_mag.shape[0]):
+        det = cfar_detection(rd_mag[d_bin], guard=1, train=3, pfa=1e-3)
         for r_bin in det:
             detections.append((r_bin, d_bin))
     # évaluation : combien de GT détectés (within ±2 bins)
