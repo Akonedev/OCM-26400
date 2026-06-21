@@ -116,7 +116,7 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
     if not nums:
         return None, []
     sentences = re.split(r"(?<=[.?!])\s+", question)
-    acc = nums[0]   # initialise avec le 1er nombre
+    acc = nums[0]   # initialise avec le 1er nombre (la 1ère phrase SET la quantité)
     trace = [f"[init] acc={acc}"]
 
     # DETECT COMPARISON PATTERN: "how many more/less does X have than Y"
