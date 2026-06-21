@@ -121,6 +121,16 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
     num_idx = 1     # prochain nombre à consommer
     for sent in sentences[1:]:
         s_lower = sent.lower()
+        # QUESTION FINALE : "how many/much...?" → ne PAS appliquer d'opération, juste
+        # retourner l'accumulateur (la question demande la réponse, pas un calcul)
+        if sent.strip().endswith("?") and any(w in s_lower for w in
+           ["how many", "how much", "what is", "what was", "find"]):
+            # sauf si "how many MORE/LESS" (comparison = opération finale)
+            if "more" in s_lower:
+                # "how many more does X have than Y" → comparison (soustraction future)
+                # pour l'instant on garde l'accumulateur
+                pass
+            continue
         op = cue_to_operation(s_lower)
         sent_nums = extract_all_numbers(sent)
         if not sent_nums or not op:
