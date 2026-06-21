@@ -7,10 +7,11 @@ from ocm26400.radar import (
 
 
 def test_range_profile_finds_peak():
-    echo = np.zeros(64, dtype=complex)
-    echo[20] = 10.0  # cible au bin 20
+    # une cible crée un retour (sinusoïde) — la FFT révèle sa fréquence
+    t = np.arange(64)
+    echo = 10.0 * np.exp(2j * np.pi * 5 * t / 64)  # fréquence bin 5
     rp = range_profile(echo, n_range=64)
-    assert rp[20] > rp[0]  # pic à la position de la cible
+    assert rp.argmax() == 5  # pic au bin fréquentiel 5
 
 
 def test_range_doppler_shape():
