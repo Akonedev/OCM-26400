@@ -78,6 +78,7 @@ from .multihop_rag import multi_hop_retrieve, rerank
 from .phonology import to_ipa, classify_sounds, elision, liaison
 from .world_model import WorldModel, train_world_model, rollout
 from .osint_scanner import scan, is_valid_ip, is_internal_ip
+from .signal_processing import PIDController, spectrum, dominant_frequency, rms
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
