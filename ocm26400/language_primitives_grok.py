@@ -87,9 +87,9 @@ CUE_TO_OP: Dict[str, str] = {
     # division
     "split": "D", "divided": "D", "share": "D", "equally": "D", "half": "D",
     "third": "D", "quarter": "D", "group": "D", "into": "D",
-    # addition
+    # addition (PAS "and" — c'est un séparateur de clause, pas une addition)
     "more": "A", "additional": "A", "another": "A", "gets": "A", "receives": "A",
-    "adds": "A", "buys": "A", "plus": "A", "and": "A", "total": "A",
+    "adds": "A", "buys": "A", "plus": "A", "total": "A",
     "altogether": "A", "combined": "A", "both": "A", "sum": "A",
 }
 
@@ -133,6 +133,30 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
             continue
         op = cue_to_operation(s_lower)
         sent_nums = extract_all_numbers(sent)
+        # CLAUSE-LEVEL PARSING : split par "and"/"," → chaque clause a sa propre opération
+        clauses = re.split(r"\s+and\s+|,\s*", s_lower)
+        clause_processed = False
+        for clause in clauses:
+            clause_op = cue_to_operation(clause)
+            clause_nums = extract_all_numbers(clause)
+            if not clause_nums or not clause_op:
+                continue
+            clause_processed = True
+            for val in clause_nums:
+                if clause_op == "S":
+                    acc = acc - val
+                    trace.append(f"[{acc + val} - {val} = {acc}]")
+                elif clause_op == "M":
+                    acc = acc * val
+                    trace.append(f"[× {val} = {acc}]")
+                elif clause_op == "D":
+                    acc = acc / val if val != 0 else acc
+                    trace.append(f"[÷ {val} = {acc}]")
+                elif clause_op == "A":
+                    acc = acc + val
+                    trace.append(f"[+ {val} = {acc}]")
+        if clause_processed:
+            continue  # clauses traitées → skip le bloc sentence-level
         # quantités relationnelles : "half that much" → acc/2, "twice as many" → acc*2
         if "half" in s_lower and ("that much" in s_lower or "of that" in s_lower or "as many" in s_lower):
             acc = acc / 2
