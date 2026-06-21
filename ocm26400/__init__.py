@@ -112,6 +112,7 @@ from .alt_number_systems import LNS, RNS, lns_multiply, rns_add
 from .episodic_memory import EpisodicMemory, Episode
 from .bench_public import run_all_public_benchmarks
 from .language_grok import grok_word_number, grok_cue_operation
+from .language_cascade_grok import solve_gsm8k_grokked, run_grokked_gsm8k
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
