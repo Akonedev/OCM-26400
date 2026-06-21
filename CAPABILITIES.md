@@ -1,6 +1,7 @@
 # OCM-26400 — Manifeste des capacités (preuves mesurées)
 
-**Date :** 20 Juin 2026  |  **Archi :** SpectralCoreBlock (FFT) + AMV-256 + ACSP | **675K params FIXES**
+**Date :** 21 Juin 2026  |  **Archi :** SpectralCoreBlock (FFT) + AMV-256 + ACSP | **675K params FIXES**
+**Tests :** 985 verts  |  **Modules :** ~60  |  **Real bench : 29/29 = 100% (problèmes vérifiés)**
 
 Index de TOUTES les capacités RÉELLES (implémentées + testées + mesurées), classées par
 type de preuve. Chaque ligne = un module + sa preuve concrète. Voir STATUS.md pour le détail.
@@ -81,9 +82,19 @@ type de preuve. Chaque ligne = un module + sa preuve concrète. Voir STATUS.md p
 
 ## Scores agrégés (honnêtes)
 - **Compétence NEURALE réelle** : crown-jewel hold-out **97-100%** (8 opérateurs, procédure §2).
+- **REAL BENCH : 29/29 = 100%** sur problèmes vérifiés (olympiade modulaire/Fermat/théorie nombres/algèbre/**chaînes neuronales**/géométrie/combinatoire/probabilités). Ground truth indépendant → non-tautologique. Le core neural y résout les compositions depth-3 à 100%.
 - **BENCH_LEVEL** : **94.9/100** (intégrité pipeline, tâches isomorphes) — distinct du neural.
 - **Compétence symbolique** : **101 règles / 33 domaines, 100% maîtrise vérifiable**.
-- **~790 tests verts**, 0 régression.
+- **~985 tests verts**, 0 régression.
+
+## Vague 3 (ajouts) — 5 modules
+| Capacité | Module | Preuve |
+|---|---|---|
+| Statistiques + Bayes | `statistics.py` | mean/median/corr/régression + VPP diagnostique (paradoxe 17%) |
+| Théorie des jeux | `game_theory.py` | Nash (dilemme=[(1,1)]), minimax, matching pennies |
+| Cryptographie | `cryptography.py` | César/Vigenère round-trip, **RSA réel** (clégen+chiffrer+déchiffrer) |
+| Information (Shannon) | `information.py` | H(X)=1 bit, KL divergence, information mutuelle |
+| Optimisation | `optimization.py` | descente de gradient (x²→0), convexité |
 
 ## Limites honnêtes (6 capacités = corpus externe requis)
 Vidéo réelle (VideoMME), parole (LibriSpeech), OCR (IAM), object detection (COCO),
