@@ -79,6 +79,15 @@ class OmniModel(nn.Module):
         dec = self.audio_dec if modality == "audio" else self.image_dec
         return dec.sample(amv, steps=steps)
 
+    # --- RAISONNEMENT TEXTUEL (primitives grokkées → cascade) ---
+    def reason_text(self, question: str) -> Optional[float]:
+        """Raisonnement textuel unifié : question → primitives grokkées → cascade → réponse.
+        Utilise le MÊME noyau SpectralCoreBlock que l'audio/image (MODEL UNIFIÉ).
+        Les primitives word→number et cue→operation sont grokkées (neural, pas hardcodé)."""
+        from .language_cascade_grok import solve_gsm8k_grokked
+        pred, trace = solve_gsm8k_grokked(question)
+        return pred
+
 
 def joint_loss(model: OmniModel, batch: Dict) -> Dict:
     """Loss multi-tâche : classifier + GÉNÉRER (flow matching).
