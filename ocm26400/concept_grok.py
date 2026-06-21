@@ -59,9 +59,10 @@ class ConceptVocab:
         """Ajoute un mot au vocabulaire, retourne son ID numérique."""
         w = word.lower().strip()
         if w not in self.word_to_id:
+            if self._next_id >= self.max_concepts:
+                return self.UNK  # hard limit — reject new words
             if self._next_id >= self.vocab_size:
-                # expand
-                self.vocab_size = self._next_id * 2
+                self.vocab_size = min(self._next_id * 2, self.max_concepts)
             self.word_to_id[w] = self._next_id
             self.id_to_word[self._next_id] = w
             self._next_id += 1
