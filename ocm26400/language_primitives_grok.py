@@ -118,6 +118,17 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
     sentences = re.split(r"(?<=[.?!])\s+", question)
     acc = nums[0]   # initialise avec le 1er nombre
     trace = [f"[init] acc={acc}"]
+
+    # DETECT COMPARISON PATTERN: "how many more/less does X have than Y"
+    # → soustrait les 2 dernières valeurs
+    is_comparison = any(p in question.lower() for p in
+                        ["how many more", "how much more", "how many less",
+                         "how much less", "how much bigger", "how much larger"])
+    if is_comparison and len(nums) >= 2:
+        acc = abs(nums[-2] - nums[-1])
+        trace.append(f"[comparison: |{nums[-2]} - {nums[-1]}| = {acc}]")
+        return acc, trace
+
     num_idx = 1     # prochain nombre à consommer
     for sent in sentences[1:]:
         s_lower = sent.lower()
@@ -125,11 +136,6 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
         # retourner l'accumulateur (la question demande la réponse, pas un calcul)
         if sent.strip().endswith("?") and any(w in s_lower for w in
            ["how many", "how much", "what is", "what was", "find"]):
-            # sauf si "how many MORE/LESS" (comparison = opération finale)
-            if "more" in s_lower:
-                # "how many more does X have than Y" → comparison (soustraction future)
-                # pour l'instant on garde l'accumulateur
-                pass
             continue
         op = cue_to_operation(s_lower)
         sent_nums = extract_all_numbers(sent)
