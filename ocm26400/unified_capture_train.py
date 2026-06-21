@@ -48,6 +48,7 @@ def sanity_check_p1(device: str = None) -> Dict:
     d = SymbolicDict(n=11, dim=64)
     ver = Verifier(d, n_ops=1)
     blk = train_binary_block(d, ver, n_steps=100)
+    blk = blk.to(device)  # uses DEVICE global
     # vérifie : loss → 0 (grok immédiat)
     blk.eval()
     from .amv import AMVVector
