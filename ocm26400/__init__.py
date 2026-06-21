@@ -102,6 +102,7 @@ from .speech_recognition import train_asr, recognize_phoneme
 from .object_detection import evaluate_detection, detect_grid, make_grid
 from .radar import evaluate_radar, range_doppler_matrix, cfar_detection
 from .gsm8k_dosc import run_dosc_gsm8k, DOSCModel
+from .domain_cascade import run_all_domain_cascades
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
