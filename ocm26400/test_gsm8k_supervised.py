@@ -16,10 +16,10 @@ def test_fingerprint_dim():
 
 
 def test_apply_signature():
-    assert apply_signature("MS", [10, 3, 2]) == 14   # 10*3-2=... wait: 10 M 3 =30, S 2=28
     # MS on [10,3,2]: acc=10, M 3 → 30, S 2 → 28
     assert apply_signature("MS", [10, 3, 2]) == 28
     assert apply_signature("A", [5, 3]) == 8
+    assert apply_signature("M", [4, 6]) == 24
 
 
 def test_solver_runs_on_train():
