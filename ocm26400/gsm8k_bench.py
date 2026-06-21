@@ -30,15 +30,20 @@ GSM8K_URL = ("https://raw.githubusercontent.com/openai/grade-school-math/master/
 
 
 def load_gsm8k(path: str = None, n: int = None) -> List[dict]:
-    """Charge le GSM8K test set (télécharge si absent)."""
+    """Charge le GSM8K test set (télécharge si absent). Sécurité : path contraint au
+    répertoire data/ (anti path traversal / écriture arbitraire)."""
     path = path or GSM8K_PATH
-    if not os.path.exists(path):
+    abs_path = os.path.abspath(path)
+    data_dir = os.path.abspath(os.path.join(HERE, "..", "data"))
+    if not abs_path.startswith(data_dir):
+        raise ValueError(f"path doit être dans {data_dir} (sécurité)")
+    if not os.path.exists(abs_path):
         import urllib.request
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        os.makedirs(os.path.dirname(abs_path), exist_ok=True)
         req = urllib.request.Request(GSM8K_URL, headers={"User-Agent": "OCM-26400/1.0"})
         with urllib.request.urlopen(req, timeout=60) as r:
-            open(path, "w").write(r.read().decode("utf-8"))
-    with open(path) as f:
+            open(abs_path, "w").write(r.read().decode("utf-8"))
+    with open(abs_path) as f:
         problems = [json.loads(l) for l in f if l.strip()]
     return problems[:n] if n else problems
 
@@ -58,39 +63,60 @@ def extract_numbers(text: str) -> List[float]:
 
 
 def solve_word_problem(question: str) -> Optional[float]:
-    """Solveur NL→arithmétique SÉQUENTIEL (gauche→droite, style CoT).
-    Repère chaque nombre + le cue d'opération qui suit, applique en chaîne.
-    Pour Janet : 16 (eats 3)→16-3, (bakes 4)→-4, (per day, 7 days)→×7, ($2 each)→×2."""
-    q = question.lower().replace(",", "")
-    # tokens avec positions des nombres
-    tokens = re.findall(r"\d+(?:\.\d+)?|[a-z]+", q)
-    nums = []
-    for i, t in enumerate(tokens):
-        if re.fullmatch(r"\d+(?:\.\d+)?", t):
-            # contexte (10 tokens suivants) pour l'opération à APPLIQUER à ce nombre
-            ctx_after = " ".join(tokens[i:i + 12])
-            nums.append((float(t), ctx_after))
-    if not nums:
-        return None
-    # accumulateur = 1er nombre ; applique chaque nombre suivant selon le cue
-    acc = nums[0][0]
-    for val, ctx in nums[1:]:
-        if any(w in ctx for w in ["each", "per", "dozen", "times", "multiply", "costs $",
-                                   "$", "charges", "weeks", "days", "hours", "minutes"]):
-            acc = acc * val
-        elif any(w in ctx for w in ["left", "remaining", "gives", "gave", "spent", "fewer",
-                                     "less", "minus", "took", "eats", "bakes", "uses",
-                                     "lose", "sold", "remove", "drop"]):
-            acc = acc - val
-        elif any(w in ctx for w in ["split", "divided", "share", "equally", "into"]):
-            acc = acc / val if val != 0 else acc
-        elif any(w in ctx for w in ["more", "additional", "plus", "another", "gets",
-                                     "receives", "buy", "adds"]):
-            acc = acc + val
-        # sinon : 'total' → add par défaut
-        elif any(w in ctx for w in ["total", "altogether", "sum"]):
-            acc = acc + val
-    # dernières phrases : 'how many ... total' → peut demander un sous-ensemble
+    """Solveur NL→arithmétique PHRASE-PAR-PHRASE (style CoT). Chaque phrase décrit une
+    opération : on accumule. Plus fidèle au raisonnement multi-étapes que le 2-nombres.
+
+    Stratégie :
+    1. Sépare le problème en phrases.
+    2. La 1re phrase pose une quantité initiale (souvent le 1er nombre, ou 'X has N').
+    3. Chaque phrase suivante applique une opération (cue) sur l'accumulateur.
+    4. La question finale ('how many left/total') précise l'opération finale.
+    Abstention si aucune quantité initiale trouvée."""
+    q = question.replace(",", "")
+    sentences = re.split(r"(?<=[.?!])\s+", q)
+    # quantité initiale : chercher 'has N', 'there are N', 'lays N', ou 1er nombre
+    init = None
+    for sent in sentences[:3]:
+        sent_l = sent.lower()
+        m = re.search(r"(?:has|have|there (?:are|were)|lays?|costs?|weighs?|is)\s+(\d+(?:\.\d+)?)", sent_l)
+        if m:
+            init = float(m.group(1))
+            break
+    nums_all = extract_numbers(question)
+    if init is None:
+        if nums_all:
+            init = nums_all[0]
+        else:
+            return None
+    acc = init
+    # appliquer chaque autre nombre selon le cue DANS SA PHRASE
+    for sent in sentences[1:]:
+        sent_l = sent.lower()
+        sent_nums = extract_numbers(sent)
+        for val in sent_nums:
+            # si la phrase est la question finale, son cue prime
+            if any(w in sent_l for w in ["how many", "what is", "how much"]):
+                if any(w in sent_l for w in ["left", "remaining", "less", "fewer"]):
+                    acc = acc - val
+                elif any(w in sent_l for w in ["total", "altogether", "sum", "more", "both"]):
+                    acc = acc + val
+                # sinon on garde acc (la question ne change pas la valeur)
+            else:
+                if any(w in sent_l for w in ["gives", "gave", "spent", "eats", "bakes",
+                                              "uses", "took", "sold", "lost", "drop",
+                                              "remove", "left", "remaining", "fewer", "less"]):
+                    acc = acc - val
+                elif any(w in sent_l for w in ["more", "additional", "another", "gets",
+                                                "receives", "adds", "buys", "plus", "and"]):
+                    acc = acc + val
+                elif any(w in sent_l for w in ["each", "per", "times", "double", "twice",
+                                                "dozen", "multipl"]):
+                    acc = acc * val
+                elif any(w in sent_l for w in ["split", "divided", "share", "equally",
+                                                "half"]):
+                    acc = acc / val if val != 0 else acc
+                elif any(w in sent_l for w in ["total", "altogether", "sum"]):
+                    acc = acc + val
     return acc
 
 
