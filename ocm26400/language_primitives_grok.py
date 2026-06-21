@@ -133,6 +133,18 @@ def solve_gsm8k_primitives(question: str) -> Tuple[Optional[float], List[str]]:
             continue
         op = cue_to_operation(s_lower)
         sent_nums = extract_all_numbers(sent)
+        # quantités relationnelles : "half that much" → acc/2, "twice as many" → acc*2
+        if "half" in s_lower and ("that much" in s_lower or "of that" in s_lower or "as many" in s_lower):
+            acc = acc / 2
+            trace.append(f"[÷ 2 = {acc}] (half that much)")
+            if "total" in s_lower or "altogether" in s_lower:
+                acc = acc * 3   # original + half = 1.5×... wait, original(2) + half(1) = 3
+                trace.append(f"[+ half → {acc}] (total)")
+            continue
+        if "twice" in s_lower and "as" in s_lower:
+            acc = acc * 2
+            trace.append(f"[× 2 = {acc}] (twice as many)")
+            continue
         if not sent_nums or not op:
             continue
         # TRAITE TOUS les nombres de la phrase (pas juste le 1er) — chaque nombre = 1 étape
