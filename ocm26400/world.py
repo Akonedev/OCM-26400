@@ -105,6 +105,8 @@ class World:
             self.step()
         return self.history
 
+import torch
+import torch.nn as nn
 # ============ GÉNÉRATION NEURONALE DE MONDE (audit gap #10) ============
 
 class NeuralWorldModel(nn.Module):
