@@ -47,27 +47,28 @@ def _question_numbers_with_pos(question: str) -> List[Tuple[float, int, int]]:
 
 
 def _trace_to_actions(question: str, answer: str) -> Optional[List[int]]:
-    """Convertit le CoT annoté (<<expr>>) en séquence d'actions COPY/OP.
-    Chaque <<expr>> devient une séquence : COPY_i OP COPY_j [OP COPY_k ...]."""
+    """Convertit le CoT annoté (<<expr>>) en séquence d'actions RPN (COPY_i ... OP).
+    Pour chaque 'a OP b' : COPY(source a) COPY(source b) OP. Les résultats intermédiaires
+    restent sur la stack (pas de COPY). Exécution RPN cohérente avec _actions_to_value."""
     exprs = re.findall(r"<<([^>]+)>>", answer)
     nums_qp = _question_numbers_with_pos(question)
     qnums = [n[0] for n in nums_qp]
     actions = [ACT_TO_IDX["START"]]
     for expr in exprs:
-        # tokenize l'expression : nombres et opérateurs
-        tokens = re.findall(r"\d+(?:\.\d+)?|[+\-*/]", expr)
-        for tok in tokens:
-            if tok in "+-*/":
-                op = {"*": "OP_M", "/": "OP_D", "+": "OP_A", "-": "OP_S"}[tok]
-                actions.append(ACT_TO_IDX[op])
-            else:
-                val = float(tok)
-                # COPY : trouve ce nombre dans la question (ou résultat intermédiaire → skip)
-                if val in qnums:
-                    i = qnums.index(val)
-                    if i < MAX_NUMS:           # garde-fou : >8 nombres → skip
-                        actions.append(ACT_TO_IDX[f"COPY_{i}"])
-                # sinon c'est un résultat intermédiaire (on ne peut pas le copier → skip)
+        # parse : operandes et opérateur (format 'a op b' ou 'a op b = c')
+        m = re.match(r"\s*(\d+(?:\.\d+)?)\s*([+\-*/])\s*(\d+(?:\.\d+)?)", expr)
+        if not m:
+            continue
+        a_val, op_ch, b_val = float(m.group(1)), m.group(2), float(m.group(3))
+        op = {"*": "OP_M", "/": "OP_D", "+": "OP_A", "-": "OP_S"}[op_ch]
+        # COPY les opérandes QUI SONT dans la question (les intermédiaires restent sur stack)
+        for val in (a_val, b_val):
+            if val in qnums:
+                i = qnums.index(val)
+                if i < MAX_NUMS:
+                    actions.append(ACT_TO_IDX[f"COPY_{i}"])
+            # sinon : intermédiaire déjà sur la stack → on ne pousse rien
+        actions.append(ACT_TO_IDX[op])
     actions.append(ACT_TO_IDX["END"])
     return actions[:MAX_DECOD] + [ACT_TO_IDX["PAD"]] * max(0, MAX_DECOD - len(actions))
 

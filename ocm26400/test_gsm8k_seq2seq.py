@@ -18,13 +18,14 @@ def test_trace_to_actions_runs():
 
 
 def test_actions_to_value():
-    # COPY_0(10) OP_M COPY_1(3) → 10*3=30
-    acts = [ACT_TO_IDX["COPY_0"], ACT_TO_IDX["OP_M"], ACT_TO_IDX["COPY_1"]]
+    # RPN : COPY_0(10) COPY_1(3) OP_M → 10*3=30
+    acts = [ACT_TO_IDX["COPY_0"], ACT_TO_IDX["COPY_1"], ACT_TO_IDX["OP_M"]]
     assert _actions_to_value(acts, [10.0, 3.0]) == 30.0
 
 
 def test_actions_subtraction():
-    acts = [ACT_TO_IDX["COPY_0"], ACT_TO_IDX["OP_S"], ACT_TO_IDX["COPY_1"]]
+    # RPN : COPY_0(10) COPY_1(3) OP_S → 10-3=7
+    acts = [ACT_TO_IDX["COPY_0"], ACT_TO_IDX["COPY_1"], ACT_TO_IDX["OP_S"]]
     assert _actions_to_value(acts, [10.0, 3.0]) == 7.0
 
 
