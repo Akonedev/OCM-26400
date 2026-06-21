@@ -100,6 +100,7 @@ from .language_curriculum import run_language_curriculum
 from .gsm8k_scratchpad import solve_scratchpad_cascade, run_scratchpad_gsm8k
 from .speech_recognition import train_asr, recognize_phoneme
 from .object_detection import evaluate_detection, detect_grid, make_grid
+from .radar import evaluate_radar, range_doppler_matrix, cfar_detection
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
