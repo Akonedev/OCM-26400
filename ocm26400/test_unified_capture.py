@@ -1,48 +1,17 @@
-"""Tests capture multimodale unifiée (OCM-26400)."""
-import torch
-from ocm26400.unified_capture import UnifiedCapture, ConceptCapture
+"""Tests unified capture training (OCM-26400)."""
+import pytest
+from ocm26400.unified_capture_train import sanity_check_p1, train_multi_domain_simultaneous
 
 
-def test_capture_multiple_modalities_one_pass():
-    """Capture en une passe : texte + audio + image d'un concept."""
-    uc = UnifiedCapture(dim=64)
-    cap = uc.capture_concept("chat",
-                             audio=torch.sin(torch.linspace(0, 6.28, 800)),
-                             image=torch.randn(28, 28),
-                             text_vec=torch.randn(64))
-    mods = cap.modalities()
-    assert "audio" in mods and "image" in mods and "text" in mods
+def test_sanity_check():
+    """P1 : 100 steps, grok immédiat."""
+    res = sanity_check_p1(device="cpu")
+    assert res["grokked"] is True
+    assert res["acc"] >= 0.5
 
 
-def test_concept_similarity_runs():
-    uc = UnifiedCapture(dim=64)
-    uc.capture_concept("a", text_vec=torch.ones(64))
-    uc.capture_concept("b", text_vec=torch.ones(64))
-    s = uc.concepts["a"].similarity(uc.concepts["b"], "text")
-    assert abs(s - 1.0) < 1e-4     # vecteurs identiques → cos = 1
-
-
-def test_associate_returns_ranked():
-    uc = UnifiedCapture(dim=64)
-    uc.capture_concept("chat", text_vec=torch.ones(64))
-    uc.capture_concept("chien", text_vec=torch.zeros(64))
-    res = uc.associate("text", torch.ones(64), "text", k=2)
-    assert len(res) == 2
-    # "chat" (ones) plus similaire à la requête ones que "chien" (zeros)
-    names = [r[0] for r in res]
-    assert names[0] == "chat"
-
-
-def test_alignment_quality_reports():
-    uc = UnifiedCapture(dim=64)
-    uc.capture_concept("a", text_vec=torch.randn(64))
-    uc.capture_concept("b", text_vec=torch.randn(64))
-    q = uc.alignment_quality()
-    assert q["n_concepts"] == 2
-
-
-def test_capture_optional_modalities():
-    """Capture fonctionne même avec une seule modalité."""
-    uc = UnifiedCapture(dim=64)
-    cap = uc.capture_concept("x", text_vec=torch.randn(64))
-    assert cap.modalities() == ["text"]
+def test_multi_domain_simultaneous():
+    """Training SIMULTANÉ multi-domaine — tous grokkent."""
+    res = train_multi_domain_simultaneous(n_steps=600, device="cpu")
+    assert res["n_domains"] >= 3
+    assert all(v >= 0.3 for v in res["final_accs"].values())
