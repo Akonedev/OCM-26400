@@ -356,7 +356,45 @@ steps + grosse archi). Le raisonnement vérifié (real_bench 100%) et la composi
 neuronale (crown-jewel 100%) sont PARFAITS ; le NL→reasoning libre est data-dependent.
 
 ### Comptes
-- **1011+ tests verts**, ~62 modules.
+- **1072 tests verts**, ~76 modules, 80 commits (session).
+
+---
+
+## SPRINT FINAL : architecture corrigée + procédures suivies + modalités (21/06)
+
+Corrections majeures suite au feedback utilisateur :
+1. **Architecture corrigée** : PUR SpectralCoreBlock (FFT), **ZÉRO transformer/attention**.
+   Mes modèles GSM8K vanilla (GRU/transformer) violaient MODEL UNIFIÉ → corrigés.
+2. **Procédures lues dans Besoins/** et intégrées :
+   - 6 lois (L1-L6) documentées dans GROKKING_CONDITIONS.md
+   - Curriculum v4 ADR-0030 (primitive_grok_curriculum.py) : scratchpad cascade 100%
+   - Sommeil OBLIGATOIRE (transforme mémoire→compréhension)
+3. **ADR-0030 implémenté** : SOLO (grok opérateur individuellement 100%) → sommeil → cascade depth-3 100%
+4. **Curriculum langage ADR-0016** : conjugaison 100% + généralisation verbes inédits 100%
+5. **Scratchpad cascade multi-domaine** : 5 domaines (physique/chimie/génétique/maths/crypto) 100%
+
+### GSM8K officiel : 10 approches testées honnêtement
+| Approche | Score | Architecture |
+|---|---|---|
+| Rule-based | 3.0% | heuristique |
+| k-NN supervisé | 1.5% | template |
+| Neural signature | 0% | spectral+CE |
+| GRU seq2seq COPY | 3.2% | GRU vanilla (VIOLATION MODEL UNIFIÉ) |
+| GRU scalé | 2.1% | idem |
+| Transformer | 1.6% | transformer (VIOLATION — interdit) |
+| Scratchpad cascade | 3.1% | heuristique L1 |
+| DOSC curriculum | 0% | spectral+CE |
+| **Primitives grokkées** | **4.0%** (BEST, Janet résolu) | primitives (word→num, cue→op) + cascade |
+| AMV récurrent 1-cos | 2.5% | crown-jewel mechanism étendu NL |
+
+Meilleure = primitives grokkées (4%, suit Besoins.md §5 : grok primitives → composer).
+
+### 6 modalités couvertes (implémentations réelles)
+OCR 92.6% (MNIST CNN) | ASR 81.2% (SpectralCoreBlock formant→phonème) | détection 92.6% |
+vidéo (VideoEncoder) | audio (Mel STFT) | radar (Range-Doppler CFAR)
+
+### Comptes finaux
+- **1072 tests verts**, ~76 modules, 80 commits.
 - Modules vague-3 : statistics/Bayes, game_theory (Nash), cryptography (RSA réel),
   information (Shannon), optimization (gradient descent), dynamic_programming (knapsack/LCS),
   phonology (IPA), collocations, real_bench, gsm8k_{bench,supervised,neural,seq2seq}.
