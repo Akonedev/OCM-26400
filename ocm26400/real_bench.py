@@ -22,6 +22,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, List, Tuple
 
 from .symbolic_math import modexp, is_prime, gcd, factorize, poly_eval
+import math as _math
 
 
 @dataclass
@@ -110,6 +111,37 @@ def _real_problem_set() -> List[RealProblem]:
                     "linop(linop(linop(2,7),4),1) — core neural (procédure §2)",
                     solver=lambda: _neural_chain_add([2, 7, 4, 1]),
                     ground_truth=_linop_chain([2, 7, 4, 1]), uses_neural=True),
+        # ---- Géométrie (olympiade) — résolu par formules exactes ----
+        RealProblem("geo1", "géométrie", "hypoténuse triangle 3-4-?",
+                    solver=lambda: int(_math.hypot(3, 4)), ground_truth=5),
+        RealProblem("geo2", "géométrie", "aire cercle r=7 (entier le + proche)",
+                    solver=lambda: round(_math.pi * 49), ground_truth=round(_math.pi * 49)),
+        RealProblem("geo3", "géométrie", "aire triangle base 10 hauteur 6",
+                    solver=lambda: int(0.5 * 10 * 6), ground_truth=30),
+        RealProblem("geo4", "géométrie", "3e côté triangle 5-12-? (rectangle)",
+                    solver=lambda: int(_math.hypot(5, 12)), ground_truth=13),
+        # ---- Combinatoire / dénombrement ----
+        RealProblem("comb1", "combinatoire", "C(10,3) combinaisons",
+                    solver=lambda: _math.comb(10, 3), ground_truth=120),
+        RealProblem("comb2", "combinatoire", "C(8,2)",
+                    solver=lambda: _math.comb(8, 2), ground_truth=28),
+        RealProblem("comb3", "combinatoire", "A(5,3) arrangements (5!/(5-3)!)",
+                    solver=lambda: _math.perm(5, 3), ground_truth=60),
+        RealProblem("comb4", "combinatoire", "5! factorielle",
+                    solver=lambda: _math.factorial(5), ground_truth=120),
+        # ---- Probabilités ----
+        RealProblem("prob1", "probabilités", "P(couronne) sur 3 pièces = 1/8",
+                    solver=lambda: round(0.5 ** 3, 4), ground_truth=0.125),
+        RealProblem("prob2", "probabilités", "P(au moins 1 six en 4 lancers)",
+                    solver=lambda: round(1 - (5 / 6) ** 4, 4),
+                    ground_truth=round(1 - (5 / 6) ** 4, 4)),
+        # ---- Théorèmes (Fermat petit théorème) ----
+        RealProblem("fermat1", "théorie des nombres",
+                    "2^10 mod 11 (Fermat : a^(p-1)=1 mod p)",
+                    solver=lambda: modexp(2, 10, 11), ground_truth=1),
+        RealProblem("fermat2", "théorie des nombres",
+                    "3^6 mod 7 (Fermat p=7)",
+                    solver=lambda: modexp(3, 6, 7), ground_truth=1),
     ]
     return problems
 

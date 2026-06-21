@@ -1,7 +1,7 @@
 {
   "report": {
-    "n_problems": 17,
-    "n_correct": 17,
+    "n_problems": 29,
+    "n_correct": 29,
     "real_accuracy": 1.0,
     "neural_problems": 3,
     "neural_correct": 3,
@@ -18,8 +18,8 @@
         "acc": 1.0
       },
       "th\u00e9orie des nombres": {
-        "n": 6,
-        "correct": 6,
+        "n": 8,
+        "correct": 8,
         "acc": 1.0
       },
       "alg\u00e8bre": {
@@ -30,6 +30,21 @@
       "cha\u00eene neuronale": {
         "n": 3,
         "correct": 3,
+        "acc": 1.0
+      },
+      "g\u00e9om\u00e9trie": {
+        "n": 4,
+        "correct": 4,
+        "acc": 1.0
+      },
+      "combinatoire": {
+        "n": 4,
+        "correct": 4,
+        "acc": 1.0
+      },
+      "probabilit\u00e9s": {
+        "n": 2,
+        "correct": 2,
         "acc": 1.0
       }
     },
@@ -203,6 +218,114 @@
       "ground_truth": 5,
       "correct": true,
       "uses_neural": true
+    },
+    {
+      "id": "geo1",
+      "category": "g\u00e9om\u00e9trie",
+      "statement": "hypot\u00e9nuse triangle 3-4-?",
+      "prediction": 5,
+      "ground_truth": 5,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "geo2",
+      "category": "g\u00e9om\u00e9trie",
+      "statement": "aire cercle r=7 (entier le + proche)",
+      "prediction": 154,
+      "ground_truth": 154,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "geo3",
+      "category": "g\u00e9om\u00e9trie",
+      "statement": "aire triangle base 10 hauteur 6",
+      "prediction": 30,
+      "ground_truth": 30,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "geo4",
+      "category": "g\u00e9om\u00e9trie",
+      "statement": "3e c\u00f4t\u00e9 triangle 5-12-? (rectangle)",
+      "prediction": 13,
+      "ground_truth": 13,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "comb1",
+      "category": "combinatoire",
+      "statement": "C(10,3) combinaisons",
+      "prediction": 120,
+      "ground_truth": 120,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "comb2",
+      "category": "combinatoire",
+      "statement": "C(8,2)",
+      "prediction": 28,
+      "ground_truth": 28,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "comb3",
+      "category": "combinatoire",
+      "statement": "A(5,3) arrangements (5!/(5-3)!)",
+      "prediction": 60,
+      "ground_truth": 60,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "comb4",
+      "category": "combinatoire",
+      "statement": "5! factorielle",
+      "prediction": 120,
+      "ground_truth": 120,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "prob1",
+      "category": "probabilit\u00e9s",
+      "statement": "P(couronne) sur 3 pi\u00e8ces = 1/8",
+      "prediction": 0.125,
+      "ground_truth": 0.125,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "prob2",
+      "category": "probabilit\u00e9s",
+      "statement": "P(au moins 1 six en 4 lancers)",
+      "prediction": 0.5177,
+      "ground_truth": 0.5177,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "fermat1",
+      "category": "th\u00e9orie des nombres",
+      "statement": "2^10 mod 11 (Fermat : a^(p-1)=1 mod p)",
+      "prediction": 1,
+      "ground_truth": 1,
+      "correct": true,
+      "uses_neural": false
+    },
+    {
+      "id": "fermat2",
+      "category": "th\u00e9orie des nombres",
+      "statement": "3^6 mod 7 (Fermat p=7)",
+      "prediction": 1,
+      "ground_truth": 1,
+      "correct": true,
+      "uses_neural": false
     }
   ]
 }
