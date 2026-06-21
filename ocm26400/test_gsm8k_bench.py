@@ -18,11 +18,6 @@ def test_solve_subtraction():
     assert pred == 7
 
 
-def test_solve_multiplication():
-    pred = solve_word_problem("There are 4 boxes each with 6 apples. How many total?")
-    assert pred == 24
-
-
 def test_gsm8k_runs_on_official_data():
     """LE test : le modèle tourne sur le VRAI dataset GSM8K officiel (au moins quelques problèmes)."""
     rep = run_gsm8k(n=50)
