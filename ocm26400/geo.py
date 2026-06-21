@@ -164,3 +164,29 @@ class GeoMap:
             {d: self.info_db.info(point.lat, point.lon, d)[d] for d in self.active_layers},
             "view3d_shape": tuple(self.view3d.reconstruct(point.lat, point.lon).shape),
         }
+
+# ============ ROUTING GÉOSPATIAL (audit gap #9) ============
+
+def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Distance haversine (km) entre 2 points lat/lon — pour routing géospatial."""
+    from math import radians, sin, cos, asin, sqrt
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    return 6371.0 * 2 * asin(sqrt(a))
+
+
+def route(locations: List[Tuple[str, float, float]], start: str, end: str) -> Tuple[List[str], float]:
+    """Routing géospatial : plus court chemin entre 2 lieux (Dijkstra sur distances haversine).
+    locations = [(name, lat, lon), ...]. Retourne (chemin_noms, distance_km)."""
+    from .graph_algorithms import dijkstra
+    # construit le graphe : toutes paires de locations
+    graph = {}
+    for i, (name1, lat1, lon1) in enumerate(locations):
+        graph[name1] = {}
+        for name2, lat2, lon2 in locations:
+            if name1 != name2:
+                dist = haversine(lat1, lon1, lat2, lon2)
+                graph[name1][name2] = dist
+    return dijkstra(graph, start, end)
