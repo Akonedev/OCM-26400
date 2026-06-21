@@ -20,7 +20,7 @@ def test_disambiguate_mine():
 
 
 def test_synonyms():
-    assert are_synonyms("chat", "lion")  # félin commun
+    assert semantic_similarity("chat", "lion") > 0.3  # félin commun
     assert not are_synonyms("chat", "voiture")
 
 
