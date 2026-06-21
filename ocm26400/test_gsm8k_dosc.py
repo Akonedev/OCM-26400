@@ -50,5 +50,11 @@ def test_predict_returns_float_or_none():
     vocab = {"<pad>": 0, "<unk>": 1, "x": 2}
     m = DOSCModel(len(vocab), d_model=64, seq_len=5)
     train_dosc_phase(m, vocab, probs, n_steps=5, device="cpu")
-    pred = predict_dosc(m, vocab, "x", "cpu")
+    m.eval()
+    # predict on same device as model
+    dev = next(m.parameters()).device
+    pred = predict_dosc(m, vocab, "x", str(dev))
     assert pred is None or isinstance(pred, float)
+
+
+
