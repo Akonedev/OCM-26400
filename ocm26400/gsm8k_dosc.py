@@ -75,6 +75,7 @@ def train_dosc_phase(model: DOSCModel, vocab: dict, problems: List[dict],
     """Entraîne une phase DOSC. Retourne la loss finale."""
     if not problems:
         return 0.0
+    model = model.to(device)     # assure device cohérent
     X = torch.tensor([_encode_q(p["question"], vocab) for p in problems]).to(device)
     targets = []
     for p in problems:
