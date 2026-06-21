@@ -8,8 +8,9 @@ def test_extract_step_subtraction():
 
 
 def test_extract_step_multiplication():
-    acc, desc = extract_step("Each box costs 2 dollars.", 9.0)
-    assert acc == 18.0
+    # "times" sans conflit avec "costs"
+    acc, desc = extract_step("He has 3 times as many.", 9.0)
+    assert acc == 27.0
 
 
 def test_scratchpad_trace_visible():
