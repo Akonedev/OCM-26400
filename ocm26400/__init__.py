@@ -106,6 +106,7 @@ from .domain_cascade import run_all_domain_cascades
 from .language_primitives_grok import solve_gsm8k_primitives, evaluate_primitives_gsm8k, word_to_number
 from .gsm8k_amv_recurrent import train_amv_recurrent, predict_amv
 from .etymology import etymology, morphemes, lexeme
+from .abstraction import categorize, abstract
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
