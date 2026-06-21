@@ -90,6 +90,7 @@ from .optimization import gradient_descent, minimize_1d
 from .dynamic_programming import knapsack, lcs, edit_distance, coin_change
 from .gsm8k_bench import run_gsm8k, load_gsm8k, solve_word_problem
 from .gsm8k_supervised import run_supervised_gsm8k, GSM8KSupervisedSolver
+from .gsm8k_neural import train_nlcot, run_neural_gsm8k, NLCoTModel
 from .bench_runner import (
     bench_agentic, bench_reasoning, bench_qcm, bench_terminal, run_all_benchmarks,
 )
