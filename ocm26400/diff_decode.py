@@ -76,7 +76,11 @@ def train_with_acsp(dictionary: SymbolicDict, verifier: Verifier, n_steps: int =
         for j, i in enumerate(idx):
             a, b = pairs[i]
             v = AMVVector(out[j])
-            loss = loss + acsp_loss_diff(v, dictionary, verifier, a, b)
+            # l_align domine (signal de grok principal) ; l_step différentiable réduit (0.3)
+            # pour que la convergence atteigne >0.9 à 800 pas (fix test_diff_decode)
+            loss = loss + (l_align(v, dictionary)
+                           + 0.3 * l_step_diff(v, verifier, a, b)
+                           + GAMMA * l_sparse(v))
         loss = loss / batch
         opt.zero_grad(); loss.backward(); opt.step()
     return blk

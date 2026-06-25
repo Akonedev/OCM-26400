@@ -47,12 +47,14 @@ class ConceptVocab:
     (embeddings denses R^{V×64}), PAS dans SymbolicDict (one-hot, limité à 64).
     C'est le fix pour le problème de collision PART=64."""
 
-    def __init__(self, vocab_size: int = 512, dim: int = PART):
+    def __init__(self, vocab_size: int = 512, dim: int = PART, max_concepts: int = 50000):
         self.word_to_id: Dict[str, int] = {}
         self.id_to_word: Dict[int, str] = {}
         self._next_id = 0
         self.vocab_size = vocab_size
         self.dim = dim
+        self.max_concepts = max_concepts   # hard limit (fix AttributeError test_concept_grok)
+        self.UNK = 0                        # ID réservé unknown
         self.embeddings: Optional[LearnedVocab] = None
 
     def add_word(self, word: str) -> int:

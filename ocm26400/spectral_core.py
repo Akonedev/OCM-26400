@@ -56,8 +56,16 @@ class SpectralCoreBlock(nn.Module):
         h = self.in_proj(h)
         X_freq = torch.fft.rfft(h, dim=1)               # (B, F, D), F = L//2+1
 
-        fr = self.filter_real[:X_freq.shape[1], :].unsqueeze(0)
-        fi = self.filter_imag[:X_freq.shape[1], :].unsqueeze(0)
+        # filtre robuste à la longueur d'entrée : pad si L > seq_len, slice si L < seq_len
+        F_in = X_freq.shape[1]
+        fr = self.filter_real
+        fi = self.filter_imag
+        if F_in > fr.shape[0]:
+            pad = F_in - fr.shape[0]
+            fr = torch.cat([fr, fr.new_zeros(pad, fr.shape[1])], dim=0)
+            fi = torch.cat([fi, fi.new_zeros(pad, fi.shape[1])], dim=0)
+        fr = fr[:F_in].unsqueeze(0)
+        fi = fi[:F_in].unsqueeze(0)
         X_real = X_freq.real * fr - X_freq.imag * fi
         X_imag = X_freq.real * fi + X_freq.imag * fr
         X_filtered = torch.complex(X_real, X_imag)

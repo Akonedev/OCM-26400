@@ -15,10 +15,14 @@ from ocm26400.diff_decode import (
 
 def test_decode_gumbel_straight_through():
     """decode_gumbel -> quasi-one-hot (n,) avec gradient (straight-through)."""
+    torch.manual_seed(0)
     logits = torch.randn(11, requires_grad=True)
     y = decode_gumbel(logits, tau=1.0, hard=True)
     assert y.shape == (11,)
-    assert y.sum().backward() is None                       # backward OK
+    # objectif non-trivial : sum d'un one-hot = constant -> grad 0 ;
+    # une cible pondérée rompt la symétrie et exerce vraiment le straight-through.
+    w = torch.linspace(0.0, 1.0, 11)
+    (y * w).sum().backward()
     assert logits.grad is not None and logits.grad.abs().sum() > 0
 
 
