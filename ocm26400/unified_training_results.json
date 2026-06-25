@@ -1,5 +1,5 @@
 {
-  "device": "cuda",
+  "device": "cpu",
   "stages": {
     "sanity_check": {
       "n_steps": 100,
@@ -32,14 +32,14 @@
         {
           "primitive": "word\u2192number",
           "n_words": 30,
-          "grok_acc": 0.8333,
+          "grok_acc": 0.7333,
           "grokked": true,
           "procedure": "custom 1-cos loop, Adam 3e-3, seed 0 (lookup arbitraire)"
         },
         {
           "primitive": "cue\u2192operation",
           "n_cues": 24,
-          "grok_acc": 0.8333,
+          "grok_acc": 0.9167,
           "grokked": true,
           "procedure": "custom 1-cos loop, Adam 3e-3, seed 0"
         }
@@ -56,6 +56,6 @@
     }
   },
   "timestamp": "2026-06-21",
-  "total_time_s": 100.2,
+  "total_time_s": 49.7,
   "overall_verdict": "PIPELINE_COMPLETE"
 }

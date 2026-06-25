@@ -691,5 +691,15 @@
       }
     ]
   },
-  "BENCH_LEVEL": 94.9
+  "BENCH_LEVEL": 94.9,
+  "neural_verified": {
+    "available": true,
+    "verdict": "NEURAL_COMPETENCE_PROVEN",
+    "procedure": "train_binary_block (1-cos, Adam 3e-3, seed 0) \u2014 PROCEDURES.md \u00a72",
+    "holdout_acc": 1.0,
+    "multihop_acc": 1.0,
+    "tautological": false,
+    "note": "core NEURAL entra\u00een\u00e9 (train_binary_block, proc\u00e9dure \u00a72) pr\u00e9dit compose(a,b) sur hold-out + cha\u00eenes depth 3. NON-tautologique."
+  },
+  "honesty_note": "BENCH_LEVEL = int\u00e9grit\u00e9 pipeline (t\u00e2ches isomorphes). neural_verified = comp\u00e9tence NEURALE r\u00e9elle (core entra\u00een\u00e9, hold-out, non-tautologique). Voir neural_multihop_results.json."
 }

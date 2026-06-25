@@ -673,7 +673,7 @@
         "name": "kepler_orbit",
         "domain": "astronomy",
         "arity": 2,
-        "n_samples": 7,
+        "n_samples": 8,
         "apply_acc": 1.0,
         "verify_true_acc": 1.0,
         "verify_false_acc": 1.0,

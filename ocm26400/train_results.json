@@ -1,12 +1,10 @@
 {
   "device": "cuda",
-  "smoke": false,
+  "smoke": true,
   "stages_run": [
     0,
-    1,
-    2
+    1
   ],
-  "grok_acc": 0.9545454545454546,
-  "mean_depth": 8.0,
-  "total_time_s": 99.7
+  "grok_acc": 1.0,
+  "total_time_s": 3.8
 }
