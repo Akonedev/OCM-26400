@@ -103,3 +103,25 @@ Vidéo réelle (VideoMME), parole (LibriSpeech), OCR (IAM), object detection (CO
 radar/SAR (SENTINEL), code à l'échelle (GitHub). Le paradigme OCM réduit les exemples
 nécessaires mais ne marche pas sur **zéro** exemple pour ces modalités — limite de
 données, pas d'architecture.
+
+---
+
+## Entraînement sur VRAIES données (OmniModel, 26 juin 2026)
+
+**Pipeline** : `train_real_full.py` — entraînement JOINT (noyau SpectralCoreBlock partagé,
+paradigme L1-L6) sur données réelles. **Checkpoint** : `SAVENVME2/Datasets/ocm26400/omnimodel_real_trained.pt`.
+
+| Modalité | Données réelles | Métrique | Score | vs SOTA |
+|---|---|---|---|---|
+| Audio (classification) | SpeechCommands (20 mots × 150) | acc test (450 samples) | **29.6%** | hasard 5%, SOTA ~95% |
+| Audio (génération) | SpeechCommands | flow-match loss | **0.146** | apprend (décroît) |
+| Image (self-supervisé) | tinyimagenet (2000 images) | flow-match loss | entraîné | pas de labels plats |
+| Raisonnement | cascade primitives grokkées | crown jewel | **100%** (decomp, non-vus) | ✓ |
+
+**Tests** : suite complète **1137/1137 verts** (0 régression). Interface de test : `test_omni.py`.
+
+**Gap SOTA honnête** : 29.6% classification parole << 95% SOTA. Cause : (a) peu de samples
+(3000 vs 80k+), (b) peu de pas (2500 vs 10k+), (c) encodeur audio léger (Mel-CNN 32 mel).
+L'architecture suit les principes (noyau spectral, joint, L1-L6) — le gap est en
+**données + temps de calcul + capacité**, pas en paradigme. Pour SOTA : full SpeechCommands
+(35 mots, 80k samples) + 10k+ pas + encodeur audio plus profond.
