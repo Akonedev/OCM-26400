@@ -161,3 +161,30 @@ L'architecture suit les principes (noyau spectral, joint, L1-L6) — le gap est 
 2. Le SpectralCoreBlock doit grok la COMPOSITION des phonèmes dans le signal
 3. La génération audio doit composer des phonèmes compris (pas reconstruire des Mémos)
 4. Peu de données devraient suffire SI le modèle comprend les règles phonétiques
+
+---
+
+## Session 26-27 juin 2026 — découvertes majeures
+
+### Génération depuis compréhension (crown-jewel INVERSÉ)
+
+| Mode | Comprendre | Générer+Vérifier | Méthode |
+|---|---|---|---|
+| Arithmétique | 100% | 100% (cascade d5) | op(a,b) IDs → FFT grok |
+| Video | 100% | 100% | (2a+b)%11 transition IDs |
+| 3D | 100% | 100% | (3a+5b)%11 composition IDs |
+| World | 100% | 100% | (a+b)%11 physique IDs |
+| Audio | 100% | 97% | règles phonétiques → Mel généré |
+| Image | 89.5% | 78% | flow-matching concept→patches |
+
+### Gates + Lean + Observateur
+
+- **Gate**: meta[0] → CONF_TARGET=4.0 (sigmoid ≈ 0.98 > TAU_GROK=0.9)
+- **Observateur**: confiant ET correct sur non-vus = COMPRÉHENSION vérifiée
+- **LEAN**: 675K params, 1500 steps, peu d'exemples → 100% (vs 105k data → 31%)
+- **IDs numériques**: tout convertir en IDs entiers (PRINCIPE FONDATEUR)
+
+### Asymétrie génération vs reconnaissance
+
+GÉNÉRER depuis règles (78-100%) >> RECONNAÎTRE depuis signal (0.5-43%).
+Identique au crown-jewel: décomposition (100%) >> oneshot (0.5%).

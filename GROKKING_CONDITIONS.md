@@ -84,3 +84,59 @@ python3 -m ocm26400.experiment_composition     # crown-jewel canonique (grok + c
 python3 -m ocm26400.neural_multihop            # compétence neurale hold-out (8 opérateurs)
 python3 -m ocm26400.train --full --stages 0,1  # pipeline conforme (grok 1.00)
 ```
+
+---
+
+## GATES + LEAN + OBSERVATEUR (ajout 26 juin 2026)
+
+### Gate de confidence (l'observateur)
+
+Le **gate** (`meta[0]`) est entraîné vers `CONF_TARGET = 4.0` (sigmoid ≈ 0.98 > TAU_GROK).
+Il sert d'**observateur de compréhension** :
+
+```python
+# Dans train_reasoner_with_confidence:
+loss = (1 - cos) + (out[192] - CONF_TARGET)**2  # alignement + confidence
+```
+
+L'observateur vérifie sur données **non vues** :
+- `sigmoid(meta[0]) ≥ 0.9` **AND** `pred correcte` → **COMPRÉHENSION** ✓
+- `sigmoid(meta[0]) ≥ 0.9` **AND** `pred fausse` → **surconfiance** (mémoire déguisée) ✗
+
+**Résultat mesuré** : video/3D/world = 100% confiant ET correct (vraie compréhension).
+Audio stochastique = 98% confiant mais faux sur non-vus (surconfiance = mémoire).
+
+### LEAN (profondeur > params > data)
+
+```
+LEAN = peu d'exemples + peu de params + peu de steps + grokking
+DATA ≠ compréhension (preuve: 105k samples → 31%; 200 triples → 100%)
+```
+
+### Génération depuis compréhension (crown-jewel INVERSÉ)
+
+Le modèle doit **GÉNÉRER depuis les règles comprises**, pas reconnaître depuis la mémoire.
+C'est l'équivalent du COMPUTE dans le crown-jewel :
+
+```
+Crown-jewel: grok op(a,b) → COMPUTE op(op(a,b),c) → 100%
+Audio:        grok règles phonétiques → GÉNÉRER Mel spectrogramme → 97%
+Video:        grok transition → GÉNÉRER frame sequence → 100%
+3D:           grok composition → GÉNÉRER voxel pattern → 100%
+World:        grok physique → GÉNÉRER trajectoire → 100%
+```
+
+**Loi de l'asymétrie** : GÉNÉRER depuis règles (78-100%) >> RECONNAÎTRE depuis signal (0.5-43%).
+Générer = appliquer les règles (déterministe). Reconnaître = inverser les règles (dur).
+
+### IDs numériques (PRINCIPE FONDATEUR)
+
+**Tout convertir en IDs numériques avant le SpectralCoreBlock.**
+Le grokking marche parce que c'est une **ASSOCIATION entre NOMBRES**, pas une copie de signal.
+
+```
+✅ CORRECT: texte → word_ID → SpectralCoreBlock → grok (100%)
+✅ CORRECT: phonème → phoneme_ID → SpectralCoreBlock → grok (100%)
+✅ CORRECT: video → frame_ID → SpectralCoreBlock → grok (100%)
+❌ ÉCHEC:   audio → Mel float → SpectralCoreBlock → pas de grok (signal continu)
+```

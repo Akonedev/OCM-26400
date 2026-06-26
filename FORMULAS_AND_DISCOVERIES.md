@@ -268,3 +268,155 @@ lr          = 3e-3      # Adam, reasoner.py
 # Flow-matching
 tau (InfoNCE) = 0.07    # acsp.py / infonce.py
 ```
+
+---
+
+## 13. GÉNÉRATION DEPUIS COMPRÉHENSION — le crown-jewel INVERSÉ (26 juin 2026)
+
+### 13.1 Principe : comprendre pour générer
+
+Le crown-jewel prouve que **comprendre une règle → l'appliquer à des cas non vus** (100%).
+La **génération depuis compréhension** est l'inverse : **comprendre une règle → CRÉER
+le signal depuis cette compréhension** (pas depuis la mémoire).
+
+```
+Crown-jewel (arithmétique) : grok op(a,b) → COMPUTE result → 100% sur non-vus
+Génération audio           : grok règles phonétiques → GÉNÉRER Mel → 97%
+Génération image           : grok concept visuel → GÉNÉRER patches → 78%
+```
+
+### 13.2 Pattern universel de génération depuis compréhension
+
+```
+ÉTAPE 1 (COMPRENDRE) : primitives → SpectralCoreBlock → concept (1-cos sur canonical)
+ÉTAPE 2 (GÉNÉRER)    : concept → SpectralCoreBlock → signal CRÉÉ (MSE sur vrai signal)
+ÉTAPE 3 (VÉRIFIER)   : signal généré → reconnaître → bon concept? (preuve de cohérence)
+```
+
+Les 3 étapes sont entraînées **SIMULTANÉMENT** (une seule loss, un seul optimizer).
+
+### 13.3 Résultats mesurés (26 juin 2026)
+
+| Mode | Comprendre | Générer+Vérifier | Règle |
+|---|---|---|---|
+| Arithmétique | 100% | 100% (cascade d5) | (3a+5b)%11 |
+| Video | 100% | 100% (cascade d5) | (2a+b)%11 transition |
+| 3D | 100% | 100% (cascade d5) | (3a+5b)%11 composition |
+| World | 100% | 100% (cascade d5) | (a+b)%11 physique |
+| Audio | 100% | 97% (Mel généré→reconnu) | règles phonétiques |
+| Image | 89.5% | 78% (flow-matching) | primitives visuelles |
+
+### 13.4 Insight fondamental
+
+**Le crown-jewel pattern s'applique à TOUS les modes quand les règles sont arithmétiques
+sur IDs discrets.** Le SpectralCoreBlock (FFT) grok les associations entre NOMBRES,
+quel que soit le domaine. La seule condition : **tout convertir en IDs numériques**.
+
+L'audio stochastique (97% génération vs 7% reconnaissance) confirme le MÊME pattern que
+le crown-jewel : **générer depuis règles (100%/97%) >> reconnaître depuis signal (0.5%/7%)**.
+La direction GENERATIVE (règles→signal) est plus facile que l'inverse (signal→règles).
+
+---
+
+## 14. GATES + LEAN + OBSERVATEUR (26 juin 2026)
+
+### 14.1 Gate de confidence (observateur de compréhension)
+
+```
+meta[0] = confidence (entraînée vers CONF_TARGET = 4.0, sigmoid(4) ≈ 0.98 > TAU_GROK = 0.9)
+```
+
+L'**observateur** vérifie : gate fires (conf ≥ 0.9) **ET** prédiction correcte sur non-vus.
+- Si confiant ET correct → **COMPRÉHENSION** ✓
+- Si confiant ET faux → **surconfiance** (mémorisation déguisée)
+- Si non-confiant → **ANOMALIE_CAUSALE** → abstention (anti-hallucination)
+
+**Résultat mesuré** : sur video/3D/world (règles arithmétiques), gate = 100% confiant ET
+correct sur non-vus = **compréhension vérifiée**.
+
+### 14.2 LEAN (profondeur > params)
+
+```
+LEAN = peu d'exemples (10-200) + peu de params (675K SpectralCoreBlock) + peu de steps (1500)
+```
+
+Le crown-jewel atteint 100% avec **200 triples** (sur 1331 possibles) et **1500 steps**.
+La DATA ne résout pas (105k samples audio → 31%, preuve). C'est la **COMPRÉHENSION** (grok
+des règles) qui généralise, pas la mémorisation d'instances.
+
+### 14.3 Loi de la génération vs reconnaissance
+
+```
+GÉNÉRATION (règles → signal) : 78-100% (le modèle APPLIQUE les règles comprises)
+RECONNAISSANCE (signal → règles) : 0.5-43% (l'inverse est dur, comme oneshot vs decomp)
+```
+
+C'est l'**asymétrie du crown-jewel généralisée** : décomposition (générer) >> one-shot
+(reconnaître). Pour chaque mode, la **génération depuis compréhension** bat la
+**reconnaissance depuis signal**.
+
+---
+
+## 15. CAPTURE SIMULTANÉE CROSS-MODALE (26 juin 2026)
+
+### 15.1 Principe
+
+Capturer **TOUTES les modalités en MÊME TEMPS** (texte + phonétique + audio + image)
+vers les **MÊMES IDs numériques** (concepts). Les associations cross-modales émergent
+de la capture simultanée : la compréhension textuelle **ancre** l'apprentissage audio.
+
+### 15.2 Résultats
+
+| Configuration | Audio acc | Gain vs isolé |
+|---|---|---|
+| Audio isolé (CE) | 30% | réf |
+| Cross-modal (texte+phon+audio simultané) | 30% | +0 (encodeur trop léger) |
+| Deep encoder (6 conv) + cross-modal | **43%** | **+13pt** |
+| Full data (105k samples) | 31% | +1pt (DATA ≠ compréhension) |
+
+**Conclusion** : la capture simultanée **aide** (+13pt avec encodeur profond), mais le
+gap fondamental reste l'extraction de l'invariant phonétique depuis un signal stochastique.
+
+---
+
+## 16. NOUVELLES LEÇONS (session 26 juin 2026)
+
+| Leçon | Détail |
+|---|---|
+| **Tout convertir en IDs numériques** | Le grokking marche sur des ASSOCIATIONS entre NOMBRES, pas sur du signal continu |
+| **Génération > Reconnaissance** | Générer depuis règles comprises (78-100%) >> reconnaître depuis signal (0.5-43%) |
+| **Gate = observateur de compréhension** | Confiant ET correct sur non-vus = compréhension; confiant ET faux = mémoire |
+| **LEAN bat DATA** | 200 exemples + compréhension → 100% (crown-jewel); 105k exemples + mémoire → 31% (audio) |
+| **Règles arithmétiques sur IDs** | C'est la CLÉ du grokking multi-mode: (3a+5b)%11 marche pour maths ET 3D ET world |
+| **Normalisation locuteur** | Mel normalisé (mean-removed) pour invariance phonétique (insuffisant seul, besoin encodeur profond) |
+| **Curriculum: texte grokké → audio aligne** | Teacher pré-grokké (frozen) → student audio s'aligne (knowledge distillation dans le paradigme) |
+| **Phonème→concept = déterministe** | 100% grokké (IDs fixes); audio→phonème = stochastique (le pont non résolu) |
+
+---
+
+## 17. CHEAT-SHEET mis à jour (toutes constantes)
+
+```python
+# Architecture (inchangé)
+D_MODEL = 256; PART = 64; seq_len = 64; KERNEL_PARAMS = 675_000
+
+# Vérificateur
+P_MOD = 11; A_COEF = 3; B_COEF = 5; P_BACKTRACK = 1000.0
+
+# LSRA + GATES
+TAU_GROK = 0.9; CONF_TARGET = 4.0; max_iter = 8; lr = 3e-3  # Adam
+
+# Génération depuis compréhension (NOUVEAU)
+# ÉTAPE 1: comprendre (1-cos sur canonical) — crown-jewel
+# ÉTAPE 2: générer (MSE sur vrai signal) — flow-matching ou cascade
+# ÉTAPE 3: vérifier (cycle: généré → reconnaître → bon concept?)
+# Entraîner les 3 SIMULTANÉMENT
+
+# IDs numériques (PRINCIPE FONDATEUR)
+# Tout convertir en IDs entiers avant le SpectralCoreBlock
+# Le FFT grok les associations entre NOMBRES, pas entre floats continus
+
+# Gate + observateur
+# meta[0] → CONF_TARGET (sigmoid ≈ 0.98)
+# Observateur: (sigmoid(meta[0]) ≥ TAU_GROK) AND (pred correcte sur non-vus)
+```
