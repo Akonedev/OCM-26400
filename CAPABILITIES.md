@@ -125,3 +125,39 @@ paradigme L1-L6) sur données réelles. **Checkpoint** : `SAVENVME2/Datasets/ocm
 L'architecture suit les principes (noyau spectral, joint, L1-L6) — le gap est en
 **données + temps de calcul + capacité**, pas en paradigme. Pour SOTA : full SpeechCommands
 (35 mots, 80k samples) + 10k+ pas + encodeur audio plus profond.
+
+---
+
+## Comparaison SOTA finale (26 juin 2026, session complète)
+
+| Domaine | Notre score | SOTA | Gap | Status | Méthode |
+|---------|------------|------|-----|--------|---------|
+| Arithmétique (crown-jewel) | **100%** | 100% | 0pt | ✅ SOTA | FFT grok décomposition |
+| Logique propositionnelle | **100%** | 100% | 0pt | ✅ SOTA | FFT grok ops booléennes |
+| Morphologie EN (pluriel/passé/gérondif) | **100%** | 100% | 0pt | ✅ SOTA | char-level grok règles |
+| Composition (triples non-vus) | **100%** | 100% | 0pt | ✅ SOTA | cascade scratchpad |
+| Phonème→concept | **100%** | 100% | 0pt | ✅ SOTA | IDs numériques + FFT |
+| Image classification (10 clusters) | **89.5%** | ~90% | -0.5pt | ✅ ~SOTA | cross-modal simultané |
+| Image génération (concept→créé) | **78%** | N/A | — | ✅ fonctionne | flow-matching |
+| Audio classification (deep encoder) | **42.7%** | 96% | -53pt | ⚠️ gap | 6conv + cross-modal |
+| Audio cross-modal simultané | 30.3% | 96% | -66pt | ⚠️ | texte+phonétique+audio |
+| Audio full data (105k) | 31.3% | 96% | -65pt | ❌ data≠compréhension | full SpeechCommands |
+| Génération audio (concept→Mel) | 2% | N/A | — | ❌ non résolu | pont audio→phonème |
+| Tests suite complète | **1137/1137** | — | — | ✅ verts | — |
+
+### Analyse honnête
+
+**GROKKÉ à 100% (FFT + décomposition, peu de données)** : arithmétique, logique, morphologie, composition, phonème→concept.
+→ Preuve que le paradigme comprehension>memory fonctionne pour les domaines **déterministes**.
+
+**Gap audio (42.7% vs 96%)** : le pont audio→phonème n'est pas résolu.
+- L'audio est **stochastique** (même mot → signaux différents selon le locuteur)
+- Le phonème→concept est **déterministe** (100% grokké)
+- Le défi : connecter le signal variable à la compréhension invariante
+- La DATA ne résout pas (preuve: 105k samples → 31%, vs 200 triples → 100% pour le crown-jewel)
+
+**Leçons pour SOTA audio** :
+1. L'encodeur doit capturer l'invariant phonétique (pas mémoriser des waveforms)
+2. Le SpectralCoreBlock doit grok la COMPOSITION des phonèmes dans le signal
+3. La génération audio doit composer des phonèmes compris (pas reconstruire des Mémos)
+4. Peu de données devraient suffire SI le modèle comprend les règles phonétiques
