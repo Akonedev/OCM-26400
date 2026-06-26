@@ -1,21 +1,41 @@
-MIT License
+OCM-26400 — Licence Commerciale "Lobe Licensing"
+Copyright (c) 2026 akone. Tous droits réservés.
 
-Copyright (c) 2026 akone
+STRATÉGIE DE LICENCE (Besoins/Formules_Maths_Algo.md §3.2-4):
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. SENSORY LOBES (Ports 26401-26404) — Open Source
+   Les encodeurs sensoriels (audio, image, vidéo, 3D) et la spécification
+   QPLS/AMV sont open-source. Les développeurs peuvent formater leurs données
+   en Mentalese librement.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. SEMANTIC MEMORY + REASONING CORE (Ports 26412, 26415-26418) — Commercial
+   Le dictionnaire sémantique (SymbolicDict) et le Reasoning Core (LSRA +
+   SpectralCoreBlock + ACSP) sont PROPRIÉTAIRES. Une licence entreprise est
+   requise pour les utiliser commercialement.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. CROWN-JEWEL + DÉCOMPOSITION — Prior Art (défensif)
+   Les formules de décomposition (crown-jewel) sont publiées comme prior art
+   pour empêcher le brevetage par des tiers (Google, Meta, etc.).
+
+=======================================================================
+
+CONDITIONS:
+
+A. Usage non-commercial (recherche, éducation) : AUTORISÉ
+   - Inclure cette notice de copyright
+   - Citer: akone, OCM-26400, 2026
+
+B. Usage commercial : LICENCE REQUISE
+   - Contacter: akone pour obtenir une licence entreprise
+   - Le Reasoning Core (LSRA, SpectralCoreBlock, ACSP) et le Semantic
+     Dictionary ne peuvent pas être utilisés commercialement sans licence
+
+C. redistribution : AUTORISÉE avec attribution
+   - Les Sensory Lobes peuvent être redistribués (open-source)
+   - Le Reasoning Core ne peut PAS être redistribué sans licence
+
+EN AUCUN CAS LE REASONING CORE (SpectralCoreBlock + LSRA + ACSP) NE PEUT
+ÊTRE UTILISÉ, COPIÉ OU DISTRIBUTÉ COMMERCIALEMENT SANS LICENCE EXPLICITE.
+
+For commercial licensing, contact: akone
+Patent prior art established: June 2026

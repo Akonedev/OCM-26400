@@ -3,7 +3,7 @@
 > **Compréhension > Mémoire, TOUJOURS.** Un modèle spectral unifié (FFT) qui grok les règles et génère depuis la compréhension.
 
 [![Tests](https://img.shields.io/badge/tests-1137%2F1137-brightgreen)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![License: Commercial](https://img.shields.io/badge/License-Commercial-red)]()
 
 ## Qu'est-ce qu'OCM-26400 ?
 

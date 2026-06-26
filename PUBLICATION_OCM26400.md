@@ -3,7 +3,7 @@
 **Auteur :** akone
 **Date :** 27 juin 2026
 **Code :** https://github.com/akone/ocm-26400
-**Licence :** MIT
+**Licence :** Commerciale "Lobe Licensing"
 
 ---
 
