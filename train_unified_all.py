@@ -104,17 +104,17 @@ def train_unified():
     # --- préparer DONNÉES ---
     # audio (SpeechCommands)
     words = sorted([w for w in os.listdir(SC)
-                    if os.path.isdir(os.path.join(SC, w)) and not w.startswith("_")])[:15]
+                    if os.path.isdir(os.path.join(SC, w)) and not w.startswith("_")])[:35]
     NW = len(words)
     audio_by_word = {}
     for wi, w in enumerate(words):
-        wavs = [load_wav(p) for p in glob.glob(os.path.join(SC, w, "*.wav"))[:100]]
+        wavs = [load_wav(p) for p in glob.glob(os.path.join(SC, w, "*.wav"))[:200]]
         audio_by_word[wi] = torch.stack(wavs).to(device)
     text_audio = torch.tensor([text_feat(w) for w in words]).to(device)
     phon_audio = torch.tensor([phon_feat(w) for w in words]).to(device)
 
     # images (tinyimagenet, clustering)
-    img_paths = sorted(glob.glob(os.path.join(IMG_DIR, "*.png")))[:1000]
+    img_paths = sorted(glob.glob(os.path.join(IMG_DIR, "*.png")))[:2000]
     all_patches = np.array([img_patches(p) for p in img_paths], dtype=np.float64)
     km = MiniBatchKMeans(n_clusters=10, batch_size=256, random_state=0, n_init=3)
     km.fit(all_patches)
@@ -150,7 +150,7 @@ def train_unified():
     print(f"  UN SpectralCoreBlock partagé, UN optimizer, UN passage\n", flush=True)
 
     t0 = time.time()
-    for step in range(10000):
+    for step in range(20000):
         total_loss = torch.tensor(0.0, device=device)
         n_terms = 0
 
@@ -218,7 +218,7 @@ def train_unified():
         loss = total_loss / n_terms
         opt.zero_grad(); loss.backward(); opt.step()
 
-        if step % 2000 == 0:
+        if step % 5000 == 0:
             model.eval()
             with torch.no_grad():
                 # audio classification
@@ -227,7 +227,7 @@ def train_unified():
                                                   nn.Identity().to(device)) @ canon.t()).argmax(1).item() == wi)
                 n_a = sum(len(audio_te[wi][:2]) for wi in range(NW))
                 # image classification
-                ok_i = sum(1 for i in img_te[:100]
+                ok_i = sum(1 for i in img_te[:200]
                            if (model.forward_view(patches_t[i:i+1], model.img_proj) @ canon.t()).argmax(1).item() == img_labels[i] + NW)
                 # image generation verification
                 gen_ok = 0
