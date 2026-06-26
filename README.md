@@ -81,7 +81,13 @@ LSRA : v(t+1) = Block(v(t)), stop quand sigmoid(meta[0]) ≥ 0.9
 
 ## Licence
 
-MIT — voir [LICENSE](LICENSE)
+Licence Commerciale **"Lobe Licensing"** — voir [LICENSE](LICENSE).
+
+- **Sensory Lobes** (encodeurs audio/image/vidéo/3D, spec QPLS/AMV) : open-source
+- **Reasoning Core** (SpectralCoreBlock + LSRA + ACSP) + **Semantic Memory** : COMMERCIAL (licence entreprise requise)
+- **Crown-jewel** : prior art défensif (anti-brevet tiers)
+
+Usage commercial interdit sans licence explicite.
 
 ## Auteur
 
