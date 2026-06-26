@@ -108,7 +108,7 @@ def train_unified():
     NW = len(words)
     audio_by_word = {}
     for wi, w in enumerate(words):
-        wavs = [load_wav(p) for p in glob.glob(os.path.join(SC, w, "*.wav"))[:40]]
+        wavs = [load_wav(p) for p in glob.glob(os.path.join(SC, w, "*.wav"))[:100]]
         audio_by_word[wi] = torch.stack(wavs).to(device)
     text_audio = torch.tensor([text_feat(w) for w in words]).to(device)
     phon_audio = torch.tensor([phon_feat(w) for w in words]).to(device)
@@ -150,7 +150,7 @@ def train_unified():
     print(f"  UN SpectralCoreBlock partagé, UN optimizer, UN passage\n", flush=True)
 
     t0 = time.time()
-    for step in range(5000):
+    for step in range(10000):
         total_loss = torch.tensor(0.0, device=device)
         n_terms = 0
 
@@ -218,7 +218,7 @@ def train_unified():
         loss = total_loss / n_terms
         opt.zero_grad(); loss.backward(); opt.step()
 
-        if step % 1000 == 0:
+        if step % 2000 == 0:
             model.eval()
             with torch.no_grad():
                 # audio classification
