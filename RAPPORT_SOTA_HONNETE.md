@@ -98,6 +98,31 @@ périphérie** : au-delà de ~4 blocs, +de profondeur peut nuire (8 blocs → 44
 du signal), pas capacitif. Grossir le lobe ne le brise pas (prouvé par sweep). Le pont
 signal→IDs-invariants reste la vraie frontière — non résolu par invariance, VQ, ni capacité.
 
+#### 3.1c CORRECTION FORMAT — capture simultanée (§I) → 50.2% (meilleur résultat audio)
+
+**Correction majeure (user + hook)** : les variantes §3.1b étaient **audio-seul** — violant
+§I "capture simultanée". Refait au format prescrit (text+phon+audio → canonical, 1 passe,
+1 cœur SpectralCoreBlock partagé, 1-cos joint) :
+
+| Approche (format prescrit) | Holdout [100:130] | vs baseline 45.9% |
+|---|---|---|
+| **simultaneous continuous** (lobe profond + co-capture text+phon+audio) | **50.2%** | **+4.3pt (MEILLEUR)** |
+| VQ unifié straight-through (audio→VQ→IDs + co-capture) | 2.9% | ÉCHEC |
+| VQ unifié Gumbel-softmax (différentiable + co-capture) | 3.0% | ÉCHEC |
+
+**La correction user était JUSTE et PRODUCTIVE** : suivre le format (capture simultanée,
+que j'avais violée) a gagné **+4.3pt** (45.9%→50.2%) et **+2.6pt** sur l'audio-only (47.6%).
+La co-capture text+phon+audio crée les associations manquantes.
+
+**VQ (3 variantes, toutes ~3%)** : le principe IDs-discrets est juste en théorie, mais
+**VQ-VAE ne le délivre pas** pour l'audio (straight-through ET Gumbel → même plateau align 1.29).
+Le goulot est la discrétisation VQ elle-même, pas le gradient ni l'ancrage. Le **continu
+simultané marche (50.2%)**. Piste pour IDs-discrets : discrétisation **explicite** (formants
+LPC / MFCC quantifiés) plutôt que VQ appris.
+
+**VERDACT audio FINAL** : 50.2% (meilleur honnête, format prescrit) vs SOTA 96%. Le plafond
+stochastique persiste mais +4.3pt gagnés en suivant les instructions.
+
 ### 3.2 GSM8K (raisonnement maths NL) — classifieur d'opérations neuronal
 
 **Approche testée (cette session) : gsm8k_neural_ops** = gold-supervisé (les réponses GSM8K
