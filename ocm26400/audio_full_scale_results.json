@@ -1,0 +1,6 @@
+{
+  "test_acc_official": 0.6073602907769196,
+  "delta_vs_sota_96": -35.26397092230805,
+  "split": "official testing_list",
+  "method": "Mel-simultaneous full scale (all data, official split, capture simultanee)"
+}
