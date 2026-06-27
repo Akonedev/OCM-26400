@@ -60,7 +60,17 @@ def load_data(words, max_per_word=None):
     return tr, te
 
 
-def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None, n_blocks=4, hidden=128):
+def speed_perturb(wav_np, rate_range=(0.9, 1.1)):
+    """Perturbation de vitesse (DSP natif, np.interp) : rééchantillonne -> simule d'autres
+    locuteurs (pitch/tempo variés). Crée de la variation locuteur -> force l'invariance.
+    PAS un modèle externe (juste du rééchantillonnage, comme le banc Mel)."""
+    rate = random.uniform(*rate_range)
+    n = len(wav_np); idx = np.arange(n) / rate
+    idx = np.clip(idx, 0, n - 1)
+    return np.interp(idx, np.arange(n), wav_np).astype(np.float32)
+
+
+def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None, n_blocks=4, hidden=128, augment=False):
     torch.manual_seed(0); random.seed(0)
     words = sorted([w for w in os.listdir(SC)
                     if os.path.isdir(os.path.join(SC, w)) and not w.startswith("_")])
@@ -92,7 +102,13 @@ def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None, n_bloc
     t0 = time.time(); best = start_best; best_state = None
     for step in range(n_steps):
         bi = [random.choice(keys) for _ in range(batch)]
-        wavs = torch.stack([tr[k][torch.randint(0,len(tr[k]),(1,)).item()] for k in bi]).to(device)
+        wavs_list = []
+        for k in bi:
+            w = tr[k][torch.randint(0, len(tr[k]), (1,)).item()].numpy()
+            if augment:
+                w = speed_perturb(w)            # variation locuteur (DSP natif) -> invariance
+            wavs_list.append(torch.from_numpy(w))
+        wavs = torch.stack(wavs_list).to(device)
         wi_t = torch.tensor(bi, device=device)
         loss = joint(wi_t, wavs)
         opt.zero_grad(); loss.backward(); opt.step()
@@ -129,7 +145,7 @@ if __name__ == "__main__":
     n_lobe = sum(p.numel() for p in model.lobe.parameters())/1e6
     del model
     print(f"[PASS 2] lobe plus gros : 8 blocs, hidden 256 (~{n_lobe:.1f}M params lobe) à pleine échelle", flush=True)
-    model, canon, te, best = train(n_steps=25000, lr=3e-3, n_blocks=8, hidden=256)   # lobe gros, full data
+    model, canon, te, best = train(n_steps=25000, lr=3e-3, n_blocks=8, hidden=256, augment=True)   # lobe gros + speed aug, full data
     print(f"\n{'='*64}\nRÉSULTAT FULL SCALE — test OFFICIEL SpeechCommands\n{'='*64}")
     print(f"  Test acc OFFICIEL: {best*100:.1f}%")
     print(f"  Mécanisme: Mel-simultaneous (capture text+phon+audio, 1-cos) sur données COMPLÈTES")

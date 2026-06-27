@@ -1,0 +1,6 @@
+{
+  "test_acc_official": 0.625,
+  "delta_vs_sota_96": -33.5,
+  "config": "full scale 94k wavs + big lobe (8 blocs/hidden256) + speed perturbation aug + 25000 steps",
+  "verdict": "augmentation speed-perturb n'apporte que +0.6pt (61.9->62.5%). Plafond reconnaissance ~62.5% DEFINITIVEMENT robuste across mecanismes x echelle x capacite x augmentation. SOTA reconnaissance (96%) non atteignable dans ce paradigme."
+}
