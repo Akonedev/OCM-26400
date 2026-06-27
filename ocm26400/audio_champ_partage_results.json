@@ -1,0 +1,5 @@
+{
+  "holdout_acc": 0.336,
+  "status": "champ partage diffusion-fill (rapport 53) plateau ~34% (sous Mel-simultaneous 50.2%). Fill audio-seul vers concept reste dur.",
+  "method": "champ partage multi-niveaux + diffusion-fill any->any (rapport 53 §3)"
+}
