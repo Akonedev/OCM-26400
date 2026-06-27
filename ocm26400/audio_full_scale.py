@@ -60,7 +60,7 @@ def load_data(words, max_per_word=None):
     return tr, te
 
 
-def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500):
+def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None):
     torch.manual_seed(0); random.seed(0)
     words = sorted([w for w in os.listdir(SC)
                     if os.path.isdir(os.path.join(SC, w)) and not w.startswith("_")])
@@ -76,6 +76,11 @@ def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500):
     canon = cv._matrix().to(device)
     model = SimultaneousFull(NW).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
+    start_best = 0.0
+    if resume and os.path.exists(resume):
+        ck = torch.load(resume, map_location=device, weights_only=True)
+        model.load_state_dict(ck["model_state"]); start_best = ck.get("best", 0.0)
+        print(f"  [RESUME] checkpoint rechargé (best was {start_best*100:.1f}%) — continuation fine-tuning", flush=True)
 
     def joint(wi_t, wavs):
         tgt = canon[wi_t]
@@ -84,7 +89,7 @@ def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500):
                 (1-F.cosine_similarity(model.audio_view(wavs),tgt,-1).clamp(-1,1)).mean())
 
     print(f"\n[TRAIN FULL SCALE] Mel-simultaneous | capture text+phon+audio | {n_steps} steps", flush=True)
-    t0 = time.time(); best = 0.0; best_state = None
+    t0 = time.time(); best = start_best; best_state = None
     for step in range(n_steps):
         bi = [random.choice(keys) for _ in range(batch)]
         wavs = torch.stack([tr[k][torch.randint(0,len(tr[k]),(1,)).item()] for k in bi]).to(device)
@@ -115,7 +120,10 @@ if __name__ == "__main__":
     print("="*64)
     print("AUDIO PLEINE ÉCHELLE — Mel-simultaneous, SpeechCommands COMPLET, split OFFICIEL")
     print("="*64)
-    model, canon, te, best = train(n_steps=20000)
+    resume_ckpt = "/media/akone/SAVENVME2/Datasets/ocm26400/audio_full_scale_trained.pt"
+    # continuation: reprend le 60.7% + 15000 steps supplémentaires + LR plus bas (fine-tuning)
+    model, canon, te, best = train(n_steps=15000, lr=1e-3,
+                                   resume=resume_ckpt if os.path.exists(resume_ckpt) else None)
     print(f"\n{'='*64}\nRÉSULTAT FULL SCALE — test OFFICIEL SpeechCommands\n{'='*64}")
     print(f"  Test acc OFFICIEL: {best*100:.1f}%")
     print(f"  Mécanisme: Mel-simultaneous (capture text+phon+audio, 1-cos) sur données COMPLÈTES")
