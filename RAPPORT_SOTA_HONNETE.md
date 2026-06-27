@@ -72,6 +72,32 @@ selon le locuteur). Le pont signal→invariant n'est pas résolu (15 tentatives 
 plafond 42.7%). La DATA ne résout pas (preuve : 105k samples → 31%). La génération depuis
 règles (97%) marche, la reconnaissance depuis signal (46%) ne suit pas — asymétrie crown-jewel.
 
+#### 3.1b Attaque du pont signal→invariant (choix user) — capacité vs structure
+
+Après l'autocorrect, **4 attaques supplémentaires du pont** (cœur raisonnement 675K FIXÉ,
+séparation Lobe Licensing) :
+
+| Approche | Holdout [100:130] | Verdict |
+|---|---|---|
+| invariant (InstanceNorm+SpecAugment+FFT) | 45.8% | = baseline (invariance locuteur seule) |
+| VQ-IDs discrets + crown-jewel | 2.9% | ÉCHEC (discrétisation VQ ne grok pas) |
+| **lobe profond** (8 ResConv + temporal FFT) | 47.6% (best sweep) | +1.7pt |
+| **SWEEP taille idéale** (profondeur + largeur) | voir courbe | **capacité ≠ goulot** |
+
+**SWEEP (réponse à "taille idéale en tenant compte de la profondeur")** :
+```
+profondeur (hidden=128): b2:47%  b4:48%(best)  b8:45%  b16:47%
+largeur (n_blocks=8):    h64:47%  h128:45%  h256:47%
+```
+Courbe **PLATE** (44.6-47.6%, bruit 1 seed) : de 1M à 4M de params lobe, l'accuracy bouge
+de ~2pt. **La capacité n'est PAS le goulot.** Idéal empirique : ~4 blocs (~1.2M lobe + 659K
+cœur ≈ 1.9M total, +1.7pt baseline). La loi **δ<0 (scale-inverse) est confirmée même sur la
+périphérie** : au-delà de ~4 blocs, +de profondeur peut nuire (8 blocs → 44.6%).
+
+**VERDICT DÉFINITIF (audio)** : le plafond ~46% (vs SOTA 96%) est **STRUCTUREL** (stochasticité
+du signal), pas capacitif. Grossir le lobe ne le brise pas (prouvé par sweep). Le pont
+signal→IDs-invariants reste la vraie frontière — non résolu par invariance, VQ, ni capacité.
+
 ### 3.2 GSM8K (raisonnement maths NL) — classifieur d'opérations neuronal
 
 **Approche testée (cette session) : gsm8k_neural_ops** = gold-supervisé (les réponses GSM8K
