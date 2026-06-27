@@ -1,0 +1,7 @@
+{
+  "test_acc": 0.023,
+  "delta_vs_symbolic_4": -1.7,
+  "delta_vs_sota_95": -92.7,
+  "status": "crown-cascade (op-predict + cœur arith exécution) 2.3% < symbolic 4%. execute_cascade reste fold-gauche; le problème fondamental GSM8K (quels nombres combiner, réutilisation intermédiaires) non résolu.",
+  "verdict": "GSM8K cappé ~4% (symbolic best, 13 tentatives). NL parsing = frontier dur du paradigme."
+}
