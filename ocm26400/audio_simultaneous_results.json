@@ -1,0 +1,6 @@
+{
+  "holdout_acc": 0.5019047619047619,
+  "delta_vs_audio_only_47p6": 2.5904761904761813,
+  "delta_vs_sota_96": -45.80952380952382,
+  "method": "SIMULTANEOUS capture (text+phon+audio -> canonical, 1-cos joint) + deep invariant lobe (InstanceNorm+SpecAugment+temporal FFT), shared SpectralCoreBlock reasoning core"
+}
