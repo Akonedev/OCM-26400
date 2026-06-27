@@ -1,0 +1,6 @@
+{
+  "test_acc_official": 0.021142857142857144,
+  "delta_vs_direct_62p5": -60.385714285714286,
+  "delta_vs_sota_96": -93.88571428571429,
+  "method": "recognition via generation (analysis-by-synthesis): generate canonical Mel per word (97% generator), match test audio"
+}
