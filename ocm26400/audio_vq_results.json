@@ -1,0 +1,7 @@
+{
+  "holdout_acc": 0.029,
+  "status": "ECHEC — VQ+straight-through ne converge pas (1-cos plat 0.83, holdout random 2.9%)",
+  "method": "VQ discrete IDs + ID embed + SpectralCoreBlock crown-jewel",
+  "delta_vs_baseline_45p9": -43.0,
+  "note": "la discretisation VQ rend l'optimisation trop dure dans ce setup; le pont signal->IDs discrets invariants non resolu par VQ seule"
+}

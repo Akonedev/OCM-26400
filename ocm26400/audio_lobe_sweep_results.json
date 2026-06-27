@@ -1,0 +1,56 @@
+{
+  "configs": [
+    {
+      "n_blocks": 2,
+      "hidden": 128,
+      "lobe_K": 1020.544,
+      "total_K": 1695.68,
+      "holdout": 0.4695238095238095
+    },
+    {
+      "n_blocks": 4,
+      "hidden": 128,
+      "lobe_K": 1218.688,
+      "total_K": 1893.824,
+      "holdout": 0.47619047619047616
+    },
+    {
+      "n_blocks": 8,
+      "hidden": 128,
+      "lobe_K": 1614.976,
+      "total_K": 2290.112,
+      "holdout": 0.44571428571428573
+    },
+    {
+      "n_blocks": 16,
+      "hidden": 128,
+      "lobe_K": 2407.552,
+      "total_K": 3082.688,
+      "holdout": 0.4676190476190476
+    },
+    {
+      "n_blocks": 8,
+      "hidden": 64,
+      "lobe_K": 981.056,
+      "total_K": 1656.192,
+      "holdout": 0.4714285714285714
+    },
+    {
+      "n_blocks": 8,
+      "hidden": 256,
+      "lobe_K": 4062.464,
+      "total_K": 4737.6,
+      "holdout": 0.4666666666666667
+    }
+  ],
+  "best": {
+    "n_blocks": 4,
+    "hidden": 128,
+    "lobe_K": 1218.688,
+    "total_K": 1893.824,
+    "holdout": 0.47619047619047616
+  },
+  "core_fixed_K": 658.688,
+  "baseline_45p9": 45.9,
+  "method": "depth/width sweep, core fixed 675K"
+}

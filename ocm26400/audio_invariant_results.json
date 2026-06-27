@@ -1,0 +1,6 @@
+{
+  "holdout_acc": 0.4580952380952381,
+  "delta_vs_baseline_45p9": -0.09047619047618838,
+  "delta_vs_sota_96": -50.19047619047619,
+  "method": "InstanceNorm(speaker)+SpecAugment+SpectralCoreBlock+1-cos crown-jewel"
+}
