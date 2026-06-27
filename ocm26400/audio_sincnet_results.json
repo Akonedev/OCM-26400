@@ -1,0 +1,5 @@
+{
+  "test_acc_official_partial": 0.344,
+  "status": "SincNet (banc filtres appris rapport45) converge < Mel fixe (34.4%@7500 vs Mel58%). Trajectoire ~55%@25k sous Mel62.5%.",
+  "verdict": "plafond reconnaissance 62.5% (Mel-simultaneous) robuste across tous mecanismes+scale+capacite+aug+banc appris."
+}
