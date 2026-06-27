@@ -1,0 +1,15 @@
+{
+  "diagnostic": "conversion audio->IDs est locuteur-dépendante (le SEUL maillon bloquant)",
+  "proof": {
+    "intra_mot_jaccard": 0.540,
+    "inter_mot_jaccard": 0.581,
+    "ratio_intra_sur_inter": 0.93,
+    "interpretation": "IDs aussi différents pour le même mot (locuteurs différents) que pour des mots différents => ne capte PAS l'invariant du mot"
+  },
+  "rules_work": {
+    "concept_grok_train_1cos": 0.50,
+    "evidence": "le SpectralCoreBlock grok l'association IDs->concept sur train (1-cos 0.50) MAIS holdout 3.9% car IDs non invariants"
+  },
+  "fix_needed": "formule de conversion audio->IDs INVARIANTS au locuteur (même mot -> mêmes IDs)",
+  "not_the_problem": ["règles (grok)", "capacité", "techniques externes (VQ/SpecAugment interdits)"]
+}

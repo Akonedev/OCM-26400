@@ -1,0 +1,4 @@
+{
+  "holdout_acc": 0.039047619047619046,
+  "method": "concept_grok PUR (extract_phoneme_ids + SpectralCoreBlock + 1-cos + capture simultanee), zero technique externe"
+}
