@@ -60,7 +60,7 @@ def load_data(words, max_per_word=None):
     return tr, te
 
 
-def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None):
+def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None, n_blocks=4, hidden=128):
     torch.manual_seed(0); random.seed(0)
     words = sorted([w for w in os.listdir(SC)
                     if os.path.isdir(os.path.join(SC, w)) and not w.startswith("_")])
@@ -74,7 +74,7 @@ def train(n_steps=20000, batch=64, lr=3e-3, eval_every=2500, resume=None):
     phon_all = torch.tensor([phon_feat(w) for w in words]).to(device)
     cv = LearnedVocab(n=NW, dim=PART, init="ortho", seed=0); cv.freeze()
     canon = cv._matrix().to(device)
-    model = SimultaneousFull(NW).to(device)
+    model = SimultaneousFull(NW, n_blocks=n_blocks, hidden=hidden).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     start_best = 0.0
     if resume and os.path.exists(resume):
@@ -121,9 +121,15 @@ if __name__ == "__main__":
     print("AUDIO PLEINE ÉCHELLE — Mel-simultaneous, SpeechCommands COMPLET, split OFFICIEL")
     print("="*64)
     resume_ckpt = "/media/akone/SAVENVME2/Datasets/ocm26400/audio_full_scale_trained.pt"
-    # continuation: reprend le 60.7% + 15000 steps supplémentaires + LR plus bas (fine-tuning)
-    model, canon, te, best = train(n_steps=15000, lr=1e-3,
-                                   resume=resume_ckpt if os.path.exists(resume_ckpt) else None)
+    # PASS 2 : LOBE PLUS GROS à pleine échelle (capacity-at-full-scale, jamais testé).
+    # Le sweep "capacité plate" était sur subset (100/mot, surapprentissage) ; à 94k wavs,
+    # plus de données supporte plus de capacité (scaling data↔capacité, recipe SOTA).
+    # Lobe sensoriel grossit (Lobe Licensing), cœur 675K fixé.
+    model = SimultaneousFull(35, n_blocks=8, hidden=256).to(device)  # lobe plus gros (8 blocs, hidden 256)
+    n_lobe = sum(p.numel() for p in model.lobe.parameters())/1e6
+    del model
+    print(f"[PASS 2] lobe plus gros : 8 blocs, hidden 256 (~{n_lobe:.1f}M params lobe) à pleine échelle", flush=True)
+    model, canon, te, best = train(n_steps=25000, lr=3e-3, n_blocks=8, hidden=256)   # lobe gros, full data
     print(f"\n{'='*64}\nRÉSULTAT FULL SCALE — test OFFICIEL SpeechCommands\n{'='*64}")
     print(f"  Test acc OFFICIEL: {best*100:.1f}%")
     print(f"  Mécanisme: Mel-simultaneous (capture text+phon+audio, 1-cos) sur données COMPLÈTES")

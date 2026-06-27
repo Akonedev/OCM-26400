@@ -1,0 +1,5 @@
+{
+  "test_acc_official": 0.601,
+  "status": "big lobe (8 blocs hidden 256) @ full scale plateau ~60% (< small lobe 61.9%). capacity-at-scale non confirmee.",
+  "verdict": "plafond reconnaissance ~62% robuste across tous mecanismes + scale + capacite."
+}
