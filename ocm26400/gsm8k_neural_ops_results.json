@@ -1,0 +1,6 @@
+{
+  "test_acc": 0.03,
+  "delta_vs_4pct": -1.0,
+  "method": "neural op-classifier (gold-sup) + SpectralCoreBlock + fold exec",
+  "caveat": "fold-gauche sur nombres extraits = plafond structurel (parsing NL->ops est la fronti\u00e8re)"
+}
