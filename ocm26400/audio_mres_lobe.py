@@ -95,7 +95,7 @@ def gpu_ready(min_gb=8.0):
     return free_gb >= min_gb
 
 
-def train(n_steps=25000, batch=48, lr=3e-3, eval_every=2000, wd=1e-2):
+def train(n_steps=25000, batch=48, lr=3e-3, eval_every=2000, wd=1e-2, n_res=0):
     torch.manual_seed(0); random.seed(0)
     # GPU GUARD: attend que la VRAM soit libre (ne sature pas)
     while not gpu_ready(8.0):
@@ -109,6 +109,7 @@ def train(n_steps=25000, batch=48, lr=3e-3, eval_every=2000, wd=1e-2):
     phon_all=torch.tensor([phon_feat(w) for w in words]).to(device)
     cv=LearnedVocab(n=NW,dim=PART,init="ortho",seed=0); cv.freeze(); canon=cv._matrix().to(device)
     model=MResSpectralModel(NW).to(device)
+    model.lobe = MResLobe(n_res=n_res).to(device)   # n_res=0 → M5-like (stable, rapide)
     opt=torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
     sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=n_steps)   # LR decay (recipe M5 95%)
 
