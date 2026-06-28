@@ -53,7 +53,7 @@ def load_data(words):
         if len(rp)>=50 and len(tp)>=5:tr[wi]=torch.stack([load_wav(p) for p in rp]);te[wi]=torch.stack([load_wav(p) for p in tp])
     return tr,te
 
-def train(n=50000,bs=64,lr=1e-3,ev=2500):
+def train(n=100000,bs=64,lr=1e-3,ev=2500):
     torch.manual_seed(0);random.seed(0)
     ws=sorted([w for w in os.listdir(SC) if os.path.isdir(os.path.join(SC,w)) and not w.startswith("_")])
     NW=len(ws);print(f"[UNIFIED M5+SCB(seq_len=62)] chargement...",flush=True)

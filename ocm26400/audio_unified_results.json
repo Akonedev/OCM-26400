@@ -1,5 +1,5 @@
 {
-  "test_acc_official": 0.940299863698319,
-  "delta_vs_m5pure_90p2": 3.8299863698319,
-  "delta_vs_sota_96": -1.970013630168097
+  "test_acc_official": 0.9412085415720127,
+  "delta_vs_m5pure_90p2": 3.9208541572012763,
+  "delta_vs_sota_96": -1.8791458427987209
 }
