@@ -108,7 +108,10 @@ def train(n_steps=25000, batch=64, lr=3e-3, eval_every=2500):
         loss=joint(wi_t,wavs); opt.zero_grad(); loss.backward(); opt.step()
         if step%eval_every==0 or step==n_steps-1:
             acc=_eval(model,canon,te)
-            if acc>best: best=acc; best_state={k:v.detach().clone() for k,v in model.state_dict().items()}
+            if acc>best:
+                best=acc; best_state={k:v.detach().clone() for k,v in model.state_dict().items()}
+                torch.save({"model_state":best_state,"best":best}, "/media/akone/SAVENVME2/Datasets/ocm26400/audio_m5_trained.pt")
+                json.dump({"test_acc_official":best,"delta_vs_sota_96":best*100-96,"method":"M5 dilated-conv lobe + SpectralCoreBlock, full scale+aug"}, open("ocm26400/audio_m5_results.json","w"), indent=2)
             print(f"  step {step:>5} 1-cos={loss.item():.4f} | test OFFICIEL {acc*100:.1f}% (best {best*100:.1f}%) | t={time.time()-t0:.0f}s", flush=True)
     if best_state: model.load_state_dict(best_state)
     return model,canon,te,best

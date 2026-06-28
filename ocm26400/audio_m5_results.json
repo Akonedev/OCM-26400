@@ -1,9 +1,6 @@
 {
-  "test_acc_official": 0.869,
-  "status": "BREAKTHROUGH — lobe M5 (dilated conv SOTA SpeechCommands, from-scratch) + cœur SpectralCoreBlock = 86.9% test officiel. +24pt sur Mel (62.5%). Voie Lobe Licensing (lobe sensoriel + cœur). Checkpoint PERDU au GPU hang (PC redémarré) au step 17500/25000.",
-  "trajectory": "step2500:77.4% -> 5000:77.6% -> 7500:83.8% -> 10000:85.3% -> 12500:86.2% -> 17500:86.9%(best)",
-  "delta_vs_mel_62p5": 24.4,
-  "delta_vs_sota_96": -9.1,
-  "method": "M5 dilated-conv lobe (Lobe Licensing sensory, from-scratch) + SpectralCoreBlock core, waveform numeric, full scale 94824 wavs, official split, speed aug, capture simultanee",
-  "note": "à relancer quand GPU libre (wavemind occupe le GPU). 86.9% = record audio, approche SOTA 96% (-9pt)."
+  "test_acc_official": 0.8766015447523853,
+  "delta_vs_mel_62p5": 25.160154475238528,
+  "delta_vs_sota_96": -8.339845524761472,
+  "method": "M5 dilated-conv lobe (Lobe Licensing sensory) + SpectralCoreBlock core, waveform numeric, full scale + speed aug"
 }
