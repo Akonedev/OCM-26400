@@ -139,7 +139,7 @@ L'architecture suit les principes (noyau spectral, joint, L1-L6) — le gap est 
 | Phonème→concept | **100%** | 100% | 0pt | ✅ SOTA | IDs numériques + FFT |
 | Image classification (10 clusters) | **89.5%** | ~90% | -0.5pt | ✅ ~SOTA | cross-modal simultané |
 | Image génération (concept→créé) | **78%** | N/A | — | ✅ fonctionne | flow-matching |
-| Audio reconnaissance (M5→SCB(62) unifiée, 100k FINAL) | **94.5%** | 96% | **-1.5pt** | 🎯🎯 quasi-SOTA | M5 lobe + SpectralCoreBlock(seq_len=62) |
+| Audio reconnaissance (M5→SCB(62) ensemble 7-arch+TTA, official split) | **95.7%** | 96% | **-0.3pt** | 🎯🎯 quasi-SOTA | M5+SCB(62) ensemble 7-arch |
 | Audio cross-modal simultané | 30.3% | 96% | -66pt | ⚠️ | texte+phonétique+audio |
 | Audio full data (105k) | 31.3% | 96% | -65pt | ❌ data≠compréhension | full SpeechCommands |
 | Génération audio (concept→Mel) | 2% | N/A | — | ❌ non résolu | pont audio→phonème |
