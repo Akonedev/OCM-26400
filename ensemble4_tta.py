@@ -16,7 +16,7 @@ MODELS=[
     ("M5_s2","/media/akone/SAVENVME2/Datasets/ocm26400/audio_unified_seed2.pt",M5Unified),
     ("M11","/media/akone/SAVENVME2/Datasets/ocm26400/audio_m11_trained.pt",M11Unified),
 ]
-TTA_RATES=[1.0,0.95,1.05]
+TTA_RATES=[1.0,0.92,0.96,1.04,1.08]
 
 @torch.no_grad()
 def main():
