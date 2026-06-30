@@ -106,25 +106,28 @@ données, pas d'architecture.
 
 ---
 
-## Entraînement sur VRAIES données (OmniModel, 26 juin 2026)
+## Audio SpeechCommands (rigoureux, 30 juin 2026 — voir SOLUTION_OCM26400.md §6)
 
-**Pipeline** : `train_real_full.py` — entraînement JOINT (noyau SpectralCoreBlock partagé,
-paradigme L1-L6) sur données réelles. **Checkpoint** : `SAVENVME2/Datasets/ocm26400/omnimodel_real_trained.pt`.
+**Protocole propre** : split officiel (train 85360 / val 9464 / test 11005), sélection sur val,
+test évalué 1×, 3 seeds, front-end figé, mean ± std. `audio_sweep_d_rigorous.py`.
 
-| Modalité | Données réelles | Métrique | Score | vs SOTA |
-|---|---|---|---|---|
-| Audio (classification) | SpeechCommands (20 mots × 150) | acc test (450 samples) | **29.6%** | hasard 5%, SOTA ~95% |
-| Audio (génération) | SpeechCommands | flow-match loss | **0.146** | apprend (décroît) |
-| Image (self-supervisé) | tinyimagenet (2000 images) | flow-match loss | entraîné | pas de labels plats |
-| Raisonnement | cascade primitives grokkées | crown jewel | **100%** (decomp, non-vus) | ✓ |
+| d | params | test mean | ± std |
+|---|---|---|---|
+| 64 | 351K | 93.52% | 0.05% |
+| 128 | 1.25M | 93.45% | 0.33% |
+| 192 | 2.73M | 93.78% | 0.15% |
+| **256** | 4.77M | **93.91%** | 0.08% |
 
-**Tests** : suite complète **1137/1137 verts** (0 régression). Interface de test : `test_omni.py`.
+**Crown-jewel (raisonnement)** : décomposition **100%** pour tout d (64-512) × P (3-27) ;
+chaînes k-step **100% à k=500** (L3, profondeur ∞) ; 1 bloc = 8 blocs (L4).
 
-**Gap SOTA honnête** : 29.6% classification parole << 95% SOTA. Cause : (a) peu de samples
-(3000 vs 80k+), (b) peu de pas (2500 vs 10k+), (c) encodeur audio léger (Mel-CNN 32 mel).
-L'architecture suit les principes (noyau spectral, joint, L1-L6) — le gap est en
-**données + temps de calcul + capacité**, pas en paradigme. Pour SOTA : full SpeechCommands
-(35 mots, 80k samples) + 10k+ pas + encodeur audio plus profond.
+**Conclusions** :
+- d=64 = sweet spot efficace (93.5% à 351K params) ; effet de d faible (+0.4pt à d=256).
+- **Architecture unifiée optimale** : cœur d=64 + 1 SpectralCoreBlock + LSRA + lobes sensoriels par modalité.
+- SOTA ~96% : gap ~2pt, à combler par Mel/sinc front-end + SpecAugment (pas par d).
+- ⚠️ Les anciens « 94.5-95.2% » étaient inflatés (sélection-sur-test) — vraie valeur ~93.9%.
+
+> Source de vérité : **`SOLUTION_OCM26400.md`** (paradigme, lois, formules, architecture, résultats).
 
 ---
 
