@@ -66,6 +66,7 @@ CODE_EXACT_SPECTRALM.md, FORMULAS_AND_DISCOVERIES.md, GROKKING_CONDITIONS.md, CA
 5. **L5 L = 1+4·D** — format scratchpad ; `batch·L ≈ 1.9e4` (3 Go).
 6. **L6 Association** — 1-source direct (p_step>0.99) ; multi-source = DÉCOMPOSER.
 - **Loi unifiée** : `D = k^1.98 × P^1.06 × d^−2.38` (γ≈1 D∝P ; δ<0 inverse du scale).
+  - **VÉRIFIÉ 30/06** (voir `DECOUVERTES_LOI_SCALING.md`) : δ=−2.38 confirmé sur perception (audio d=1024→87%≪d=128→92.6%) ; L3 confirmée (chaînes k-step 100% à k=50, profondeur ∞ en raisonnement exact) ; décomposition 100% universelle (d,P quelconques) vs one-shot ~1%.
 
 ---
 

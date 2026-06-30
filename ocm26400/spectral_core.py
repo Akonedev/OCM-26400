@@ -54,7 +54,10 @@ class SpectralCoreBlock(nn.Module):
 
         h = self.norm1(x)
         h = self.in_proj(h)
-        X_freq = torch.fft.rfft(h, dim=1)               # (B, F, D), F = L//2+1
+        # FFT en fp32 (rocFFT/cuFFT ne supportent pas bf16/fp16 sous AMP)
+        in_dtype = h.dtype
+        h32 = h.float()
+        X_freq = torch.fft.rfft(h32, dim=1)            # (B, F, D), F = L//2+1
 
         # filtre robuste à la longueur d'entrée : pad si L > seq_len, slice si L < seq_len
         F_in = X_freq.shape[1]
@@ -70,7 +73,7 @@ class SpectralCoreBlock(nn.Module):
         X_imag = X_freq.real * fi + X_freq.imag * fr
         X_filtered = torch.complex(X_real, X_imag)
 
-        y = torch.fft.irfft(X_filtered, n=L, dim=1)
+        y = torch.fft.irfft(X_filtered, n=L, dim=1).to(in_dtype)
         y = self.out_proj(y)
 
         x = x + y
