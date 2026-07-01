@@ -1,0 +1,29 @@
+{
+  "0": {
+    "gate_eveil": 0.24959202110767365,
+    "reason_D3_before": 0.04350000247359276,
+    "gate_compris": 0.9951409697532654,
+    "cycles": 2,
+    "reason_D3": 1.0,
+    "reason_D5": 1.0,
+    "reason_D10": 1.0
+  },
+  "1": {
+    "gate_eveil": 0.2484448254108429,
+    "reason_D3_before": 0.04350000247359276,
+    "gate_compris": 0.994879424571991,
+    "cycles": 2,
+    "reason_D3": 1.0,
+    "reason_D5": 1.0,
+    "reason_D10": 1.0
+  },
+  "2": {
+    "gate_eveil": 0.25032782554626465,
+    "reason_D3_before": 0.0430000014603138,
+    "gate_compris": 0.9944599866867065,
+    "cycles": 2,
+    "reason_D3": 1.0,
+    "reason_D5": 1.0,
+    "reason_D10": 1.0
+  }
+}
