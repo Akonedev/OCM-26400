@@ -1,0 +1,29 @@
+{
+  "PLURAL": {
+    "mean_held_out": 0.0,
+    "per_seed": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_words": 2000
+  },
+  "PAST": {
+    "mean_held_out": 0.0,
+    "per_seed": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_words": 2000
+  },
+  "COMPARATIVE": {
+    "mean_held_out": 0.0,
+    "per_seed": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_words": 2000
+  }
+}
