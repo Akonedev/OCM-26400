@@ -1,8 +1,11 @@
 # ARCHITECTURE UNIFIÉE OCM-26400 — décision canonique (B')
 
-> **Décision validée (1 juillet 2026, panel experts + littérature + biologie + user).**
+> **Décision validée (1 juillet 2026, panel experts + littérature + biologie + user) — IMPLÉMENTÉE & VALIDÉE empiriquement (B').**
 > Le modèle est **UNIFIÉ** (pas Frankenstein) via l'architecture **B' : lobes spectraux minces → cœur SCB unique + mentalese AMV → lobes inverses**.
 > 100% spectral (FFT/DCT/STFT/SH/Laplacien), **pas de transformers**.
+
+### ✅ B' validée empiriquement (`ocm26400/bprime_implementation.py`, 2026-07-01)
+Test lobe-vs-Frankenstein RÉUSSI : 2 front-ends **différents** (audio Conv1d + image patch), entraînés **séparément**, émettent le **même AMV canonique** (dictionnaire figé orthogonal, alignement cross-modal audio↔image cos=**0.999**). Le cœur SCB, entraîné **une fois** sur l'AMV canonique, raisonne (crown-jewel op) à **100%** sur l'AMV du lobe audio **ET** image — **sans retrain**. Le cœur est agnostique au front-end → **lobes remplaçables, pas de Frankenstein**. Contraste : `OmniModel` (joint-training, AMV non partitionné) échoue à ce test (couplage).
 
 ---
 

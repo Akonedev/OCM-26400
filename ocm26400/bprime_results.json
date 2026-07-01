@@ -1,0 +1,7 @@
+{
+  "audio_acc": 1.0,
+  "image_acc": 1.0,
+  "cross_modal_cos": 0.9991437792778015,
+  "reason_via_audio": 1.0,
+  "reason_via_image": 1.0
+}
