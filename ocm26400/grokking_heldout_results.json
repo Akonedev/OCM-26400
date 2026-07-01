@@ -1,0 +1,13 @@
+{
+  "T1_pure": {
+    "held": 0.08163265138864517,
+    "grok": null
+  },
+  "T3_large_init": {
+    "held": 0.08163265138864517,
+    "grok": null
+  },
+  "T2_decomp": {
+    "held": 1.0
+  }
+}

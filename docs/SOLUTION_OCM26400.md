@@ -143,7 +143,8 @@ x → LayerNorm → Linear → rfft(seq) → filtre fréquentiel complexe APPRIS
 | Gate/Observer meta[0] | ✅ | 94.8% sélectif @ 99% coverage |
 | d=64 + 1 bloc optimal | ✅ | L3/L4, k=500 à 100%, d-min unifié |
 | Capture simultanée | ✅ | 3 vues (texte+phon+audio) → crown-jewel |
-| Sommeil 3 phases | ✅ implémenté | (léger/profond/paradoxal) |
+| Sommeil 3 phases | ✅ **VALIDÉ+contrôlé** | neural : +73pt vs pur (99.1% vs 25.7%), 5 cycles, low-pass=ingrédient actif (§9) |
+| **Gate → composition arbitraire** | ✅ **VALIDÉ** | 1 primitive grokkée + gate = 100% à profondeur 50 (§9) |
 | LSRA auto-correction | ✅ (raisonnement) / ⚠️ (perception : n'aide pas, info absente de v0) |
 | CE sur lobes / 1-cos sur cœur | ✅ | 1-cos sur perception = 58%, CE = 93.9% |
 
@@ -158,8 +159,60 @@ x → LayerNorm → Linear → rfft(seq) → filtre fréquentiel complexe APPRIS
 - `ocm26400/crown_jewel_*.py` — crown-jewel (décomposition, depth, min-d, ratio)
 - `ocm26400/audio_unified_m5scb.py` — lobe audio M5+SCB (référence)
 
+**Session 2026-07-01 (gate + sommeil)** :
+- `ocm26400/grok_gate_composition.py` — 1 primitive grokkée + gate → composition profondeur arbitraire (100% à D=50)
+- `ocm26400/test_sleep_neural.py` + `_seeds.py` — sommeil neural 3 phases (5 seeds, +34pt)
+- `ocm26400/optimize_sleep.py` — ablation + intensité + cycles (config optimale : kf=0.5, 5 cycles → 99%)
+- `ocm26400/control_sleep_vs_puresteps.py` — contrôle décisif (sommeil vs pur +2000 steps, +73pt)
+- `ocm26400/verify_scale_antigrok.py` — vérif formule D=k^3.5·d^-3.55·T^2.06
+- `ocm26400/grokking_heldout.py` + `grokking_canonical_ce.py` + `grokking_scb.py` — tests grok pur (tous 0-8%, réfutent l'extrapolation atomique)
+
 > Les ~48 `audio_m5_scb_*.py` one-off (wide/deep variants) sont des expériences obsolètes — purgeables.
 
 ---
 
-*Document vivant. Dernière mise à jour : 30 juin 2026, après audit DA+Juges et sweep rigoureux.*
+## 9. SESSION 2026-07-01 — GATE, SOMMEIL, CORRECTIONS (nouveau)
+
+### 9.1 La GATE fait grokker (principe clé, VALIDÉ)
+> **Thèse** : *la capacité compositionnelle arbitraire émerge d'UNE primitive grokkée + la gate qui certifie.*
+
+- Grok 1 primitive (op(a,b)=(a+b) mod 23, 1-cos, crown-jewel) → 100% en 1000 steps.
+- **Gate** = alignement (cosinus) de la sortie au dictionnaire canonique (L_align du Besoins). Si ≥ τ → étape certifiée.
+- Composition en cascade à profondeur D : **100% à D=50** (gate ≥ 0.987). La gate empêche l'accumulation d'erreur → profondeur arbitraire.
+- **Le grok = la gate, PAS le scale.** Raisonner = enchaîner des étapes certifiées.
+- *Preuve* : `grok_gate_composition.py`. Voir mémoire `crown-jewel-composition-not-extrapolation`.
+
+### 9.2 Le sommeil spectral fonctionne (VALIDÉ + CONTRÔLÉ — corrige la réfutation antérieure)
+> **Thèse** : *le sommeil transforme la MÉMOIRE en COMPREHENSION.*
+
+- Tâche : class=(seq[3]+seq[7]) mod 5, MLP. **Éveil** 1500 steps → train 100% / **test 25.7%** (mémorisation verrouillée).
+- **Baseline** (+2000 steps purs, sans sommeil) → 26.0% (**STUCK** : le bassin de mémorisation est un min local aigu que SGD ne quitte pas).
+- **Sommeil** (low-pass keep_frac=0.5 + high-pass 0.3 + replay 200/phase, **5 cycles**) → **99.1% ± 0.7** (3 seeds).
+- **Δ sommeil − pur = +73pt.** Le sommeil fait ce que l'entraînement pur NE PEUT PAS.
+- **Ce n'est PAS du grokking retardé classique** (Power) : là, le pur finit par grokker ; ici le pur **reste stuck** — seul le filtrage spectral débloque.
+- **Ablation** : replay_seul = +0pt (inutile) ; high-pass_seul = −2pt ; **low-pass_seul = +17pt (ingrédient actif)** ; léger+profond = +32pt/cycle.
+- **Intensité** : keep_frac low-pass = pic étroit à **0.5** (0.3→19%, 0.5→60%, 0.7→37%).
+- **Cycles composent** : 1→60% | 2→94% | 3→95% | 5→99%. Le grok est déclenché ET approfondi par les cycles.
+- **Mécanisme** : le low-pass détruit la composante HF des poids (mémorisation "spiky") → le modèle retombe dans le bassin généralisant → replay affine.
+- *Code* : `test_sleep_neural.py`, `optimize_sleep.py`, `control_sleep_vs_puresteps.py`. Mémoire `neural-sleep-3phase-works`.
+- **CORRIGE** la réfutation antérieure (`spectral_sleep_3arm.py` Δ0.0pt) : ce test utilisait un mécanisme trop faible (replay uniform vs replay). Le filtrage spectral 3 phases a un effet réel.
+
+### 9.3 Crown-jewel = COMPOSITION, pas extrapolation (correction)
+- Le crown-jewel fait la **composition** à 100% (triples/cascade non-vus via décomposition) — c'est le grok au sens du Besoins.
+- Le grok **pur** (extrapolation aux paires atomiques tenues secrètes) = **0-8% tous setups** (1-cos+one-hot, CE+dense+wd∈{0,1e-3,1e-2,1e-1}, SCB L=P). Mémorisation parfaite (100% train), 0% généralisation atomique.
+- **Conclusion** : "grok" dans le Besoins = composition (primitives à 1.0 + cascade scratchpad). L'extrapolation Power-2022 est un phénomène plus fort, non atteint (et non requis : la composition suffit via la gate).
+
+### 9.4 Formule scale=anti-grok — PARTIELLEMENT vérifiée
+- Formule utilisateur (raffinée) : `D = k^3.5 · d^−3.55 · T^2.06`.
+- **T aide** (c>0, direction confirmée) : +de steps → +de profondeur D.
+- **d^−3.55 (anti-grok) RÉFUTÉ au niveau primitive** : un +gros modèle grok la primitive **plus vite** (d=256 grok à T=40 où d=32 échoue ; exposant mesuré b=+1.55). L'effet anti-grok du Besoins ("élargir casse le grok, 0.24") concernait la composition **one-shot** — à tester séparément.
+- *Code* : `verify_scale_antigrok.py`.
+
+### 9.5 Grok = association NUMÉRIQUE, pas copie texte/perception
+- La recette VQ→IDs→SCB→1-cos appliquée à la **perception** (audio/image) = **mémorisation + hasard** (audio OOD 7.8%, image 17.3%, test unique propre).
+- L'ancien "word→number 73-92%" était **inflaté par sélection-sur-test** (biais corrigé). Le chiffre propre = hasard sur perception.
+- **Le grok (1-cos) est pour le cœur de raisonnement** (associations numériques déterministes), **CE pour les lobes sensoriels** (perception stochastique). [déjà §5, confirmé]
+
+---
+
+*Document vivant. Dernière mise à jour : 1 juillet 2026 — session gate+sommeil (validation + contrôle), corrections crown-jewel/perception/formule.*

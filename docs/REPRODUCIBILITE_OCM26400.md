@@ -95,10 +95,25 @@ n_steps   = 1500 (primitives) → 100000 (audio/perception)
 - Lobes sensoriels = open-source (CE).
 - Cœur de raisonnement (SCB + 1-cos + LSRA) = commercial.
 
-### 3.6 Sommeil (3 phases, non-optionnel)
-1. **Léger** : rétrospection, basses fréquences, relations grossières.
-2. **Profond (SWS)** : consolidation épisodique→sémantique, extraction règle.
-3. **Paradoxal (REM)** : recombinaison créative, analogies.
+### 3.6 Sommeil (3 phases, non-optionnel) — VALIDÉ + CONTRÔLÉ (session 2026-07-01)
+> **Thèse** : le sommeil transforme la MÉMOIRE en COMPREHENSION. Le bassin de mémorisation est un min local aigu que le SGD pur ne quitte PAS — seul le filtrage spectral le casse.
+
+**Mécanisme neural (validé, +73pt vs pur)** :
+1. **Léger (low-pass)** — `keep_frac=0.5` : FFT des poids (dim=0), zero HF → détruit la mémorisation "spiky". **Ingrédient actif** (replay_seul=+0pt, low-pass_seul=+17pt).
+2. **Profond (high-pass)** — `keep_frac=0.3` : zero BF → affine détails (high-pass_seul=-2pt, mais synergique avec low-pass).
+3. **Replay** — 200 steps/phase entre les filtres : retrain sur données.
+4. **Cycles** : répéter léger→profond→replay. **5 cycles optimal** (1→60%, 2→94%, 5→99%).
+
+**Config canonique** (test_sleep_neural.py) : low-pass 0.5 → replay 200 → high-pass 0.3 → replay 200, ×5 cycles. Résultat : **99.1% ± 0.7** (vs éveil 25.7%, vs pur +2000 steps 26.0%). `keep_frac` pic ÉTROIT à 0.5 (0.3→19%, 0.7→37%).
+
+**Symbolique** (sleep_phases.py) : extraction de règle (α,β) des faits épisodiques (N faits → 1 règle, compression N×) + paradoxal (analogies/composites).
+
+### 3.7 Gate → composition arbitraire (VALIDÉ, session 2026-07-01)
+> **Thèse** : la capacité compositionnelle arbitraire émerge d'UNE primitive grokkée + la gate qui certifie.
+
+- **Gate** = alignement (cosinus) de la sortie au dictionnaire canonique (L_align). ≥ τ → étape certifiée.
+- Grok 1 primitive (op(a,b), 1-cos) → 100%. Compose en cascade, **gate certifie chaque étape → 100% à profondeur 50** (gate≥0.987).
+- **Le grok = la gate, PAS le scale.** (grok_gate_composition.py)
 
 ---
 
@@ -228,6 +243,9 @@ class ReasonerBlock(nn.Module):  # d, hidden=max(2d,128)
 | Audio (d=256, rigoureux) | acc test | **93.91% ± 0.08%** (SpeechCommands) |
 | Audio (d=64, rigoureux) | acc test | **93.52% ± 0.05%** (sweet spot efficace) |
 | 1-cos sur audio (perception) | acc test | **58%** (confirme : 1-cos = cœur, CE = lobes) |
+| **Gate → composition** | acc cascade profondeur D | **100% à D=50** (1 primitive + gate, 2026-07-01) |
+| **Sommeil spectral** | acc test après sommeil | **99.1% ± 0.7** (vs éveil 25.7%, vs pur 26.0%, +73pt) |
+| **Grok pur (extrapolation)** | acc paires tenues secrètes | **0-8%** (tous setups) — le grok Besoins = composition, pas extrapolation |
 
 ---
 
@@ -240,6 +258,8 @@ class ReasonerBlock(nn.Module):  # d, hidden=max(2d,128)
 - [ ] Vérifier L4 : 1 bloc = 8 blocs
 - [ ] Lobe audio : M5+SCB, CE, AdamW cosine 100k, val-split, 3 seeds → ~93.9% (d=256)
 - [ ] Cœur d=64 + 1 bloc + LSRA + lobes par modalité
+- [ ] **Gate + composition** : grok 1 primitive + gate (alignement canonique) → cascade 100% à D=50
+- [ ] **Sommeil spectral** : low-pass 0.5 + high-pass 0.3 + replay, 5 cycles → 99% (contrôle vs pur : +73pt)
 - [ ] Éval : val-split + select-on-val + test-1× + ≥3 seeds (PAS de sélection-sur-test)
 
 ---
@@ -251,5 +271,9 @@ class ReasonerBlock(nn.Module):  # d, hidden=max(2d,128)
 - `ocm26400/audio_unified_m5scb.py` — lobe audio M5+SCB
 - `ocm26400/audio_sweep_d_rigorous.py` — sweep d propre
 - `ocm26400/crown_jewel_*.py` — tests crown-jewel (décomposition, depth, min-d)
+- `ocm26400/grok_gate_composition.py` — gate + composition arbitraire (VALIDÉ, 100% D=50)
+- `ocm26400/test_sleep_neural.py` + `optimize_sleep.py` + `control_sleep_vs_puresteps.py` — sommeil spectral (VALIDÉ, 99%, +73pt)
+- `ocm26400/sleep_phases.py` — sommeil symbolique (extraction règle)
+- `ocm26400/verify_scale_antigrok.py` — vérif formule scale=anti-grok
 
 *Si un seul doc à lire pour recréer : celui-ci. Pour la théorie : SOLUTION_OCM26400.md.*
