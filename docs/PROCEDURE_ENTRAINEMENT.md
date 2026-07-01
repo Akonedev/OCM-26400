@@ -54,13 +54,16 @@
 > - **Phonème-append variable = mur de représentation** (27%, V1/V2/V3 figés → non-Fourier-native).
 > - **Primitives arbitraires** (synonyme, antonyme, catégorie, phoneme_id, syllable_id, syntax_role_id) = **FAITS → MÉMOIRE ADR-0016** (lookup routeable, pas de règle).
 
-### Grok morphologique (caractère layout-fixe) — validé partiel (81.8% plural)
-- **Représentation** : caractère (ou BPE byte-level), `[Q: word.ljust(W_q)] + [answer masquée.ljust(W_a)]`, layout fixe.
-- **Tâches** (DOSC, 1 règle/phase, L7/L8) : PLURAL (+s nom régulier), PAST (+ed verbe), COMPARATIVE (+er adj).
-- **Modèle** : SCB **bidirectionnel (diffusion-fill)**, loss **1-cos** sur la zone-réponse masquée (canon §8). Anti-raccourci symétrique (L8), L10 masques futurs.
-- **Gate L1≥0.99**, sommeil autonome entre règles, ≥3 seeds, 70/30 held-out, **métrique = exact-match mot fléchi**.
-- *Validé session* : `phase1_morphology_char.py` → PLURAL 81.8%, PAST 45.5%, COMPARATIVE 62.5% held-out (IDs=0%, phonème=27% → C confirmé). Cible 0.927 (rapports/25) → raffiner (BPE, masque diffusion partiel, +lexique/+steps).
-- *Canon* : L6, L7 DOSC, L8, L10, §8 (grok règle≠perception), ADR-0016 (double voie).
+### Grok morphologique (caractère layout-fixe) — VALIDÉ 98%+ (recette v4)
+- **Représentation** : caractère, `[Q: word.ljust(W_q)] + [answer TOUT masquée.ljust(W_a)]`, layout fixe.
+- **Tâches** (DOSC, 1 règle/phase) : PLURAL (+s nom régulier), PAST (+ed verbe), COMPARATIVE (+er adj). Lexique **lemminflect ~400 mots réguliers/règle**.
+- **Modèle** : **1 SpectralCoreBlock d=48** (bidirectionnel/diffusion-fill) — γ≈0, NE PAS scale (3 blocs d=128 = underfit). Loss **1-cos** par position sur la zone-réponse.
+- **Hyperparams validés (v4)** : `wd=1e-3` (PAS 1e-2 — le COPY grok est déjà compact, wd fort l'écrase = underfit), 12000 steps, bs 64, lr 3e-3, grad-clip 1.0, ≥3 seeds, split **crc32 par lemme** (disjoint).
+- **Masque** : **TOUT-masqué** (PAS partiel — le partiel crée un raccourci answer→answer sur les copy tasks ; il aide le COMPUTE/arithmétique, nuit au COPY/morphologie).
+- **Sommeil GATE-GUARDÉ** : seulement si `gate_train≥0.95 ET held<0.85` (overfit/mémorisation). Si `gate<0.95` → underfit → **re-entraîner** (PAS filtrer). En pratique 0 cycle (le modèle convergé+généralisé directement).
+- **Gate L1≥0.99**, métrique = exact-match mot fléchi sur 30% held-out.
+- *Validé session* : `phase1_morphology_v4.py` → **PLURAL 98.2%, PAST 100%, COMPARATIVE 98.0% held-out** (3 seeds, cible 0.927 dépassée). v1=81.8% (36 mots), v2=1.3% (partiel=raccourci), v3=0% (wd=1e-2 underfit), **v4=98%+** ✓.
+- *Canon* : L6, §8 (grok règle≠perception), §24 (copie=phase, Fourier-native), γ≈0 (pas de scale), ADR-0016 (double voie).
 
 ### Mémoire lexicale (ADR-0016) — pas de grok
 - Primitives arbitraires (synonyme, antonyme, catégorie, syntax_role, irréguliers mouse→mice, go→went) = **lookup TSV routeable** (mémoire externe), pas de grok (pas de règle).
