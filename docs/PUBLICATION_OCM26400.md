@@ -159,14 +159,14 @@ plus efficace que reconnaître depuis le signal.
 
 | Loi | Énoncé | Preuve |
 |---|---|---|
-| **L1** | Décomposition > Scale | 0.75→100% par décomposition; scale inverse |
+| **L1** | Décomposition > Scale | 0.75→100% par décomposition; ⚠️ "scale inverse" non reproduit (anti-grok réfuté 2026-07-01) |
 | **L2** | Masquage incrémental | Sous-ensemble visible → cascade à l'inférence |
 | **L3** | depth_max ≈ 1/(1−per_step) | Per-step exact → profondeur ∞ (vérifié à 100000) |
 | **L4** | Récurrence ⊥ Longueur ⊥ Params | Raisonner = étapes, pas params |
 | **L5** | L = 1+4·D | Format séquence; batch·L ≈ constant |
 | **L6** | Association | 1-source direct; multi-source = décomposer |
 
-**Loi unifiée** : D = k^1.98 × P^1.06 × d^−2.38
+**Loi unifiée** : D = k^1.98 × P^1.06 × d^−2.38 ⚠️ *(composante d / anti-grok RÉFUTÉE 2026-07-01 — D_max = seuil binaire de grok indépendant de d ; voir `SOLUTION_OCM26400.md` §9.4. Sommeil spectral VALIDÉ +73pt, §9.2)*
 
 ---
 

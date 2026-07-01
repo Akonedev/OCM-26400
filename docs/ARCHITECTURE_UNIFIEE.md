@@ -39,7 +39,7 @@
 - **1 SpectralCoreBlock** (d=64, crown-jewel) + **boucle LSRA** (raisonnement, profondeur ∞ L3).
 - **Amodal** : opère sur l'AMV, ignore la modalité d'origine.
 - **Loss 1-cos** (grok, raisonnement déterministe) — 100% décomposition, chaînes k=500.
-- **Gate/observer** (meta[0], τ=0.9).
+- **Gate/observer** (alignement canonique L_align, τ=0.9) — **la gate fait grokker** : 1 primitive grokkée + gate qui certifie → composition à profondeur arbitraire (100% à D=50, `grok_gate_composition.py`). La gate = **signal de compréhension** (0.88 stuck → 0.995 grok).
 
 ### Décodage omni-out
 - AMV → **lobe inverse spectral** par modalité (iFFT audio→waveform, iDCT→pixels, tokens→texte).
@@ -58,16 +58,32 @@
 
 ---
 
-## Le pipeline d'entraînement (comprehension → chat)
+## Le pipeline d'entraînement (comprehension → chat) — pipeline unifié VALIDÉ
 
 ```
-Phase 1 : COMPRENDRE  — grok les primitives puis compositions (règles, associations L6)
-Phase 2 : MÉMORISER   — engams épisodiques + sommeil (replay + EWC, PAS spectral — réfuté)
-Phase 3 : RAISONNER   — LSRA + agents verify/correct
+ÉVEIL    (train → mémoire, souvent stuck sur les règles dures)
+  ↓
+SOMMEIL  (3 phases spectrales : low-pass débruit + high-pass affine + replay, 5 cycles)
+         → grok : la gate ÉMERGE (0.88 stuck → 0.995 compris). +73pt vs pur (pur stuck).
+  ↓
+GATE     (alignement canonique ≥ τ → certifie chaque étape)
+  ↓
+COMPOSE  (cascade gate-certifiée, profondeur arbitraire — 100% à D=50)
+```
+
+**Assemblé et validé end-to-end** (`assemble_pipeline.py`, 2026-07-01) :
+- Le sommeil spectral **fonctionne** (≠ réfutation antérieure) : le low-pass détruit la composante HF de mémorisation → le modèle sort du bassin de mémorisation (min local aigu que le SGD pur ne quitte pas) → replay affine. 5 cycles → 99%.
+- La **gate = signal de compréhension** : détecte le grok sans accuracy test → utilisable comme stop-criterion (`sommeil jusqu'à gate ≥ τ`).
+
+Phases cognitives (macro) :
+```
+Phase 1 : COMPRENDRE  — grok primitives → compositions (éveil + sommeil jusqu'à gate≥τ)
+Phase 2 : MÉMORISER   — engrames épisodiques + sommeil (replay + filtrage spectral, VALIDÉ)
+Phase 3 : RAISONNER   — LSRA + gate + compose (cascade certifiée)
 Phase 4 : RESTITUER   — génération → chat (sortie omni-out)
 ```
 
-**Méthode** (Besoins line 228) : *pré-entraîner les PRIMITIVES jusqu'au grok, PUIS les compositions → la maîtrise émerge.*
+**Méthode** (Besoins) : *pré-entraîner les PRIMITIVES jusqu'au grok, PUIS les compositions → la maîtrise émerge.* Le sommeil accélère/permute ce grok sur les tâches où l'éveil reste stuck.
 
 ---
 
@@ -80,12 +96,16 @@ Phase 4 : RESTITUER   — génération → chat (sortie omni-out)
 
 ---
 
-## Décisions réfutées (ne pas re-coder)
-- ❌ Sommeil spectral (curriculum fréquentiel) — test 3-bras : Δ 0.0pt vs replay uniform = cosmétique. → sommeil = replay+EWC brut.
-- ❌ Entropie active learning — test 3-bras : −1.6pt overall = défavorable. → sampling uniforme.
-- ❌ Élargir d (d=256/512/1024) — scale-inverse (loi d^−2.38), overfit. → d=64.
-- ❌ Empiler blocs (12/24) — L4 : 1 bloc = 8 blocs pour le raisonnement. → 1 bloc.
-- ❌ Ratio P/d=0.1875 — réfuté (P=35 fixe, pas un pic). → d=64 fixe.
+## Décisions réfutées / validées (état mis à jour 2026-07-01)
+
+**✅ VALIDÉ (était à tort réfuté)** :
+- **Sommeil spectral** — l'ancien test 3-bras (Δ0.0pt) utilisait un mécanisme trop faible. Le **filtrage spectral 3 phases** (low-pass débruit + high-pass affine + replay, 5 cycles) donne **+73pt** vs pur (pur stuck 26%, sommeil 99%). Le low-pass est l'ingrédient actif (replay_seul=+0pt). → **sommeil = filtrage spectral + replay** (PAS replay brut). Voir `SOLUTION_OCM26400.md` §9.2.
+
+**❌ Réfuté (ne pas re-coder)** :
+- Entropie active learning — test 3-bras : −1.6pt overall = défavorable. → sampling uniforme.
+- **Scale=anti-grok (d^−3.55 / d^−2.38)** — **RÉFUTÉ** dans le setup crown-jewel (one-hot-concat + 1-cos) : `complete_formula.py` montre D_max = **seuil binaire de grok** (indépendant de d), one-shot compose 100% à d=64 comme d=512. d AIDE la primitive (grok + vite). L'anti-grok n'apparaît ni sur la primitive ni sur la composition one-shot. (Le "0.24" du Besoins = autre setup, non reproduit.) → d=64 reste efficient mais **pas pour des raisons d'anti-grok**.
+- Empiler blocs (12/24) — L4 : 1 bloc = 8 blocs pour le raisonnement. → 1 bloc.
+- Ratio P/d=0.1875 — réfuté (P=35 fixe, pas un pic). → d=64 fixe.
 
 ---
 

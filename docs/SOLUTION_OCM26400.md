@@ -37,7 +37,7 @@ D = k^1.98 × P^1.06 × d^−2.38
 - `D` = profondeur de raisonnement fiable
 - `k` = constante de tâche ; `P` = params ; `d` = dimension (d_model)
 - **γ = 1.06** : D ∝ P (plus de params = un peu plus de D)
-- **δ = −2.38** : D ∝ d^−2.38 (**élargir d détruit D** — scale inverse)
+- **δ = −2.38** : D ∝ d^−2.38 (**élargir d détruit D** — scale inverse). ⚠️ **COMPOSANTE d OBSOLÈTE** : l'anti-grok (d^−2.38 comme d^−3.55) est **RÉFUTÉ** en 2026-07-01 (§9.4 — ni primitive ni composition one-shot ne dégradent avec d). Garder pour l'histoire ; d=64 reste efficient en coût, pas en anti-grok.
 
 ### Vérification empirique (30 juin, voir §6)
 - **δ = −2.38 sur la perception** : sweep d audio (rigoureux) → tous d ≈ 93.5-93.9% (effet faible), mais les runs confondus précédents montraient d=1024 dégrader (scale-inverse confirmé qualitativement).
@@ -202,11 +202,15 @@ x → LayerNorm → Linear → rfft(seq) → filtre fréquentiel complexe APPRIS
 - Le grok **pur** (extrapolation aux paires atomiques tenues secrètes) = **0-8% tous setups** (1-cos+one-hot, CE+dense+wd∈{0,1e-3,1e-2,1e-1}, SCB L=P). Mémorisation parfaite (100% train), 0% généralisation atomique.
 - **Conclusion** : "grok" dans le Besoins = composition (primitives à 1.0 + cascade scratchpad). L'extrapolation Power-2022 est un phénomène plus fort, non atteint (et non requis : la composition suffit via la gate).
 
-### 9.4 Formule scale=anti-grok — PARTIELLEMENT vérifiée
+### 9.4 Formule scale=anti-grok — RÉFUTÉE (primitive ET composition one-shot)
 - Formule utilisateur (raffinée) : `D = k^3.5 · d^−3.55 · T^2.06`.
-- **T aide** (c>0, direction confirmée) : +de steps → +de profondeur D.
-- **d^−3.55 (anti-grok) RÉFUTÉ au niveau primitive** : un +gros modèle grok la primitive **plus vite** (d=256 grok à T=40 où d=32 échoue ; exposant mesuré b=+1.55). L'effet anti-grok du Besoins ("élargir casse le grok, 0.24") concernait la composition **one-shot** — à tester séparément.
-- *Code* : `verify_scale_antigrok.py`.
+- **T aide** (c>0) : +de steps → +de profondeur, MAIS c'est un **seuil binaire de grok** (T ≥ T_grok → composition ∞ ; T < → 1), pas T^2.06 lisse.
+- **d^−3.55 (anti-grok) RÉFUTÉ à TOUS les niveaux** :
+  - *Primitive* (`verify_scale_antigrok.py`) : un +gros modèle grok la primitive **plus vite** (d=256 grok à T=40 où d=32 échoue ; exposant b=+1.55).
+  - *Composition one-shot* (`complete_formula.py`) : one-shot compose = **99.7-100% à d=64 comme d=512** (aucune dégradation).
+  - *D_max* = **seuil binaire** indépendant de d (grok ou non, pas de gradient d^-3.55).
+- **Conclusion** : dans le setup crown-jewel (one-hot-concat + 1-cos), **aucun anti-grok** — d=64 reste efficient (coût/params), mais **pas pour des raisons d'anti-grok**. Le "0.24 anti-grok" du Besoins reste non reproduit (autre setup : embeddings continus ? tâche plus dure ?). La **loi unifiée §2 (d^−2.38) est donc à considérer comme OBSOLÈTE** sur sa composante d.
+- *Code* : `verify_scale_antigrok.py`, `complete_formula.py`.
 
 ### 9.5 Grok = association NUMÉRIQUE, pas copie texte/perception
 - La recette VQ→IDs→SCB→1-cos appliquée à la **perception** (audio/image) = **mémorisation + hasard** (audio OOD 7.8%, image 17.3%, test unique propre).

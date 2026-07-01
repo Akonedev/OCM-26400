@@ -59,14 +59,14 @@ CODE_EXACT_SPECTRALM.md, FORMULAS_AND_DISCOVERIES.md, GROKKING_CONDITIONS.md, CA
 ---
 
 ## E. LES 6 LOIS (L1–L6) + loi unifiée
-1. **L1 Décomposition > Scale** — la compétence vient des ÉTAPES, pas de la masse (0.75→0.98→100%). Scale inverse (élargir casse le grok 0.24).
+1. **L1 Décomposition > Scale** — la compétence vient des ÉTAPES, pas de la masse (0.75→0.98→100% par décomposition). ⚠️ "Scale inverse (élargir casse le grok 0.24)" = **NON REPRODUIT** 2026-07-01 (anti-grok réfuté, voir `SOLUTION_OCM26400.md` §9.4 : composition one-shot 100% à d=64 comme d=512). L1 tient via la **décomposition**, pas via l'anti-grok.
 2. **L2 Masquage incrémental** — masquer un SOUS-ENSEMBLE des intermédiaires → chaque étape = op 1-pas en contexte → cascade à l'inférence.
 3. **L3 depth_max ≈ 1/(1−per_step)** — per-step exact → profondeur ∞ (vérifié à 100000).
 4. **L4 Récurrence ⊥ Longueur ⊥ Params** — raisonner = ajouter des ÉTAPES, pas des PARAMS.
 5. **L5 L = 1+4·D** — format scratchpad ; `batch·L ≈ 1.9e4` (3 Go).
 6. **L6 Association** — 1-source direct (p_step>0.99) ; multi-source = DÉCOMPOSER.
-- **Loi unifiée** : `D = k^1.98 × P^1.06 × d^−2.38` (γ≈1 D∝P ; δ<0 inverse du scale).
-  - **VÉRIFIÉ 30/06** (voir `DECOUVERTES_LOI_SCALING.md`) : δ=−2.38 confirmé sur perception (audio d=1024→87%≪d=128→92.6%) ; L3 confirmée (chaînes k-step 100% à k=50, profondeur ∞ en raisonnement exact) ; décomposition 100% universelle (d,P quelconques) vs one-shot ~1%.
+- **Loi unifiée** : `D = k^1.98 × P^1.06 × d^−2.38` (γ≈1 D∝P ; δ<0 inverse du scale). ⚠️ **Composante d (anti-grok) RÉFUTÉE 2026-07-01** — D_max est un **seuil binaire de grok** indépendant de d (`complete_formula.py`). Garder l'historique ; d=64 = efficient en coût, pas en anti-grok. Sommeil spectral **VALIDÉ** (+73pt, `SOLUTION` §9.2).
+  - **VÉRIFIÉ 30/06 (historique)** : L3 confirmée (chaînes k-step 100% à k=50, profondeur ∞ en raisonnement exact) ; décomposition 100% universelle (d,P quelconques) vs one-shot ~1%. [NB : le δ=−2.38 "confirmé sur perception audio" était un artifact de runs confondus — réévalué et réfuté en 07/01.]
 
 ---
 
