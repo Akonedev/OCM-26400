@@ -109,16 +109,16 @@ def eval_perception(model, data):
 class ReasoningCore(nn.Module):
     """SCB reçoit le format canonique slots FIXES → grok cue→op + copie (offset fixe).
     Input : [NUM_A(3)][CUE(8)][NUM_B(3)] fixe. Output : [OP(1)][RESULT(4)]. Loss 1-cos."""
-    def __init__(self, d=48):
+    def __init__(self, d=48, n_blocks=1):
         super().__init__()
         self.embed = nn.Embedding(VS, d)
         self.pos = nn.Parameter(torch.randn(L_SCB, d) * 0.02)
-        self.scb = SpectralCoreBlock(d_model=d, seq_len=L_SCB, bidirectional=True)
+        self.scbs = nn.Sequential(*[SpectralCoreBlock(d_model=d, seq_len=L_SCB, bidirectional=True) for _ in range(n_blocks)])
         self.head = nn.Linear(d, VS)
-    def forward(self, ids): return self.head(self.scb(self.embed(ids) + self.pos))
+    def forward(self, ids): return self.head(self.scbs(self.embed(ids) + self.pos))
 
 
-def train_reasoning(model, data, steps=6000, bs=64, lr=3e-3, wd=1e-3):
+def train_reasoning(model, data, steps=10000, bs=64, lr=3e-3, wd=1e-3):
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
     for _ in range(steps):
         batch = random.sample(data, min(bs, len(data)))
