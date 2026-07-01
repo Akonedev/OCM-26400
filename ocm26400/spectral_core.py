@@ -57,23 +57,37 @@ class SpectralCoreBlock(nn.Module):
         # FFT en fp32 (rocFFT/cuFFT ne supportent pas bf16/fp16 sous AMP)
         in_dtype = h.dtype
         h32 = h.float()
-        X_freq = torch.fft.rfft(h32, dim=1)            # (B, F, D), F = L//2+1
-
-        # filtre robuste à la longueur d'entrée : pad si L > seq_len, slice si L < seq_len
-        F_in = X_freq.shape[1]
-        fr = self.filter_real
-        fi = self.filter_imag
-        if F_in > fr.shape[0]:
-            pad = F_in - fr.shape[0]
-            fr = torch.cat([fr, fr.new_zeros(pad, fr.shape[1])], dim=0)
-            fi = torch.cat([fi, fi.new_zeros(pad, fi.shape[1])], dim=0)
-        fr = fr[:F_in].unsqueeze(0)
-        fi = fi[:F_in].unsqueeze(0)
-        X_real = X_freq.real * fr - X_freq.imag * fi
-        X_imag = X_freq.real * fi + X_freq.imag * fr
-        X_filtered = torch.complex(X_real, X_imag)
-
-        y = torch.fft.irfft(X_filtered, n=L, dim=1).to(in_dtype)
+        if self.bidirectional:
+            X_freq = torch.fft.rfft(h32, dim=1)            # (B, F, D), F = L//2+1
+            # filtre robuste à la longueur d'entrée : pad si L > seq_len, slice si L < seq_len
+            F_in = X_freq.shape[1]
+            fr = self.filter_real
+            fi = self.filter_imag
+            if F_in > fr.shape[0]:
+                pad = F_in - fr.shape[0]
+                fr = torch.cat([fr, fr.new_zeros(pad, fr.shape[1])], dim=0)
+                fi = torch.cat([fi, fi.new_zeros(pad, fi.shape[1])], dim=0)
+            fr = fr[:F_in].unsqueeze(0)
+            fi = fi[:F_in].unsqueeze(0)
+            X_real = X_freq.real * fr - X_freq.imag * fi
+            X_imag = X_freq.real * fi + X_freq.imag * fr
+            X_filtered = torch.complex(X_real, X_imag)
+            y = torch.fft.irfft(X_filtered, n=L, dim=1).to(in_dtype)
+        else:
+            # CAUSAL (rapport 18, L10) : zero-pad 2L (conv linéaire, pas circulaire) + filtre
+            # causal temporel (support [0,L) seulement) → pas de fuite du futur.
+            Lin = L
+            h32p = torch.cat([h32, h32.new_zeros(B, Lin, D)], dim=1)   # (B, 2L, D)
+            X_freq = torch.fft.rfft(h32p, dim=1)
+            kt = torch.fft.irfft(torch.complex(self.filter_real, self.filter_imag),
+                                 n=2*Lin, dim=0)                       # (2L, D) noyau temporel
+            cmask = torch.cat([torch.ones(Lin), torch.zeros(Lin)]).unsqueeze(1).to(kt.device)  # support [0,L)
+            kt = kt * cmask
+            kf = torch.fft.rfft(kt, n=2*Lin, dim=0)[:X_freq.shape[1]]  # (F, D) filtre causal
+            fr = kf.real.unsqueeze(0); fi = kf.imag.unsqueeze(0)
+            X_real = X_freq.real * fr - X_freq.imag * fi
+            X_imag = X_freq.real * fi + X_freq.imag * fr
+            y = torch.fft.irfft(torch.complex(X_real, X_imag), n=2*Lin, dim=1)[:, :Lin].to(in_dtype)
         y = self.out_proj(y)
 
         x = x + y
