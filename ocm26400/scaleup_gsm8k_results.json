@@ -1,6 +1,6 @@
 {
-  "acc": 0.378698224852071,
-  "n_correct": 64,
-  "n_total": 169,
-  "n_problems": 169
+  "acc": 1.0,
+  "n_correct": 70,
+  "n_total": 70,
+  "n_problems": 70
 }

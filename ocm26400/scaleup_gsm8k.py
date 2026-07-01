@@ -44,20 +44,25 @@ def train_op(op_ch, steps=2500, bs=128, lr=3e-3):
 
 
 def cascade_op(m, a, b, op_ch):
-    """Multi-digit : LSB→MSB, carry propage. Retourne l'entier résultat (gère signe pour -)."""
+    """Multi-digit : LSB→MSB, carry/borrow propage. Fix borrow : si a<b pour '-', calcule b-a et négative."""
+    if op_ch == "-" and a < b:
+        return -cascade_pos(m, b, a)   # b-a (positif), puis négatif
+    return cascade_pos(m, a, b)
+
+def cascade_pos(m, a, b):
+    """Cascade digit-level (a >= b pour '-', pas de borrow final débordant)."""
     da = [int(x) for x in str(abs(a)).zfill(N_DIG)[-N_DIG:]]
     db = [int(x) for x in str(abs(b)).zfill(N_DIG)[-N_DIG:]]
     carry = 0; res = []
     for i in range(N_DIG - 1, -1, -1):
         with torch.no_grad(): out = m(enc(da[i], db[i], carry).unsqueeze(0))
         r = out[0, 0:10].argmax().item(); carry = out[0, 10:12].argmax().item(); res.append(r)
-    val = int("".join(map(str, reversed(res)))) if any(res) else 0
-    if op_ch == "-" and b > a: val = -val  # signe (borrow final)
-    return val
+    return int("".join(map(str, reversed(res)))) if any(res) else 0
 
 
 # ---- GSM8K parsing (CoT FOURNI) ----
 def parse_gsm8k_2step(path="data/gsm8k_test.jsonl"):
+    """Parse GSM8K problèmes à EXACTEMENT 2 steps +-, vérifie que chain step1→step2=gold."""
     problems = [json.loads(l) for l in open(path)]
     out = []
     for p in problems:
@@ -66,21 +71,15 @@ def parse_gsm8k_2step(path="data/gsm8k_test.jsonl"):
         if not gold_m: continue
         gold = int(gold_m.group(1))
         steps = re.findall(r"<<([\d.]+)\s*([+\-*/])\s*([\d.]+)=([\d.]+)>>", ans)
-        if len(steps) < 2: continue
-        parsed = []
-        ok = True
-        for a, op, b, _ in steps[:2]:
-            if op not in "+-": ok = False; break
-            parsed.append((int(float(a)), op, int(float(b))))
-        if not ok: continue
-        # vérif oracle : le CoT est exact
-        acc = parsed[0][0]
-        for a, op, b in parsed:
-            acc = a + b if op == "+" else a - b
-        if acc != gold and parsed[1][0] == acc:
-            acc2 = acc + parsed[1][2] if parsed[1][1] == "+" else acc - parsed[1][2]
-            if acc2 != gold: continue
-        out.append((parsed, gold))
+        if len(steps) != 2: continue  # EXACTEMENT 2 steps
+        parsed = [(int(float(a)), op, int(float(b))) for a, op, b, _ in steps]
+        if any(op not in "+-" for _, op, _ in parsed): continue
+        # oracle : chain step1 → step2 doit = gold
+        c1 = parsed[0][0] + parsed[0][2] if parsed[0][1] == "+" else parsed[0][0] - parsed[0][2]
+        a2 = parsed[1][0]
+        c2_oracle = (c1 if a2 == c1 else a2) + parsed[1][2] if parsed[1][1] == "+" else (c1 if a2 == c1 else a2) - parsed[1][2]
+        if c2_oracle != gold: continue  # les 2 steps chaînés = gold (vérifié)
+        out.append((parsed, gold, a2 == c1))  # (steps, gold, is_chained)
     return out
 
 
@@ -103,18 +102,19 @@ def main():
     problems = parse_gsm8k_2step()
     print(f"  GSM8K 2-step (+−) parsés : {len(problems)} problèmes\n", flush=True)
     if not problems: print("⚠️ aucun problème 2-step +/- trouvé", flush=True); return
-    n_correct = n_total = 0
-    for parsed, gold in problems:
-        # cascade multi-step : acc = step1 résultat (cascade multi-digit) → step2
-        acc = parsed[0][0]
-        for a, op_ch, b in parsed:
-            acc = cascade_op(models[op_ch], acc if a == parsed[0][0] else a, b, op_ch)
+    n_correct = n_total = 0; n_diag = 0
+    for parsed, gold, chained in problems:
+        c1 = cascade_op(models[parsed[0][1]], parsed[0][0], parsed[0][2], parsed[0][1])
+        op2 = parsed[1][1]
+        step2_a = c1 if chained else parsed[1][0]  # chain si GSM8K le fait, sinon a2 direct
+        c2 = cascade_op(models[op2], step2_a, parsed[1][2], op2)
         n_total += 1
-        if acc == gold: n_correct += 1
-    # oracle control
-    n_oracle = sum(1 for parsed, gold in problems
-                   if (lambda: (parsed[0][0] + parsed[0][2] if parsed[0][1] == "+" else parsed[0][0] - parsed[0][2]))() ==
-                   (parsed[0][0] + parsed[0][2] if parsed[0][1] == "+" else parsed[0][0] - parsed[0][2]))
+        if c2 == gold: n_correct += 1
+        elif n_diag < 3:
+            print(f"    FAIL: {parsed[0]}→{c1} | ({step2_a},{op2},{parsed[1][2]})→{c2} | gold={gold} chained={chained}", flush=True)
+            n_diag += 1
+    # oracle control (déjà vérifié dans le parsing : step1→step2=gold)
+    n_oracle = len(problems)  # tous les problèmes parsés sont oracle-vérifiés
     acc_rate = n_correct / max(n_total, 1)
     print(f"\n  RAISONNEMENT cascade sur GSM8K 2-step (+−) : {n_correct}/{n_total} = {acc_rate*100:.1f}%", flush=True)
     tag = "SCALE-UP ✓ (≥0.50)" if acc_rate >= 0.50 else ("partiel" if acc_rate > 0.2 else "échec")
