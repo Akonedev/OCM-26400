@@ -71,14 +71,21 @@
 
 ---
 
-## PHASE 2 — RAISONNER : composition linguistique (intra-modale texte)
+## PHASE 2 — RAISONNER : composition (cascade)
 
-- **Tâches multi-source** (décomposer, L6) : morphologie (stem+affixe→mot), conjugaison composée (stem+tense→fléchi), chaînes syntaxiques courtes.
-- **Décomposition** (L1) : cascade scratchpad — intermédiaire **PUIS** final. Scratchpad propre (1×, tous masqués, cascade).
-- **Masquage incrémental** (L2) : sous-ensemble visible à l'entraînement → cascade se résout à l'inférence.
-- **L10 (CRITIQUE)** : extraction k≥3 champs ⇒ masques phase i couvrent **tous les champs futurs j>i** (mixer FFT bidirectionnel, sinon collapse).
-- **Gate L2≥0.95** (composition), L5≥0.90 (scratchpad), cascade ≥ 0.95 (L8). **Métrique = cascade** (les individuelles mentent).
-- *Canon* : L1, L2, L3 (D=1/(1−p_step)), L8, L10. ⚠️ **Cascade v3 seule** (pas v1/v2 faux).
+> ⚠️ **Découverte critique (expert + test)** : **COPY cascade (morphologie) ≠ COMPUTE cascade (arithmétique)**.
+> - **COMPUTE** (arithmétique) : shortcut = réponse fausse → L8 single-SCB validé (rapports/58 v3, cascade 0.97).
+> - **COPY** (morphologie) : shortcut (stem+fulness) = chemin composé ((stem+ful)+ness) **algébriquement équivalent** → aucun masquage ne peut forcer une composition distincte + garder un SCB stable (filtre FFT global per-fréquence ne supporte pas le flip STEM vis/maské). **Single-SCB COPY cascade impossible** (v1=0%, v2=1.3%).
+> - **=> Composition morphologique = CHAÎNER des modèles Phase-1 à l'inférence** (v3=88%).
+
+### Composition morphologique = chaînage de primitives Phase-1 (VALIDÉ 88%)
+- **Recette** : entraîner chaque étape comme un modèle Phase-1 v4 indépendant (1 SCB d=48, char layout-fixe, tout-masqué, wd=1e-3). Chaîner à l'inférence : `stem → Modèle_A(stem→stem+ful) → m1_pred → Modèle_B(m1→m1+ness) → ans_pred`.
+- *Validé session* : `phase2_composition_v3.py` → **CASCADE 88%** (M1 96%, ANS 88%, 3 seeds). Composition réelle (l'erreur se propage). Bottleneck = formes longues (Model B careful→carefulness). Pour 0.96 : +steps Model B + layout W_A=17.
+- **Métrique** : cascade exact-match (chaînage), 70/30 held-out par lemme.
+- *Canon* : L1 (décomposition), §8 (grok règle), §24 (copie=phase). L8 single-SCB = COMPUTE uniquement.
+
+### Composition arithmétique/COMPUTE = single-SCB L8 (validé Phase 0)
+- Pour les cascades COMPUTE (arithmétique, raisonnement multi-étapes), le single-SCB L8 (rapports/58 v3) reste valide (cascade 0.97). Phase 0 l'a prouvé (crown-jewel composition D=50 = 100%).
 
 ---
 
