@@ -1,0 +1,26 @@
+{
+  "PLURAL": {
+    "train": 1.0,
+    "held_out": 0.0,
+    "gate": 0.9997110366821289,
+    "sommeil_cycles": 0,
+    "chance": 0.03333333333333333,
+    "grok": false
+  },
+  "PAST": {
+    "train": 0.0476190485060215,
+    "held_out": 0.0,
+    "gate": 0.998822033405304,
+    "sommeil_cycles": 2,
+    "chance": 0.03333333333333333,
+    "grok": false
+  },
+  "THIRD": {
+    "train": 0.0476190485060215,
+    "held_out": 0.0,
+    "gate": 0.9988797903060913,
+    "sommeil_cycles": 2,
+    "chance": 0.03333333333333333,
+    "grok": false
+  }
+}
