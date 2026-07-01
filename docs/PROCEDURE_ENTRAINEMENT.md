@@ -46,22 +46,25 @@
 
 ---
 
-## PHASE 1 — COMPRENDRE : primitives linguistiques noyau (ID→ID)
+## PHASE 1 — COMPRENDRE : primitives linguistiques (caractère layout-fixe + mémoire)
 
-- **Primitives** (1-source, déterministes, **structurellement = arithmétique**) : grok SOLO en 1-cos, 2k-6k steps chacune, **DOSC séquentiel** (L7, 1 primitive/phase).
-  1. word_id → plural_id
-  2. word_id → tense_id (3e pers.)
-  3. word_id → past_id (VBD)
-  4. word_id → phoneme_id (pattern CVC)
-  5. word_id → syllable_id (compte)
-  6. word_id → category_id (sémantique discrète)
-  7. word_id → synonym_id
-  8. word_id → antonym_id
-  9. word_id → syntax_role_id
-- **Anti-raccourci symétrique** (L8) : masquer TOUTES les variables récupérables depuis la cible, jamais les 18/18.
-- **Gate L1≥0.99/primitive, L6≥0.85** (association 1-source).
-- **Sommeil** entre primitives (consolide, comble oubli 89.8%).
-- *Canon* : L6 (1-source direct), L7 DOSC, L8 anti-raccourci. ⚠️ **PAS les 44 primitives** (les autres = perception CE ou composition Phase 2).
+> ⚠️ **CORRIGÉ après test + verdict expert** (rapports/25, `phase1_morphology_char.py`) :
+> - **Morphologie RÉGULIÈRE** (plural +s, past +ed, comparative +er) = **RÈGLE → grok**, MAIS uniquement en représentation **CARACTÈRE layout-fixe + diffusion-fill bidirectionnel** (ljust, offset constant → copie=phase+édition locale, Fourier-native).
+> - **IDs arbitraires word_id→form_id = IMPOSSIBLE par construction** (projection QR orthogonale = rotations aléatoires indépendantes, zéro structure Fourier partagée → held-out 0%, `phase1_linguistic_primitives.py`).
+> - **Phonème-append variable = mur de représentation** (27%, V1/V2/V3 figés → non-Fourier-native).
+> - **Primitives arbitraires** (synonyme, antonyme, catégorie, phoneme_id, syllable_id, syntax_role_id) = **FAITS → MÉMOIRE ADR-0016** (lookup routeable, pas de règle).
+
+### Grok morphologique (caractère layout-fixe) — validé partiel (81.8% plural)
+- **Représentation** : caractère (ou BPE byte-level), `[Q: word.ljust(W_q)] + [answer masquée.ljust(W_a)]`, layout fixe.
+- **Tâches** (DOSC, 1 règle/phase, L7/L8) : PLURAL (+s nom régulier), PAST (+ed verbe), COMPARATIVE (+er adj).
+- **Modèle** : SCB **bidirectionnel (diffusion-fill)**, loss **1-cos** sur la zone-réponse masquée (canon §8). Anti-raccourci symétrique (L8), L10 masques futurs.
+- **Gate L1≥0.99**, sommeil autonome entre règles, ≥3 seeds, 70/30 held-out, **métrique = exact-match mot fléchi**.
+- *Validé session* : `phase1_morphology_char.py` → PLURAL 81.8%, PAST 45.5%, COMPARATIVE 62.5% held-out (IDs=0%, phonème=27% → C confirmé). Cible 0.927 (rapports/25) → raffiner (BPE, masque diffusion partiel, +lexique/+steps).
+- *Canon* : L6, L7 DOSC, L8, L10, §8 (grok règle≠perception), ADR-0016 (double voie).
+
+### Mémoire lexicale (ADR-0016) — pas de grok
+- Primitives arbitraires (synonyme, antonyme, catégorie, syntax_role, irréguliers mouse→mice, go→went) = **lookup TSV routeable** (mémoire externe), pas de grok (pas de règle).
+- Double voie Pinker : régulier en poids (grok), irrégulier/arbitraire en mémoire.
 
 ---
 
