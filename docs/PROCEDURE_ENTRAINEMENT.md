@@ -105,13 +105,18 @@
 - Compositions longues des primitives Phase 0-3. Profondeur = cascade scratchpad (L4, raisonner=étapes), pas scale.
 - *Canon* : L4, comprehension-first. ⚠️ **Valeurs à re-mesurer sur audio** (lois archi transférables, valeurs texte-spécifiques).
 
-### 4b. Générer (lobes inverses spectraux, omni-out)
-- **Lobes inverses** (miroirs des lobes avant, entraînés **SÉPARÉMENT**, cœur figé) :
-  - Audio → iSTFT (miroir AudioEncoder, phase apprise). Image → iDCT-2D/fold. Vidéo → iFFT-3D. 3D → SH inverse. World → Laplacien inverse. Texte/chat → tokens (SpectralCoreBlock causal, pas de transformer).
-- **Loss** : flow-matching (continu : audio/image/vidéo/3D/world, Lipman 2023) · CE vocab (texte/chat).
-- **Chat = InverseTextLobe** (une tête omni-out, SCB causal, CE).
-- **Remplaçabilité inverse** : un lobe inverse décode l'AMV émis par le cœur nourri par un AUTRE lobe avant (test B' en sens inverse).
-- *Canon* : B' séparé, loss split. *Réf* : flow-matching (generators.py), HiFi-GAN, CoCa/Show-O, SpectroStream inverse, Live Music streaming.
+### 4b. Générer (lobes inverses spectraux, omni-out) — VALIDÉ 100% (recette v4)
+- **Découvert (expert)** : la génération (AMV→signal) échoue si l'AMV est (A) frozen+recognition-only ET (B) mean-poolé → AMV dégénéré non décodable (3 décodeurs NAR/LSRA/AR = 0%).
+- **Recette v4 VALIDÉE** (`phase4_generation_v4_joint.py`, 100% held-out) :
+  - **AMV per-position** (B,W_Q,DM), **PAS de mean** (bande-passante pleine, slot-à-slot).
+  - **Encodeur DÉGELÉ + round-trip JOINT** : loss = `L_recon(chars→z→chars) + λ·L_recog` (λ=0.5). L'encodeur apprend l'**invertibilité** du latent (corrige A), le per-position corrige B.
+  - **Injection slot-à-slot** : `h[t] = embed(char_{t-1}) + z[t]` (z[:,t] par position, pas broadcast).
+  - **Décodeur AR causal SCB** (patch spectral_core.py : zero-pad 2L + masque temporel, leak 2e-7).
+  - **Warm-start** encodeur depuis Phase-1 grok (protège reconnaissance), puis round-trip joint.
+- **Loss** : CE sur chars (texte) ; flow-matching pour continu (audio/image).
+- **Métrique** : exact-match stem généré, held-out par lemme. **Validé : 100%** (round-trip AMV décodable).
+- ⚠️ **Honnête** : 100% = round-trip (stem→AMV→stem), valide l'**AMV décodable** + inverse lobe (but omni-out). La « génération depuis concept abstrait » (AMV du raisonnement) = étape suivante.
+- *Canon* : B' séparé, SCB causal (rapport 18), loss split.
 
 ---
 
