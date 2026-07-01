@@ -122,17 +122,14 @@ def train_reasoning(model, data, steps=10000, bs=64, lr=3e-3, wd=1e-3):
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
     for _ in range(steps):
         batch = random.sample(data, min(bs, len(data)))
-        # Input = format fixe [NUM_A|CUE|NUM_B] + output masqué
-        seqs = []
-        tgts = []
+        seqs = []; tgts = []
         for p in batch:
-            inp = enc(p["fixed"], W_FIXED)  # slots fixes
-            out_masked = [VOC["_"]] * W_OUT  # output masqué
+            inp = enc(p["fixed"], W_FIXED)
+            out_masked = [VOC["_"]] * W_OUT
             seqs.append(inp + out_masked)
             tgts.append(enc(p["step"], W_OUT))
         seqs = torch.tensor(seqs, device=DEVICE); tgts = torch.tensor(tgts, device=DEVICE)
         logits = model(seqs)[:, W_FIXED:, :]
-        # 1-cos (raisonnement, COMPUTE grok)
         pred = F.softmax(logits, -1); oh = F.one_hot(tgts, VS).float()
         loss = (1 - F.cosine_similarity(pred, oh, -1)).mean()
         opt.zero_grad(); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step()
