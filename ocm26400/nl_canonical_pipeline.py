@@ -90,7 +90,7 @@ def train_perception(model, data, steps=8000, bs=64, lr=3e-3, wd=1e-3):
         nl_ids = torch.tensor([enc(p["nl"].lower(), model.nl_len) for p in batch], device=DEVICE)
         tgt = torch.tensor([enc(p["fixed"], model.nl_len) for p in batch], device=DEVICE)
         logits = model(nl_ids)
-        loss = F.cross_entropy(logits.reshape(-1, VS), tgt.reshape(-1))
+        loss = F.cross_entropy(logits[:, :W_FIXED, :].reshape(-1, VS), tgt[:, :W_FIXED].reshape(-1))
         opt.zero_grad(); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step()
 
 
